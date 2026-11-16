@@ -1,0 +1,25 @@
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment
+.env*
+
+# deploy
+.netlify/
+
+# playwright
+test-results/
+playwright-report/
+playwright/.cache/
+
+# os / editor
+.DS_Store
+.vscode/*
+!.vscode/extensions.json

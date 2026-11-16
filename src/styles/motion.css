@@ -1,0 +1,30 @@
+/* =====================================================================
+   Motion rules: scroll reveal (BOILERPLATE §1.5) and reduced motion
+   (§1.12). Easing/duration values are tokens in tokens.css.
+   ===================================================================== */
+
+/* ---------- Scroll reveal ----------
+   Armed only when <html> has .reveal-on (set in <head> when motion is
+   allowed). 0.001 instead of 0 looks the same but counts as painted (LCP). */
+.reveal-on [data-reveal] { opacity: 0.001; }
+.reveal-on [data-reveal].is-revealed {
+  opacity: 1;
+  animation: reveal-in var(--dur-reveal) var(--ease-smooth) var(--reveal-delay, 0s) both;
+}
+@keyframes reveal-in {
+  from { opacity: 0.001; translate: 0 var(--reveal-distance); }
+  to   { opacity: 1;     translate: 0 0; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

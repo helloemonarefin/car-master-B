@@ -1,0 +1,91 @@
+---
+/**
+ * Base layout — BOILERPLATE §4.7. Full meta: title, description, canonical,
+ * Open Graph, Twitter, favicon set. Global styles in the owner's order:
+ * tokens → typography → global → motion.
+ */
+import { Font } from 'astro:assets';
+import '../styles/tokens.css';
+import '../styles/typography.css';
+import '../styles/global.css';
+import '../styles/motion.css';
+import { site } from '../content/site';
+
+interface Props {
+  /** Page title; the business name is appended unless it is already the full title. ≤ 60 chars total. */
+  title?: string;
+  /** ≤ 160 chars. Falls back to the site default. */
+  description?: string;
+  /** Absolute or root-relative OG image path. */
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = site.seo.defaultDescription,
+  ogImage = '/og.png',
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${site.businessName}` : site.seo.defaultTitle;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+---
+
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, nofollow" /> : <link rel="canonical" href={canonical} />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.businessName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={site.businessName} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <!-- Favicons (generated from site.ts; replace per client) -->
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <!-- Arm scroll reveals before first paint, only when motion is allowed. -->
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('reveal-on');
+    </script>
+
+    <Font
+      cssVariable="--font-inter"
+      preload={[
+        { weight: 300, style: 'normal', subset: 'latin' },
+        { weight: 400, style: 'normal', subset: 'latin' },
+        { weight: 500, style: 'normal', subset: 'latin' },
+      ]}
+    />
+  </head>
+  <body id="top">
+    <slot />
+    <script>
+      import { initScroll } from '../scripts/scroll';
+      import { initReveal } from '../scripts/reveal';
+      initScroll();
+      initReveal();
+    </script>
+  </body>
+</html>

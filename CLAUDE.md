@@ -1,0 +1,108 @@
+# Master B (Astro) — agent instructions
+
+Pixel-accurate Astro build of the Figma page **Master B** (file `FFs05OacP9URxrCuYpT1fT`, page `24:24`), built as a reusable template.
+
+Spec files (read before working):
+- `BUILD_PROMPT.md` — phases and fixed decisions.
+- `DESIGN_SYSTEM.md` — wins on **how things look**.
+- `tokens.css` — every design value (copied to `src/styles/tokens.css`; extended with type, component and motion tokens per the decisions log, original values never edited).
+- `BOILERPLATE-GUIDELINES.md` — wins on **how things are built**. Read sections only when building the thing they describe.
+
+If something is still unclear after those files: ask. Never guess.
+
+---
+
+## Agent working rules (BOILERPLATE §5 rule 11)
+
+- Read the spec files first.
+- Never invent: check the design file (Figma), then ask.
+- One phase at a time; wait for the owner's OK before the next phase.
+- Commit after each phase, with a clear message.
+- No new libraries without asking.
+- No push or deploy until the deploy phase **and** an explicit go-ahead.
+- Keep the decisions log below up to date (every choice not in the spec files, dated).
+
+Credit-saving rules:
+- Read Figma one section node at a time (`get_design_context` + `get_screenshot`). Never request a whole page.
+- Don't re-read files already read in the session unless they changed.
+- Summarise; don't paste large files back.
+
+---
+
+## Fixed decisions (from BUILD_PROMPT §3)
+
+**Stack**
+- Latest stable Astro (7.4.12 at Phase 0; Node ≥ 22.23.4). Static output, plain CSS (no Tailwind), TypeScript strict.
+- No React or any UI framework on the site. No CMS in this build: content lives in typed TS files, structured so a CMS can be added later.
+- Packages: `astro`, `@astrojs/sitemap`, `lenis`. Nothing else without asking. Dev-only screenshot tools (e.g. Playwright) are OK, but tell the owner before installing.
+- Font: Inter, self-hosted via Astro's fonts API with the Fontsource provider. Weights 300, 400, 500 only.
+
+**Images**
+- Export from Figma with the MCP asset tools into `src/assets/`; render with `<Image>` from `astro:assets` with proper `widths`/`sizes`.
+- Above the fold: `loading="eager"` + `fetchpriority="high"`. Everything else lazy.
+- If an image can't be exported: grey placeholder at the exact aspect ratio, labelled with its name. Never stock images.
+- Icons: inline SVG in `currentColor`, 1.5px stroke, paths copied from Figma. Logo: one SVG.
+
+**Code rules**
+- BOILERPLATE §5 conventions: BEM-like classes, `data-*` JS hooks, `is-*` states, ARIA state as the style hook.
+- Never hard-code a colour, font size, spacing value or radius in a component. Tokens and `.t-<role>` classes only.
+- One `.t-<role>` class per DESIGN_SYSTEM §3 role, using `--fs-` / `--lh-` / `--ls-` tokens, in `src/styles/typography.css`.
+- 12-column grid helper (DESIGN_SYSTEM §4), built once and reused. Signature layout: label cols 1–4, content cols 6–12.
+- Semantic HTML: one `<h1>` per page, sections with `aria-labelledby`, real `<button>`/`<a>`, lists with `role="list"`.
+
+**Motion / interaction defaults**
+- Easing and duration tokens: `--ease-smooth: cubic-bezier(.22, 1, .36, 1)`, `--dur-fast`, `--dur-base`, … Never write a cubic-bezier inline.
+- Colour hover transitions: 200ms everywhere.
+- Entrance animations start at `opacity: 0.001`.
+- Use individual `translate` / `scale` properties, not `transform`.
+- Nav height is one token (`--nav-h`); JS reads it with `getComputedStyle`.
+- `:focus-visible` styles sit outside the hover media query.
+- Scrollable panels get `overflow-y: auto`. Tap targets ≥ 24px.
+- Motion is quiet: scroll reveal on headings, cards, rows, stats (BOILERPLATE §1.5); button hover = colour change (no chip sweep); text-link hover = underline fades to full ink; mobile menu per BOILERPLATE §1.8; FAQ accordion with animated height (propose first); reduced motion per BOILERPLATE §1.12.
+- Not used: hero parallax, hero arc, text roll, carousels, modals.
+
+**Mobile**
+- No mobile frames. Use DESIGN_SYSTEM §3–4 "proposed" values and BOILERPLATE §6. Any undocumented layout decision goes in the phase report and the log below.
+
+**Template structure (BUILD_PROMPT §4)**
+- `src/content/site.ts` (client facts), `src/content/home.ts` (one object per section + the section-order array), `src/content/pages/*.ts`.
+- `src/components/ui/`, `layout/`, `sections/`; `src/layouts/Base.astro`; `src/styles/` (tokens, typography, global).
+- Every section takes its content as props; no copy in components.
+- Section order = one array in `home.ts`; `(01)`, `(02)`… generated from that order.
+- Client facts only from `site.ts`. Figma `#` layers are the data-driven fields.
+- Copy-length limits (DESIGN_SYSTEM §8) written as comments next to each content field.
+
+---
+
+## Decisions log
+
+<!-- Format: - YYYY-MM-DD — decision — reason -->
+
+Owner answers to Phase 0 questions (2026-11-16):
+
+- 2026-11-16 — **Type roles:** a type size/style used 2+ times becomes a real role in `typography.css`, with its tokens added to `tokens.css`. A one-off uses the nearest existing role, and every one-off is logged here. (Owner)
+- 2026-11-16 — **Component tokens** live in `tokens.css` in a "Component tokens" block, named after the component (`--btn-h-md: 52px`, `--btn-h-sm: 40px`, `--tag-h: 28px`…). `--space-*` stays for general gaps/padding only; no odd values added to it. All values live in `tokens.css` so a reskin touches one file. (Owner) → `tokens.css` is therefore extended, not kept byte-for-byte unchanged; the original values are never edited.
+- 2026-11-16 — **Motion tokens** (easings, durations) in `tokens.css`. Animation rules (keyframes, reveal, reduced motion) in `src/styles/motion.css`. Import order: tokens → typography → global → motion. (Owner)
+- 2026-11-16 — **Nav links:** non-current = `--text-nav` (82%) on every page; current = `--text-primary` + `aria-current="page"`. DESIGN_SYSTEM §2 updated. (Owner)
+- 2026-11-16 — **Weight modifiers:** `.t-light`, `.t-regular`, `.t-medium`. (Owner)
+- 2026-11-16 — **Backgrounds:** keep both `#FFFFFF` (`--bg-raised`) and `#FCFCFC` (`--bg-primary`) exactly as in Figma. (Owner)
+- 2026-11-16 — **Why indents:** 176px via `--method-indent` (0 below 1024). Row n indented by n × indent. (Owner)
+- 2026-11-16 — **Hero "★ 4.9"** stays ink. `--brand-accent` only for the Testimonial 5-star row. (Owner)
+- 2026-11-16 — **Dark section:** headings/titles use `--text-on-dark` (#FCFCFC), including point titles that are #FFFFFF in Figma. Muted text uses the #F2F1ED tints. (Owner)
+- 2026-11-16 — **Favicon / OG:** generated placeholders from `site.ts` — favicon = first letter of business name on ink (SVG + 32px ICO + 180px Apple touch icon); OG = 1200×630 from hero image + business name. Both marked "replace per client" in TEMPLATE.md. `<html lang="en-US">`. (Owner)
+- 2026-11-16 — **Playwright** approved as a dev dependency for screenshot checks. (Owner)
+- 2026-11-16 — **Deploy:** Netlify, static output. `netlify.toml` added in Phase 7 (BOILERPLATE §4.11). No deploy/push until the owner says so. (Owner)
+
+Phase 1 (2026-11-16):
+
+- 2026-11-16 — **Versions:** astro 7.4.12, @astrojs/sitemap 3.7.5, lenis 1.3.27; dev: @playwright/test 1.65.1 (Chromium headless). Node ≥ 22.23.4 in `engines`.
+- 2026-11-16 — **New type roles** (each used 2+ times per DESIGN_SYSTEM §3): `.t-body-strong` (16 Medium / 1.4 — names, card & point titles), `.t-small-strong` (14 Medium / 1.4 — nav links, text links). `.t-tag`, `.t-input`, `.t-button-sm` got their missing `--lh-`/`--ls-` tokens. `--lh-ui` (1.4) is reused for input / body-strong / small-strong. DS §10.7: 14 Medium merged to 1.4.
+- 2026-11-16 — **Component tokens** added to `tokens.css` from DESIGN_SYSTEM §6 desktop values. Mobile values marked "proposed": `--nav-pad-y` 12 (= (64 − 40)/2), `--split-stack-gap` 20 (DS §4), `--card-gap` 16, `--gallery-row-gap` 40, `--guarantee-pad` = `--section-pad` (80), `--footer-pad-top` = `--section-pad` (80), `--method-indent` 0. `--tag-h` 28 (owner).
+- 2026-11-16 — **Focus ring** (not designed, proposed): 2px solid `--text-primary`, offset 3px; on the dark section it uses `--text-on-dark`.
+- 2026-11-16 — **Motion values** (BOILERPLATE fallbacks, calm): reveal 800ms / 24px / 0.05s stagger, `--ease-smooth` for travel, `ease` for colour; `--dur-fast` 200ms (all colour hovers), `--dur-base` 300ms, `--dur-icon` 250ms, `--dur-menu` 600ms, `--dur-accordion` 450ms (to be confirmed with the FAQ proposal).
+- 2026-11-16 — **Lenis under reduced motion** is not started at all (native scroll); scroll lock then falls back to `html.is-locked { overflow: hidden }`. Resolves BOILERPLATE open question 12 without relying on Lenis' own behaviour.
+- 2026-11-16 — **Grid helper:** `.grid` (12 cols ≥ 1024, 4 below; children full-width below 1024), `.span-N` / `.start-N` utilities ≥ 1024, `.split` + `.split__aside` (cols 1–4) / `.split__main` (cols 6–12), stacked with a 20px gap below 1024.
+- 2026-11-16 — **Section backgrounds** via modifiers: `.section` (primary), `--raised`, `--secondary`, `--tertiary`, `--inverse`.
+- 2026-11-16 — **Favicon / OG** generated by build-time endpoints (`src/pages/favicon.svg.ts`, `favicon.ico.ts`, `apple-touch-icon.png.ts`, `og.png.ts`) via `src/lib/brandImages.ts`, using `sharp` that Astro already ships (no new package). Colours read from `tokens.css`. OG uses plain ink until the hero image is exported in Phase 3. The favicon letter renders in a system sans (Inter isn't available to sharp's SVG renderer).
+- 2026-11-16 — **Default `<title>`** = business name only until the owner confirms an SEO title (`site.seo.defaultTitle`). Inner pages: "<Page> — <Business name>". Canonical omitted on `noindex` pages.
+- 2026-11-16 — **Dev tool:** `tools/screenshot.mjs` (Playwright) screenshots a URL at given widths and reports horizontal overflow.

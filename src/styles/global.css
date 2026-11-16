@@ -1,0 +1,106 @@
+/* =====================================================================
+   Global: reset, page defaults, container, 12-column grid, split layout,
+   sections, focus ring, .sr-only, scroll lock.
+   Animation rules live in motion.css (owner decision 2026-11-16).
+   ===================================================================== */
+
+/* ---------- Reset (BOILERPLATE §3) ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; }
+img, picture, svg, video { display: block; max-width: 100%; }
+input, button, textarea, select { font: inherit; color: inherit; }
+button { background: none; border: 0; padding: 0; cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+ul[role="list"], ol[role="list"] { list-style: none; padding: 0; }
+p, h1, h2, h3, h4, h5, h6 { overflow-wrap: break-word; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* ---------- Page defaults ---------- */
+html {
+  scroll-padding-top: var(--nav-h); /* anchors land below the sticky nav */
+  background: var(--bg-primary);
+}
+body {
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  font-weight: var(--fw-regular);
+  color: var(--text-primary);
+  background: var(--bg-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+html.is-locked { overflow: hidden; }
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: calc(var(--content-max) + 2 * var(--side-pad));
+  margin-inline: auto;
+  padding-inline: var(--side-pad);
+}
+
+/* ---------- 12-column grid (4 columns below 1024) ---------- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  column-gap: var(--grid-gutter);
+}
+/* Below 1024 every child spans the full row unless it says otherwise. */
+.grid > * { grid-column: 1 / -1; }
+
+@media (min-width: 1024px) {
+  .span-3  { grid-column: span 3; }
+  .span-4  { grid-column: span 4; }
+  .span-5  { grid-column: span 5; }
+  .span-6  { grid-column: span 6; }
+  .span-7  { grid-column: span 7; }
+  .span-8  { grid-column: span 8; }
+  .span-12 { grid-column: 1 / -1; }
+  .start-1 { grid-column-start: 1; }
+  .start-6 { grid-column-start: 6; }
+  .start-8 { grid-column-start: 8; }
+}
+
+/* ---------- Split layout: the Master B signature ----------
+   Label in cols 1–4, column 5 empty, content in cols 6–12.
+   Below 1024 the two stack, label on top. */
+.split { row-gap: var(--split-stack-gap); }
+@media (min-width: 1024px) {
+  .split { row-gap: 0; }
+  .split > .split__aside { grid-column: 1 / span 4; }
+  .split > .split__main  { grid-column: 6 / span 7; }
+}
+
+/* ---------- Sections ---------- */
+.section {
+  position: relative;
+  z-index: var(--z-section);
+  padding-block: var(--section-pad);
+  background: var(--bg-primary);
+}
+.section--raised    { background: var(--bg-raised); }
+.section--secondary { background: var(--bg-secondary); }
+.section--tertiary  { background: var(--bg-tertiary); }
+.section--inverse   { background: var(--bg-inverse); color: var(--text-on-dark); --focus-ring-color: var(--text-on-dark); }
+
+.section__inner {
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-gap);
+}
+
+/* ---------- Focus ring (outside any hover query) ---------- */
+:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+:focus:not(:focus-visible) { outline: none; }
+
+/* ---------- Screen-reader only ---------- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}

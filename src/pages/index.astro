@@ -1,0 +1,15 @@
+---
+// Temporary Home placeholder (Phase 1). Replaced by the section array in Phase 3.
+import Base from '../layouts/Base.astro';
+import { site } from '../content/site';
+---
+
+<Base>
+  <main>
+    <section class="section" aria-labelledby="home-title">
+      <div class="container">
+        <h1 id="home-title" class="t-hero">{site.businessName}</h1>
+      </div>
+    </section>
+  </main>
+</Base>

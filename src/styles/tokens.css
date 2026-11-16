@@ -1,0 +1,217 @@
+/* =====================================================================
+   Master B — design tokens
+   Source: Figma "My Portfolio" › page "Master B" (Desktop 1440 frames).
+   Template rule: to reskin for a new client, edit ONLY the "Brand" block
+   and, if needed, the font family. Everything else is the template skeleton.
+   Values marked "proposed" are not in the Figma file (it has no mobile frames
+   and no hover states); they follow the boilerplate rules (§6 typography).
+   ===================================================================== */
+
+:root {
+  /* ---------- Brand (change per client) ---------- */
+  --brand-ink:    #141414; /* text, primary buttons, dark section */
+  --brand-paper:  #FCFCFC; /* main page background */
+  --brand-accent: #8C6A43; /* used sparingly: rating stars only */
+  --brand-ink-rgb: 20 20 20;          /* same as --brand-ink, for alpha tints */
+  --brand-on-dark-rgb: 242 241 237;   /* #F2F1ED, warm off-white on dark */
+
+  /* ---------- Text ---------- */
+  --text-primary:     var(--brand-ink);
+  --text-nav:         rgb(var(--brand-ink-rgb) / 0.82); /* nav + footer links */
+  --text-secondary:   rgb(var(--brand-ink-rgb) / 0.66); /* paragraphs */
+  --text-tertiary:    rgb(var(--brand-ink-rgb) / 0.46); /* labels, indexes, meta */
+  --text-placeholder: rgb(var(--brand-ink-rgb) / 0.35); /* inputs, decorative dashes */
+  --text-inverse:     #FFFFFF;                           /* on primary button */
+  --text-accent:      var(--brand-accent);
+
+  /* Text on the dark section */
+  --text-on-dark:           var(--brand-paper);
+  --text-on-dark-secondary: rgb(var(--brand-on-dark-rgb) / 0.66);
+  --text-on-dark-tertiary:  rgb(var(--brand-on-dark-rgb) / 0.46);
+
+  /* ---------- Backgrounds ---------- */
+  --bg-primary:   var(--brand-paper); /* #FCFCFC: hero, services, process, FAQ */
+  --bg-raised:    #FFFFFF;            /* problem, portfolio, testimonial */
+  --bg-secondary: #F5F5F5;            /* guarantee, final CTA */
+  --bg-tertiary:  #EEEEEE;            /* footer */
+  --bg-inverse:   var(--brand-ink);   /* "Why" section */
+
+  /* ---------- Borders (all 1px) ---------- */
+  --border-subtle:  rgb(var(--brand-ink-rgb) / 0.12); /* row dividers */
+  --border-default: rgb(var(--brand-ink-rgb) / 0.20); /* form fields, tags, stat tops */
+  --border-strong:  rgb(var(--brand-ink-rgb) / 0.30); /* outline button */
+  --border-link:    rgb(var(--brand-ink-rgb) / 0.40); /* text-link underline */
+  --border-on-dark: rgb(var(--brand-on-dark-rgb) / 0.12);
+  --border-width: 1px;
+  --icon-stroke: 1.5px;
+
+  /* ---------- Buttons ---------- */
+  --button-primary-bg:         var(--brand-ink);
+  --button-primary-text:       var(--text-inverse);
+  --button-primary-bg-hover:   #2B2B2B;                 /* proposed */
+  --button-outline-border:     var(--border-strong);
+  --button-outline-text:       var(--text-primary);
+  --button-outline-bg-hover:   rgb(var(--brand-ink-rgb) / 0.04); /* proposed */
+
+  /* ---------- Radius ---------- */
+  --radius-media: 4px;   /* every image */
+  --radius-pill:  999px; /* buttons, tags */
+  /* Everything else: 0. No shadows anywhere. */
+
+  /* ---------- Spacing scale (px from Figma) ---------- */
+  --space-1: 4px;   --space-2: 8px;   --space-3: 12px;  --space-4: 16px;
+  --space-5: 20px;  --space-6: 24px;  --space-7: 28px;  --space-8: 32px;
+  --space-10: 40px; --space-14: 56px; --space-16: 64px; --space-18: 72px;
+  --space-20: 80px; --space-24: 96px; --space-36: 144px; --space-40: 160px;
+
+  /* ---------- Layout ---------- */
+  --frame-desktop: 1440px;
+  --content-max: 1312px;   /* 1440 − 2 × 64 */
+  --side-pad: 20px;        /* mobile, proposed */
+  --grid-cols: 4;          /* mobile */
+  --grid-gutter: 16px;     /* mobile, proposed */
+  --section-pad: 80px;     /* mobile, proposed (desktop 160) */
+  --section-gap: 48px;     /* header → content, mobile, proposed (desktop 80) */
+  --nav-h: 64px;           /* mobile, proposed (desktop 88) */
+
+  /* ---------- Typography ---------- */
+  --font-sans: var(--font-inter, "Inter"), system-ui, -apple-system, sans-serif;
+  --fw-light: 300; --fw-regular: 400; --fw-medium: 500;
+
+  /* Sizes: fluid 390 → 1440 (min = mobile, max = desktop) */
+  --fs-display-xl: clamp(4rem, 2.5143rem + 6.0952vw, 8rem);        /* 64 → 128  "Why" statement words */
+  --fs-hero:       clamp(3rem, 1.5143rem + 6.0952vw, 7rem);        /* 48 → 112  home hero headline */
+  --fs-wordmark:   clamp(3rem, 1.7rem + 5.3333vw, 6.5rem);         /* 48 → 104  footer business name */
+  --fs-page-hero:  clamp(2.75rem, 1.5429rem + 4.9524vw, 6rem);     /* 44 → 96   inner-page hero */
+  --fs-stat:       clamp(3rem, 2.2571rem + 3.0476vw, 5rem);        /* 48 → 80   big numbers */
+  --fs-h2:         clamp(2.375rem, 1.7714rem + 2.4762vw, 4rem);    /* 38 → 64   section titles */
+  --fs-quote:      clamp(1.625rem, 1.3rem + 1.3333vw, 2.5rem);     /* 26 → 40   testimonial, guarantee */
+  --fs-h3:         clamp(1.5rem, 1.3143rem + 0.7619vw, 2rem);      /* 24 → 32   sub-heads, price line */
+  --fs-step:       clamp(1.375rem, 1.2357rem + 0.5714vw, 1.75rem); /* 22 → 28   step numbers */
+  --fs-h4:         clamp(1.25rem, 1.1571rem + 0.381vw, 1.5rem);    /* 20 → 24   service card titles */
+  --fs-h5:         clamp(1.125rem, 1.0786rem + 0.1905vw, 1.25rem); /* 18 → 20   trust values, row titles, prices */
+  --fs-quote-sm:   clamp(1.125rem, 1.0786rem + 0.1905vw, 1.25rem); /* 18 → 20   small review cards */
+  --fs-body-lg:    1.125rem;   /* 18 */
+  --fs-input:      clamp(1rem, 0.9768rem + 0.0952vw, 1.0625rem);   /* 16 → 17 */
+  --fs-body:       1rem;       /* 16 */
+  --fs-body-sm:    0.9375rem;  /* 15 */
+  --fs-small:      0.875rem;   /* 14 */
+  --fs-tag:        0.8125rem;  /* 13 */
+  --fs-label:      0.75rem;    /* 12 */
+  --fs-button:     0.9375rem;  /* 15 */
+  --fs-button-sm:  0.875rem;   /* 14 */
+
+  /* Line heights: mobile first (desktop values from Figma below) */
+  --lh-display-xl: 0.94; --lh-hero: 1; --lh-wordmark: 1; --lh-page-hero: 1;
+  --lh-stat: 1; --lh-h2: 1.06; --lh-quote: 1.28; --lh-h3: 1.2; --lh-step: 1.25;
+  --lh-h4: 1.25; --lh-h5: 1.3; --lh-quote-sm: 1.4;
+  --lh-body-lg: 1.55; --lh-body: 1.55; --lh-body-sm: 1.5; --lh-small: 1.5;
+  --lh-ui: 1.4; --lh-label: 1.2; --lh-button: 1;
+
+  /* Letter spacing (Figma % → em) */
+  --ls-display-xl: -0.05em; --ls-hero: -0.045em; --ls-wordmark: -0.04em; --ls-page-hero: -0.045em;
+  --ls-stat: -0.04em; --ls-h2: -0.03em; --ls-quote: -0.02em; --ls-h3: -0.02em; --ls-step: -0.015em;
+  --ls-h4: -0.015em; --ls-h5: -0.01em; --ls-quote-sm: -0.01em;
+  --ls-body-lg: -0.005em; --ls-body: -0.003em; --ls-small: 0; --ls-label: 0.06em; --ls-button: -0.002em;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --side-pad: 64px;
+    --grid-cols: 12;
+    --grid-gutter: 32px;
+    --section-pad: 160px;
+    --section-gap: 80px;
+    --nav-h: 88px;
+
+    --lh-display-xl: 0.9; --lh-hero: 0.94; --lh-wordmark: 0.96; --lh-page-hero: 0.94;
+    --lh-stat: 0.96; --lh-h2: 1.04; --lh-quote: 1.22; --lh-h3: 1.2; --lh-step: 1.2;
+    --lh-h4: 1.25; --lh-h5: 1.3;
+  }
+}
+
+/* =====================================================================
+   Extensions (owner decisions, 2026-11-16 — see CLAUDE.md decisions log).
+   The original values above are never edited; new tokens live below so
+   a reskin still only touches this one file.
+   ===================================================================== */
+
+:root {
+  /* ---------- Extra type tokens (roles used 2+ times, DESIGN_SYSTEM §3) ---------- */
+  --lh-input: var(--lh-ui);   --ls-input: -0.003em;   /* 17/16 Regular, 1.4, −0.3% */
+  --lh-tag: 1.2;              --ls-tag: 0;            /* 13 Medium, 1.2, 0 */
+  --lh-body-strong: var(--lh-ui); --ls-body-strong: var(--ls-body); /* 16 Medium, 1.4 (names) */
+  --lh-small-strong: var(--lh-ui); --ls-small-strong: 0;            /* 14 Medium, 1.4 (nav, links) */
+  --ls-button-sm: var(--ls-button);
+
+  /* ---------- Component tokens (DESIGN_SYSTEM §6, desktop = Figma) ---------- */
+  /* Nav */
+  --nav-pad-y: 12px;            /* mobile, proposed: (64 − 40) / 2 */
+  /* Button */
+  --btn-h-md: 52px;     --btn-pad-x-md: 24px;
+  --btn-h-sm: 40px;     --btn-pad-x-sm: 20px;
+  --btn-icon-gap: 10px; --btn-pair-gap: 12px;
+  /* Text link */
+  --link-underline-gap: 6px; --link-icon-size: 16px; --link-icon-gap: 8px;
+  /* Tag */
+  --tag-h: 28px; --tag-pad-x: 12px;
+  /* Section index (01) LABEL */
+  --index-gap: 12px; --index-pad-top: 14px;
+  /* Split layout (label cols 1–4 / content cols 6–12) */
+  --split-stack-gap: 20px;      /* mobile, proposed: label above title */
+  /* Trust item */
+  --trust-pad: 28px 32px 36px 0;
+  /* Card grids */
+  --card-gap: 16px;             /* mobile, proposed (desktop 32) */
+  --gallery-row-gap: 40px;      /* mobile, proposed (desktop 56) */
+  /* Service card */
+  --bullet-gap: 10px;
+  /* Process step */
+  --step-num-w: 64px; --step-text-gap: 6px;
+  /* Guarantee */
+  --guarantee-pad: var(--section-pad); /* desktop 140 */
+  /* Why (dark) method rows: row n is indented by n × this */
+  --method-indent: 0px;         /* desktop 176 */
+  /* FAQ */
+  --faq-answer-gap: 14px; --faq-answer-max: 600px;
+  /* Form field */
+  --field-pad-b: 14px;
+  /* Testimonial stars */
+  --star-size: 16px; --star-gap: 4px;
+  /* Footer */
+  --footer-pad-top: var(--section-pad);  /* mobile, proposed (desktop 96) */
+  --footer-pad-bottom: 40px;
+  --footer-gap: 72px;
+  /* Media aspect ratios (Figma image frames) */
+  --ratio-hero: 1312 / 600;
+  --ratio-service: 416 / 440;
+  --ratio-work: 416 / 312;
+  --ratio-cta: 1312 / 520;
+  /* Focus ring (proposed: not designed) */
+  --focus-ring-width: 2px; --focus-ring-offset: 3px; --focus-ring-color: var(--text-primary);
+  /* Stacking */
+  --z-section: 1; --z-nav: 4;
+
+  /* ---------- Motion ---------- */
+  --ease-smooth: cubic-bezier(.22, 1, .36, 1); /* everything that travels */
+  --ease-color: ease;                          /* short colour / opacity changes */
+  --dur-fast: 200ms;        /* colour hovers (everywhere) */
+  --dur-base: 300ms;        /* small UI moves, menu close */
+  --dur-icon: 250ms;        /* hamburger ↔ ×, plus ↔ minus */
+  --dur-accordion: 450ms;   /* FAQ height */
+  --dur-menu: 600ms;        /* mobile menu open */
+  --dur-reveal: 800ms;      /* scroll reveal */
+  --reveal-distance: 24px;
+  --reveal-stagger: 0.05s;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --nav-pad-y: 24px;
+    --card-gap: 32px;
+    --gallery-row-gap: 56px;
+    --guarantee-pad: 140px;
+    --method-indent: 176px;
+    --footer-pad-top: 96px;
+  }
+}

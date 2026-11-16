@@ -1,0 +1,290 @@
+---
+/**
+ * Private styleguide — noindex, excluded from the sitemap, not linked anywhere.
+ * Shows every colour token, type role, the spacing scale and the grid.
+ * Components are added here in Phase 2.
+ */
+import Base from '../layouts/Base.astro';
+
+const colorGroups: { name: string; tokens: string[]; dark?: boolean }[] = [
+  { name: 'Brand', tokens: ['--brand-ink', '--brand-paper', '--brand-accent'] },
+  {
+    name: 'Text',
+    tokens: ['--text-primary', '--text-nav', '--text-secondary', '--text-tertiary', '--text-placeholder', '--text-inverse', '--text-accent'],
+  },
+  { name: 'Text on dark', tokens: ['--text-on-dark', '--text-on-dark-secondary', '--text-on-dark-tertiary'], dark: true },
+  { name: 'Backgrounds', tokens: ['--bg-primary', '--bg-raised', '--bg-secondary', '--bg-tertiary', '--bg-inverse'] },
+  { name: 'Borders', tokens: ['--border-subtle', '--border-default', '--border-strong', '--border-link'] },
+  { name: 'Borders on dark', tokens: ['--border-on-dark'], dark: true },
+  {
+    name: 'Buttons',
+    tokens: ['--button-primary-bg', '--button-primary-bg-hover', '--button-primary-text', '--button-outline-border', '--button-outline-text', '--button-outline-bg-hover'],
+  },
+];
+
+// DESIGN_SYSTEM §3 (+ roles added per the decisions log).
+const typeRoles: { role: string; use: string; desktop: string; mobile: string; weight: string; sample: string }[] = [
+  { role: 'display-xl', use: '“Why” statement words', desktop: '128', mobile: '64', weight: 'Light', sample: 'Precision' },
+  { role: 'hero', use: 'Home hero headline', desktop: '112', mobile: '48', weight: 'Light', sample: 'Your paint, exactly as it left the factory.' },
+  { role: 'wordmark', use: 'Footer business name', desktop: '104', mobile: '48 (proposed)', weight: 'Light', sample: 'Northvale Atelier' },
+  { role: 'page-hero', use: 'Inner-page hero headline', desktop: '96', mobile: '44 (proposed)', weight: 'Light', sample: 'Paint protection film' },
+  { role: 'stat', use: 'Big numbers', desktop: '80', mobile: '48', weight: 'Light', sample: '115°F' },
+  { role: 'h2', use: 'Section titles', desktop: '64', mobile: '38', weight: 'Light', sample: 'Section title on two lines at most' },
+  { role: 'quote', use: 'Testimonial, guarantee', desktop: '40', mobile: '26', weight: 'Light', sample: '“A quote set in the large quote role.”' },
+  { role: 'h3', use: 'Sub-heads, price line', desktop: '32', mobile: '24 (proposed)', weight: 'Light', sample: 'From $4,000' },
+  { role: 'step', use: 'Process step numbers', desktop: '28', mobile: '22', weight: 'Regular', sample: '01' },
+  { role: 'h4', use: 'Service card titles', desktop: '24', mobile: '20 (proposed)', weight: 'Regular', sample: 'Full-body paint protection' },
+  { role: 'h5', use: 'Trust values, row titles, prices', desktop: '20', mobile: '18 (proposed)', weight: 'Medium', sample: '1,400+ cars protected' },
+  { role: 'quote-sm', use: 'Small review cards', desktop: '20', mobile: '18 (proposed)', weight: 'Light', sample: '“A short review quote.”' },
+  { role: 'body-lg', use: 'Intro paragraphs', desktop: '18', mobile: '18', weight: 'Regular', sample: 'Intro paragraph text sits under a section title.' },
+  { role: 'input', use: 'Form field text', desktop: '17', mobile: '16', weight: 'Regular', sample: 'Your name' },
+  { role: 'body', use: 'Descriptions', desktop: '16', mobile: '16', weight: 'Regular', sample: 'Description text for cards and rows.' },
+  { role: 'body-strong', use: 'Names, card titles', desktop: '16', mobile: '16', weight: 'Medium', sample: 'Daniel R.' },
+  { role: 'body-sm', use: 'Bullets, small notes', desktop: '15', mobile: '15', weight: 'Regular', sample: 'Bullet or small note' },
+  { role: 'small', use: 'Meta, fine print', desktop: '14', mobile: '14', weight: 'Regular', sample: 'Meta text' },
+  { role: 'small-strong', use: 'Nav links, text links', desktop: '14', mobile: '14', weight: 'Medium', sample: 'Protection' },
+  { role: 'tag', use: 'Tags', desktop: '13', mobile: '13', weight: 'Medium', sample: 'Included' },
+  { role: 'label', use: 'Eyebrows, small labels', desktop: '12', mobile: '12', weight: 'Medium, uppercase', sample: 'Scottsdale · By appointment only' },
+  { role: 'button', use: 'Button labels (md)', desktop: '15', mobile: '15', weight: 'Medium', sample: 'Request a Consultation' },
+  { role: 'button-sm', use: 'Button labels (sm)', desktop: '14', mobile: '14', weight: 'Medium', sample: 'Request a Consultation' },
+];
+
+const spaceScale = [1, 2, 3, 4, 5, 6, 7, 8, 10, 14, 16, 18, 20, 24, 36, 40];
+const gridCols = Array.from({ length: 12 }, (_, i) => i + 1);
+---
+
+<Base title="Styleguide" noindex>
+  <!-- Whole-page grid overlay, toggled by the checkbox below. -->
+  <div class="sg-overlay" aria-hidden="true">
+    <div class="container grid sg-overlay__grid">
+      {gridCols.map((n) => <span class={`sg-overlay__col sg-col-${n}`}></span>)}
+    </div>
+  </div>
+
+  <main>
+    <section class="section" aria-labelledby="sg-title">
+      <div class="container section__inner">
+        <header class="sg-head">
+          <p class="t-label sg-muted">Private · noindex</p>
+          <h1 id="sg-title" class="t-h2">Master B styleguide</h1>
+          <label class="sg-toggle t-small-strong">
+            <input type="checkbox" id="sg-grid-toggle" />
+            Show grid overlay on the whole page
+          </label>
+        </header>
+      </div>
+    </section>
+
+    <!-- Colours -->
+    <section class="section section--raised" aria-labelledby="sg-colours">
+      <div class="container section__inner">
+        <h2 id="sg-colours" class="t-h3">Colour tokens</h2>
+        {colorGroups.map((g) => (
+          <div class="sg-group">
+            <h3 class="t-label sg-muted">{g.name}</h3>
+            <ul role="list" class:list={['sg-swatches', { 'sg-swatches--dark': g.dark }]}>
+              {g.tokens.map((t) => (
+                <li class="sg-swatch">
+                  <span class="sg-swatch__chip" style={`--swatch: var(${t})`}></span>
+                  <code class="t-small-strong">{t}</code>
+                  <span class="t-small sg-muted" data-token-value={t}></span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Type -->
+    <section class="section" aria-labelledby="sg-type">
+      <div class="container section__inner">
+        <div>
+          <h2 id="sg-type" class="t-h3">Type roles</h2>
+          <p class="t-body sg-muted">Live size / line height at the current viewport is shown after each name. Resize to check the fluid scale (390 → 1440).</p>
+        </div>
+        <ul role="list" class="sg-type">
+          {typeRoles.map((r) => (
+            <li class="sg-type__row">
+              <div class="sg-type__meta">
+                <code class="t-small-strong">.t-{r.role}</code>
+                <span class="t-small sg-muted">{r.use}</span>
+                <span class="t-small sg-muted">Desktop {r.desktop} · Mobile {r.mobile} · {r.weight}</span>
+                <span class="t-small sg-muted" data-measure-for={r.role}></span>
+              </div>
+              <p class={`t-${r.role} sg-type__sample`} data-measure={r.role}>{r.sample}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Weight modifiers</h3>
+          <p class="t-h5 t-light">.t-h5.t-light</p>
+          <p class="t-h5 t-regular">.t-h5.t-regular (list-row titles)</p>
+          <p class="t-h5 t-medium">.t-h5.t-medium (default)</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacing -->
+    <section class="section section--secondary" aria-labelledby="sg-space">
+      <div class="container section__inner">
+        <h2 id="sg-space" class="t-h3">Spacing scale</h2>
+        <ul role="list" class="sg-space">
+          {spaceScale.map((n) => (
+            <li class="sg-space__row">
+              <code class="t-small-strong sg-space__name">--space-{n}</code>
+              <span class="sg-space__bar" style={`--w: var(--space-${n})`}></span>
+              <span class="t-small sg-muted" data-token-value={`--space-${n}`}></span>
+            </li>
+          ))}
+        </ul>
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Layout tokens</h3>
+          <ul role="list" class="sg-space">
+            {['--side-pad', '--grid-gutter', '--section-pad', '--section-gap', '--nav-h', '--card-gap', '--gallery-row-gap', '--guarantee-pad', '--method-indent', '--footer-pad-top'].map((t) => (
+              <li class="sg-space__row">
+                <code class="t-small-strong sg-space__name">{t}</code>
+                <span class="t-small sg-muted" data-token-value={t}></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Grid -->
+    <section class="section section--raised" aria-labelledby="sg-grid">
+      <div class="container section__inner">
+        <h2 id="sg-grid" class="t-h3">Grid</h2>
+        <p class="t-body sg-muted">12 columns × 80, gutter 32, side margin 64 at 1440. Below 1024: 4 columns, gutter 16, side padding 20.</p>
+        <div class="grid sg-demo">
+          {gridCols.map((n) => <span class={`sg-demo__col sg-col-${n} t-label`}>{n}</span>)}
+        </div>
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Signature split: label cols 1–4, content cols 6–12</h3>
+          <div class="grid split sg-split">
+            <div class="split__aside sg-split__cell t-small">.split__aside (4)</div>
+            <div class="split__main sg-split__cell t-small">.split__main (7)</div>
+          </div>
+        </div>
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Common spans</h3>
+          <div class="grid sg-spans">
+            <div class="span-4 sg-split__cell t-small">.span-4 (416)</div>
+            <div class="span-4 sg-split__cell t-small">.span-4</div>
+            <div class="span-4 sg-split__cell t-small">.span-4</div>
+            <div class="span-5 sg-split__cell t-small">.span-5 (528)</div>
+            <div class="span-7 sg-split__cell t-small">.span-7 (752)</div>
+            <div class="span-12 sg-split__cell t-small">.span-12 (1312)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<script>
+  // Fill in live token values and measured type sizes.
+  const root = getComputedStyle(document.documentElement);
+  const fill = () => {
+    document.querySelectorAll<HTMLElement>('[data-token-value]').forEach((el) => {
+      el.textContent = root.getPropertyValue(el.dataset.tokenValue!).trim();
+    });
+    document.querySelectorAll<HTMLElement>('[data-measure]').forEach((el) => {
+      const cs = getComputedStyle(el);
+      const out = document.querySelector<HTMLElement>(`[data-measure-for="${el.dataset.measure}"]`);
+      if (out) out.textContent = `Now: ${parseFloat(cs.fontSize).toFixed(1)}px / ${cs.lineHeight} · ${cs.letterSpacing}`;
+    });
+  };
+  fill();
+  window.addEventListener('resize', fill);
+</script>
+
+<style>
+  .sg-muted { color: var(--text-tertiary); }
+  .sg-head { display: flex; flex-direction: column; gap: var(--space-4); }
+  .sg-toggle { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--space-6); cursor: pointer; }
+  .sg-group { display: flex; flex-direction: column; gap: var(--space-4); }
+
+  /* Swatches */
+  .sg-swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+    gap: var(--space-6) var(--grid-gutter);
+  }
+  .sg-swatches--dark { background: var(--bg-inverse); color: var(--text-on-dark); padding: var(--space-6); }
+  .sg-swatch { display: flex; flex-direction: column; gap: var(--space-1); }
+  .sg-swatch__chip {
+    height: var(--space-20);
+    border-radius: var(--radius-media);
+    background: var(--swatch);
+    border: var(--border-width) solid var(--border-subtle);
+    margin-bottom: var(--space-2);
+  }
+
+  /* Type */
+  .sg-type__row {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-6);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .sg-type__row:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
+  .sg-type__meta { display: flex; flex-direction: column; gap: var(--space-1); }
+  @media (min-width: 1024px) {
+    .sg-type__row { grid-template-columns: 18rem 1fr; gap: var(--grid-gutter); align-items: start; }
+  }
+
+  /* Spacing */
+  .sg-space { display: flex; flex-direction: column; gap: var(--space-3); }
+  .sg-space__row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-4); }
+  .sg-space__name { width: 9.5rem; flex: none; }
+  .sg-space__bar { display: block; width: var(--w); height: var(--space-4); background: var(--text-primary); flex: none; }
+
+  /* Grid demo */
+  .sg-demo { row-gap: var(--space-2); }
+  .sg-demo__col {
+    height: var(--space-20);
+    background: var(--border-subtle);
+    display: grid;
+    place-items: center;
+    color: var(--text-tertiary);
+  }
+  .sg-split, .sg-spans { row-gap: var(--space-3); }
+  .sg-split__cell {
+    padding: var(--space-4);
+    background: var(--border-subtle);
+    color: var(--text-secondary);
+  }
+
+  /* Below 1024 the grid has 4 columns: hide demo columns 5–12. */
+  .sg-demo .sg-col-5, .sg-demo .sg-col-6, .sg-demo .sg-col-7, .sg-demo .sg-col-8,
+  .sg-demo .sg-col-9, .sg-demo .sg-col-10, .sg-demo .sg-col-11, .sg-demo .sg-col-12 { display: none; }
+  .sg-demo > .sg-demo__col { grid-column: auto; }
+  @media (min-width: 1024px) {
+    .sg-demo .sg-col-5, .sg-demo .sg-col-6, .sg-demo .sg-col-7, .sg-demo .sg-col-8,
+    .sg-demo .sg-col-9, .sg-demo .sg-col-10, .sg-demo .sg-col-11, .sg-demo .sg-col-12 { display: grid; }
+  }
+
+  /* Page overlay */
+  .sg-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+  }
+  :global(html:has(#sg-grid-toggle:checked)) .sg-overlay { display: block; }
+  .sg-overlay__grid { height: 100%; }
+  .sg-overlay > .sg-overlay__grid > .sg-overlay__col {
+    grid-column: auto;
+    background: var(--border-subtle);
+    border-inline: var(--border-width) solid var(--border-link);
+  }
+  .sg-overlay .sg-col-5, .sg-overlay .sg-col-6, .sg-overlay .sg-col-7, .sg-overlay .sg-col-8,
+  .sg-overlay .sg-col-9, .sg-overlay .sg-col-10, .sg-overlay .sg-col-11, .sg-overlay .sg-col-12 { display: none; }
+  @media (min-width: 1024px) {
+    .sg-overlay .sg-col-5, .sg-overlay .sg-col-6, .sg-overlay .sg-col-7, .sg-overlay .sg-col-8,
+    .sg-overlay .sg-col-9, .sg-overlay .sg-col-10, .sg-overlay .sg-col-11, .sg-overlay .sg-col-12 { display: block; }
+  }
+</style>

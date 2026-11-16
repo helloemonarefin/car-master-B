@@ -1,0 +1,47 @@
+/* =====================================================================
+   Type roles — DESIGN_SYSTEM §3. One class per role; sizes, line heights
+   and letter spacing come from tokens.css (--fs-/--lh-/--ls-).
+   Semantic tag and visual role are separate: an <h2> may use .t-h3.
+   ===================================================================== */
+
+/* ---------- Display & headings (Light, balanced) ---------- */
+.t-display-xl, .t-hero, .t-wordmark, .t-page-hero, .t-stat,
+.t-h2, .t-quote, .t-h3, .t-step, .t-h4, .t-h5, .t-quote-sm {
+  text-wrap: balance;
+}
+
+.t-display-xl { font-size: var(--fs-display-xl); line-height: var(--lh-display-xl); letter-spacing: var(--ls-display-xl); font-weight: var(--fw-light); }
+.t-hero       { font-size: var(--fs-hero);       line-height: var(--lh-hero);       letter-spacing: var(--ls-hero);       font-weight: var(--fw-light); }
+.t-wordmark   { font-size: var(--fs-wordmark);   line-height: var(--lh-wordmark);   letter-spacing: var(--ls-wordmark);   font-weight: var(--fw-light); }
+.t-page-hero  { font-size: var(--fs-page-hero);  line-height: var(--lh-page-hero);  letter-spacing: var(--ls-page-hero);  font-weight: var(--fw-light); }
+.t-stat       { font-size: var(--fs-stat);       line-height: var(--lh-stat);       letter-spacing: var(--ls-stat);       font-weight: var(--fw-light); }
+.t-h2         { font-size: var(--fs-h2);         line-height: var(--lh-h2);         letter-spacing: var(--ls-h2);         font-weight: var(--fw-light); }
+.t-quote      { font-size: var(--fs-quote);      line-height: var(--lh-quote);      letter-spacing: var(--ls-quote);      font-weight: var(--fw-light); }
+.t-h3         { font-size: var(--fs-h3);         line-height: var(--lh-h3);         letter-spacing: var(--ls-h3);         font-weight: var(--fw-light); }
+.t-step       { font-size: var(--fs-step);       line-height: var(--lh-step);       letter-spacing: var(--ls-step);       font-weight: var(--fw-regular); }
+.t-h4         { font-size: var(--fs-h4);         line-height: var(--lh-h4);         letter-spacing: var(--ls-h4);         font-weight: var(--fw-regular); }
+/* h5 is Medium by default; list-row titles add .t-regular. */
+.t-h5         { font-size: var(--fs-h5);         line-height: var(--lh-h5);         letter-spacing: var(--ls-h5);         font-weight: var(--fw-medium); }
+.t-quote-sm   { font-size: var(--fs-quote-sm);   line-height: var(--lh-quote-sm);   letter-spacing: var(--ls-quote-sm);   font-weight: var(--fw-light); }
+
+/* ---------- Text ---------- */
+.t-body-lg, .t-body, .t-body-sm, .t-small { text-wrap: pretty; }
+
+.t-body-lg      { font-size: var(--fs-body-lg); line-height: var(--lh-body-lg);      letter-spacing: var(--ls-body-lg);      font-weight: var(--fw-regular); }
+.t-input        { font-size: var(--fs-input);   line-height: var(--lh-input);        letter-spacing: var(--ls-input);        font-weight: var(--fw-regular); }
+.t-body         { font-size: var(--fs-body);    line-height: var(--lh-body);         letter-spacing: var(--ls-body);         font-weight: var(--fw-regular); }
+/* Names, card titles, point titles: 16 Medium at 1.4 */
+.t-body-strong  { font-size: var(--fs-body);    line-height: var(--lh-body-strong);  letter-spacing: var(--ls-body-strong);  font-weight: var(--fw-medium); }
+.t-body-sm      { font-size: var(--fs-body-sm); line-height: var(--lh-body-sm);      letter-spacing: var(--ls-body);         font-weight: var(--fw-regular); }
+.t-small        { font-size: var(--fs-small);   line-height: var(--lh-small);        letter-spacing: var(--ls-small);        font-weight: var(--fw-regular); }
+/* Nav links, text links: 14 Medium at 1.4 */
+.t-small-strong { font-size: var(--fs-small);   line-height: var(--lh-small-strong); letter-spacing: var(--ls-small-strong); font-weight: var(--fw-medium); }
+.t-tag          { font-size: var(--fs-tag);     line-height: var(--lh-tag);          letter-spacing: var(--ls-tag);          font-weight: var(--fw-medium); }
+.t-label        { font-size: var(--fs-label);   line-height: var(--lh-label);        letter-spacing: var(--ls-label);        font-weight: var(--fw-medium); text-transform: uppercase; }
+.t-button       { font-size: var(--fs-button);  line-height: var(--lh-button);       letter-spacing: var(--ls-button);       font-weight: var(--fw-medium); }
+.t-button-sm    { font-size: var(--fs-button-sm); line-height: var(--lh-button);     letter-spacing: var(--ls-button-sm);    font-weight: var(--fw-medium); }
+
+/* ---------- Weight modifiers (owner decision 2026-11-16) ---------- */
+.t-light   { font-weight: var(--fw-light); }
+.t-regular { font-weight: var(--fw-regular); }
+.t-medium  { font-weight: var(--fw-medium); }
