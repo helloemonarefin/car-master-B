@@ -1,0 +1,18 @@
+---
+/** Rating stars — DESIGN_SYSTEM §6: 5 × 16px in --brand-accent, gap 4 (Figma "Stars", 96 × 16). */
+import Icon from './Icon.astro';
+interface Props { count?: number; label?: string }
+const { count = 5, label = `Rated ${count} out of 5` } = Astro.props;
+---
+
+<p class="stars" role="img" aria-label={label}>
+  {Array.from({ length: count }, () => <Icon name="star" size={16} />)}
+</p>
+
+<style>
+  .stars {
+    display: flex;
+    gap: var(--star-gap);
+    color: var(--text-accent);
+  }
+</style>

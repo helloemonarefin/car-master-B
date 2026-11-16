@@ -15,6 +15,8 @@ export interface SocialLink {
 export interface SiteFacts {
   /** #business-name. Also drives the favicon letter and the OG image. ≤ 24 chars. */
   businessName: string;
+  /** Short form used in copy, e.g. "Why Northvale". ≤ 14 chars. */
+  shortName: string;
   /** Short line under the logo / in meta. */
   tagline: string;
   /** #city */
@@ -40,6 +42,8 @@ export interface SiteFacts {
   reviewCount: number;
   /** Where the reviews live, e.g. "Google". */
   reviewSource: string;
+  /** Public page with all reviews. Empty = the reviews link shows as plain text. */
+  reviewsUrl: string;
   social: SocialLink[];
   /** Default SEO. Title ≤ 60 chars, description ≤ 160 chars. */
   seo: {
@@ -50,6 +54,7 @@ export interface SiteFacts {
 
 export const site: SiteFacts = {
   businessName: 'Northvale Atelier',
+  shortName: 'Northvale',
   tagline: 'Paint protection for cars that matter.', // footer brand line, ≤ 60 chars
   city: 'Scottsdale',
   region: 'AZ',
@@ -63,6 +68,7 @@ export const site: SiteFacts = {
   rating: 4.9,
   reviewCount: 212,
   reviewSource: 'Google',
+  reviewsUrl: '', // TODO: client's Google reviews URL
   social: [], // none shown in Figma
   seo: {
     defaultTitle: 'Northvale Atelier', // TODO: confirm SEO title with owner

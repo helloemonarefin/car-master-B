@@ -14,6 +14,7 @@ await page.evaluate(async () => {
   const imgs = [...document.querySelectorAll('img')];
   imgs.forEach((i) => (i.loading = 'eager'));
   await Promise.all(imgs.map((i) => (i.complete ? null : new Promise((r) => { i.onload = i.onerror = r; }))));
+  await Promise.all(imgs.map((i) => i.decode().catch(() => {})));
 });
 let buf;
 if (/^\d+:\d+$/.test(target)) {

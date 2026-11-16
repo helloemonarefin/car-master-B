@@ -1,0 +1,27 @@
+---
+/** Work card — DESIGN_SYSTEM §6, Figma "Work" (297:130): image 416 × 312 (r4), gap 20, .t-body-strong title + .t-small secondary meta (gap 4). */
+import Media from './Media.astro';
+import type { WorkItem } from '../../content/types';
+interface Props { item: WorkItem; class?: string }
+const { item, class: className } = Astro.props;
+---
+
+<article class:list={['work-card', className]}>
+  <Media
+    image={item.image}
+    ratio="var(--ratio-work)"
+    widths={[400, 640, 832, 1248]}
+    sizes="(min-width: 1440px) 416px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 768px) calc((100vw - 56px) / 2), calc(100vw - 40px)"
+  />
+  <div class="work-card__text">
+    <h3 class="t-body-strong work-card__title">{item.title}</h3>
+    <p class="t-small work-card__meta">{item.meta}</p>
+  </div>
+</article>
+
+<style>
+  .work-card { display: flex; flex-direction: column; gap: var(--space-5); }
+  .work-card__text { display: flex; flex-direction: column; gap: var(--space-1); }
+  .work-card__title { color: var(--text-primary); }
+  .work-card__meta { color: var(--text-secondary); }
+</style>

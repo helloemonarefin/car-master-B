@@ -1,0 +1,36 @@
+---
+/**
+ * Portfolio — Figma "Portfolio" (297:121). --bg-raised, padding 160, gap 80.
+ * Section header + work cards (3 across, column gap 32, row gap 56) + text link.
+ * Below 1024: 1 column, 2 from 768 (DS §4); row gap 40.
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import WorkCard from '../ui/WorkCard.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { PortfolioContent } from '../../content/types';
+
+interface Props { content: PortfolioContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section section--raised portfolio" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+    <ul role="list" class="grid portfolio__grid">
+      {c.items.map((item) => <li class="span-4"><WorkCard item={item} /></li>)}
+    </ul>
+    {c.link && <div><TextLink label={c.link.label} href={c.link.href} /></div>}
+  </div>
+</section>
+
+<style>
+  .portfolio__grid { row-gap: var(--gallery-row-gap); column-gap: var(--card-gap); }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .portfolio__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .portfolio__grid > :global(li) { grid-column: auto; }
+  }
+  @media (min-width: 1024px) {
+    .portfolio__grid { column-gap: var(--grid-gutter); }
+  }
+</style>

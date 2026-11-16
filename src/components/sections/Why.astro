@@ -1,0 +1,113 @@
+---
+/**
+ * Why (the dark band) — Figma "Why Northvale" (24:695). --bg-inverse,
+ * padding 160, gap 96 (index → words → note).
+ * Method rows: .t-display-xl word + "(01)" (.t-small-strong, on-dark tertiary,
+ * offset 26px down), gap 16, bottom border on-dark; row n indented n × 176
+ * (--method-indent, 0 below 1024).
+ * Note: copy in cols 1–4 (.t-h3 + .t-body-lg, gap 20), points in cols 6–12
+ * (padding 16/0, top border, .t-body-strong "01  Title" + .t-body-sm text, gap 4).
+ */
+import SectionIndex from '../ui/SectionIndex.astro';
+import type { WhyContent } from '../../content/types';
+
+interface Props { content: WhyContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+const pad = (n: number) => String(n).padStart(2, '0');
+---
+
+<section class="section section--inverse why" id={c.id} aria-labelledby={titleId}>
+  <div class="container why__inner">
+    <SectionIndex index={index} label={c.label} as="h2" id={titleId} flush />
+
+    <ol role="list" class="why__words" style={`--rows: ${c.words.length}`}>
+      {c.words.map((word, i) => (
+        <li class="why__row" style={`--n: ${i}`}>
+          {i > 0 && <span class="why__indent" aria-hidden="true"></span>}
+          <p class="t-display-xl why__word">{word}</p>
+          <span class="t-small-strong why__num" aria-hidden="true">({pad(i + 1)})</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="grid why__note">
+      <div class="span-4 why__copy">
+        <h3 class="t-h3 why__note-title">{c.noteTitle}</h3>
+        <p class="t-body-lg why__note-text">{c.noteText}</p>
+      </div>
+      <ul role="list" class="start-6 span-7 why__points">
+        {c.points.map((p, i) => (
+          <li class="why__point">
+            <p class="t-body-strong why__point-title">{`${pad(i + 1)}  ${p.title}`}</p>
+            <p class="t-body-sm why__point-text">{p.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .why__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--why-gap);
+  }
+
+  /* Method rows */
+  .why__row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-4);
+    border-bottom: var(--border-width) solid var(--border-on-dark);
+  }
+  /* Staircase indent. Each step is --method-indent (176 at desktop, as in
+     Figma) unless the rows would not fit: then all steps shrink evenly so the
+     longest allowed word (≤ 12 chars ≈ 5.75em) plus its index still fits.
+     At 1440 this gives exactly 176 / 352 / 528. The spacer can also shrink
+     as a last safety net. The gap after it is cancelled so the word starts
+     exactly at the indent. */
+  .why__words {
+    container-type: inline-size;
+    --step: min(
+      var(--method-indent),
+      calc((100cqw - 5.75 * var(--fs-display-xl) - var(--space-4) - var(--space-8)) / max(var(--rows) - 1, 1))
+    );
+  }
+  .why__indent {
+    flex: 0 1 calc(var(--n) * max(var(--step), 0px));
+    min-width: 0;
+    margin-right: calc(var(--space-4) * -1);
+  }
+  .why__word { flex: none; color: var(--text-on-dark); }
+  .why__num {
+    flex: none;
+    padding-top: var(--method-index-pad-top);
+    color: var(--text-on-dark-tertiary);
+  }
+  @media (min-width: 1024px) {
+    .why__word { white-space: nowrap; }
+  }
+
+  /* Note */
+  .why__note { row-gap: var(--space-10); }
+  .why__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .why__note-title { color: var(--text-on-dark); }
+  .why__note-text { color: var(--text-on-dark-secondary); }
+
+  .why__point {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-block: var(--space-4);
+    border-top: var(--border-width) solid var(--border-on-dark);
+  }
+  .why__point:last-child { border-bottom: var(--border-width) solid var(--border-on-dark); }
+  .why__point-title { color: var(--text-on-dark); white-space: pre-wrap; }
+  .why__point-text { color: var(--text-on-dark-secondary); }
+</style>

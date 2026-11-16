@@ -13,7 +13,13 @@ const icons = {
     size: 16,
     body: '<path d="M4.66667 11.3333L11.3333 4.66667"/><path d="M5.33333 4.66667H11.3333V10.6667"/>',
   },
-} as const;
+  // Filled shape (Figma "Stars" › #accent): drawn with fill, not stroke.
+  star: {
+    size: 16,
+    filled: true,
+    body: '<path d="M8 0L10.163 5.02282L15.6085 5.52786L11.4999 9.13718L12.7023 14.4721L8 11.68L3.29772 14.4721L4.50011 9.13718L0.391548 5.52786L5.83695 5.02282L8 0Z"/>',
+  },
+} as const satisfies Record<string, { size: number; body: string; filled?: boolean }>;
 
 export type IconName = keyof typeof icons;
 
@@ -27,7 +33,7 @@ interface Props {
 }
 
 const { name, size, class: className, label } = Astro.props;
-const icon = icons[name];
+const icon: { size: number; body: string; filled?: boolean } = icons[name];
 const px = size ?? icon.size;
 ---
 
@@ -36,8 +42,8 @@ const px = size ?? icon.size;
   width={px}
   height={px}
   viewBox={`0 0 ${icon.size} ${icon.size}`}
-  fill="none"
-  stroke="currentColor"
+  fill={icon.filled ? 'currentColor' : 'none'}
+  stroke={icon.filled ? 'none' : 'currentColor'}
   stroke-linecap="round"
   stroke-linejoin="round"
   aria-hidden={label ? undefined : 'true'}

@@ -13,6 +13,11 @@ import servicePpf from '../assets/home/service-ppf.jpg';
 import serviceCeramic from '../assets/home/service-ceramic.jpg';
 import serviceTrack from '../assets/home/service-track.jpg';
 import processImage from '../assets/home/process.jpg';
+import work911Gt3Rs from '../assets/home/work-911-gt3-rs.png';
+import work296Gtb from '../assets/home/work-296-gtb.jpg';
+import work750s from '../assets/home/work-750s.jpg';
+import work911CarreraRs from '../assets/home/work-911-carrera-rs.png';
+import workHuracanSto from '../assets/home/work-huracan-sto.jpg';
 
 export const seo = {
   /** Leave empty to use site.seo.defaultTitle. */
@@ -140,5 +145,50 @@ export const sections: SectionContent[] = [
       { title: 'Curing & inspection', description: '48 hours to cure, then a 3-light inspection of every panel.' },
       { title: 'Delivery', description: 'Returned to your garage, covered. You get your photo report and care card.' },
     ],
+  },
+  {
+    type: 'portfolio',
+    id: 'portfolio',
+    label: 'Portfolio',
+    title: 'Recent work',
+    items: [
+      { title: '2025 Porsche 911 GT3 RS', meta: 'Full-body satin PPF · Ceramic over film', image: { src: work911Gt3Rs, alt: 'Dark green Porsche 911 GT3 RS on a pale grey studio floor' } },
+      { title: 'Ferrari 296 GTB', meta: 'Full-body gloss PPF · Hand-wrapped edges', image: { src: work296Gtb, alt: 'Black supercar against a deep red studio backdrop' } },
+      { title: 'McLaren 750S', meta: 'Track package · Wheel coating', image: { src: work750s, alt: 'Blue supercar under a single light strip in a dark studio' } },
+      { title: '1973 Porsche 911 Carrera RS', meta: 'Restoration · Full-body clear PPF', image: { src: work911CarreraRs, alt: 'Silver classic Porsche in close side profile' } },
+      { title: 'Lamborghini Huracán STO', meta: 'Full front + rocker panels', image: { src: workHuracanSto, alt: 'Yellow Lamborghini with doors up in a lit garage' } },
+      { title: 'Mercedes-AMG G 63', meta: 'Full-body satin PPF', image: { src: serviceTrack, alt: 'Silver car lit dramatically in a dark studio' } },
+    ],
+    link: { label: 'See the full portfolio', href: '/portfolio' },
+  },
+  {
+    type: 'why',
+    id: 'why',
+    label: `Why ${site.shortName}`,
+    words: ['One installer.', 'No blades.', '72°F bay.', 'Documented.'],
+    noteTitle: 'Small on purpose.',
+    noteText:
+      "Big shops run ten cars a day through the bay. We run six a month. That's the whole difference. The person who meets your car is the person who wraps it, inspects it, and hands you the keys.",
+    points: [
+      { title: 'One installer per car.', text: 'No hand-offs between techs.' },
+      { title: 'No blades on paint.', text: 'Every pattern is pre-cut and wrapped by hand.' },
+      { title: 'Climate-controlled bay.', text: 'Dust-filtered air, held at 72°F year-round.' },
+      { title: 'Documented everything.', text: 'Photo intake and delivery reports for every car.' },
+    ],
+  },
+  {
+    type: 'testimonial',
+    id: 'reviews',
+    label: 'Reviews',
+    featured: {
+      quote: "“I've had three cars done at shops in LA and Scottsdale. This is the first time I couldn't find a single edge. Worth the wait.”",
+      name: 'Daniel R.',
+      detail: 'Porsche 911 GT3',
+    },
+    more: [
+      { quote: "“They picked the car up, sent me photos every day, and dropped it back covered. I didn't have to do anything.”", name: 'Priya S.', detail: 'Ferrari Roma' },
+      { quote: '“The intake report alone was worth it. When I sold the car, the buyer asked for paint readings and I had them.”', name: 'Marcus T.', detail: 'McLaren 720S' },
+    ],
+    link: { label: `★ ${site.rating} average from ${site.reviewCount} ${site.reviewSource} reviews`, href: site.reviewsUrl },
   },
 ];

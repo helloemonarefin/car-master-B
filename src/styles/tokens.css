@@ -280,3 +280,15 @@
 @media (min-width: 1024px) {
   :root { --ratio-process: auto; }
 }
+
+/* Phase 3 (part 3) component tokens */
+:root {
+  /* Why (dark) */
+  --why-gap: var(--section-gap);   /* index → words → note; desktop 96 */
+  --method-index-pad-top: calc(var(--fs-display-xl) * 0.203); /* "(01)" sits 26px down at 128px */
+  /* Testimonial */
+  --review-author-gap: 2px;        /* name → car in small review cards */
+}
+@media (min-width: 1024px) {
+  :root { --why-gap: var(--space-24); }
+}

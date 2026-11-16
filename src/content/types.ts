@@ -154,6 +154,71 @@ export interface ProcessContent {
   steps: ProcessStep[];
 }
 
+/* ---------- Portfolio ---------- */
+export interface WorkItem {
+  /** .t-body-strong, one line, ≤ 32 chars */
+  title: string;
+  /** .t-small secondary, one line, ≤ 44 chars */
+  meta: string;
+  /** 416 × 312 */
+  image: Picture;
+}
+
+export interface PortfolioContent {
+  type: 'portfolio';
+  id: string;
+  label: string;
+  title: string;
+  intro?: string;
+  /** 3 or 6 (rows of 3) */
+  items: WorkItem[];
+  link?: Cta;
+}
+
+/* ---------- Why (dark) ---------- */
+export interface WhyPoint {
+  /** .t-body-strong, ≤ 30 chars (the number is added automatically) */
+  title: string;
+  /** .t-body-sm, one line in 752px, ≤ 60 chars */
+  text: string;
+}
+
+export interface WhyContent {
+  type: 'why';
+  id: string;
+  /** Index label, also the section heading, e.g. "Why Northvale" */
+  label: string;
+  /** 3–4 statement words/phrases, each ≤ 12 chars at 128px */
+  words: string[];
+  /** .t-h3, ≤ 24 chars */
+  noteTitle: string;
+  /** .t-body-lg, ≤ 4 lines in 416px (~200 chars) */
+  noteText: string;
+  /** 3–4 points */
+  points: WhyPoint[];
+}
+
+/* ---------- Testimonial ---------- */
+export interface Review {
+  /** Include the typographic quotes “ ”. */
+  quote: string;
+  /** .t-body-strong / .t-body-sm Medium, ≤ 24 chars */
+  name: string;
+  /** e.g. the car, ≤ 28 chars */
+  detail: string;
+}
+
+export interface TestimonialContent {
+  type: 'testimonial';
+  id: string;
+  label: string;
+  /** Main quote: .t-quote, ≤ 4 lines in 752px (~140 chars) */
+  featured: Review;
+  /** Exactly 2 small review cards (.t-quote-sm, ≤ 3 lines ~120 chars) */
+  more: [Review, Review];
+  link?: Cta;
+}
+
 /** Every section type a page can list. Extend as sections are built. */
 export type SectionContent =
   | HeroContent
@@ -161,4 +226,7 @@ export type SectionContent =
   | ServicesContent
   | SignatureContent
   | GuaranteeContent
-  | ProcessContent;
+  | ProcessContent
+  | PortfolioContent
+  | WhyContent
+  | TestimonialContent;

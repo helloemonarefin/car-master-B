@@ -10,6 +10,9 @@ import Services from './Services.astro';
 import Signature from './Signature.astro';
 import Guarantee from './Guarantee.astro';
 import Process from './Process.astro';
+import Portfolio from './Portfolio.astro';
+import Why from './Why.astro';
+import Testimonial from './Testimonial.astro';
 import { numberSections } from '../../lib/sections';
 import type { SectionContent } from '../../content/types';
 
@@ -25,5 +28,8 @@ const items = numberSections(Astro.props.sections);
     case 'signature': return <Signature content={content} index={index} />;
     case 'guarantee': return <Guarantee content={content} index={index} />;
     case 'process': return <Process content={content} index={index} />;
+    case 'portfolio': return <Portfolio content={content} index={index} />;
+    case 'why': return <Why content={content} index={index} />;
+    case 'testimonial': return <Testimonial content={content} index={index} />;
   }
 })}

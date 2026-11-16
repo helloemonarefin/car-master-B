@@ -1,0 +1,88 @@
+---
+/**
+ * Testimonial — Figma "Testimonial" (24:854). --bg-raised, padding 160.
+ * Index (cols 1–4) + column (cols 6–12), gap 40: stars, featured quote
+ * (.t-quote), author (.t-body-strong + .t-small secondary, gap 4),
+ * two small reviews (top border, padding-top 28, .t-quote-sm, gap 16;
+ * name .t-body-sm Medium + car .t-small, gap 2), text link.
+ */
+import Split from '../layout/Split.astro';
+import SectionIndex from '../ui/SectionIndex.astro';
+import Stars from '../ui/Stars.astro';
+import TextLink from '../ui/TextLink.astro';
+import type { TestimonialContent } from '../../content/types';
+
+interface Props { content: TestimonialContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section section--raised testimonial" id={c.id} aria-labelledby={titleId}>
+  <div class="container">
+    <Split>
+      <SectionIndex slot="aside" index={index} label={c.label} as="h2" id={titleId} />
+      <div class="testimonial__body">
+        <Stars />
+        <figure class="testimonial__featured">
+          <blockquote class="t-quote testimonial__quote"><p>{c.featured.quote}</p></blockquote>
+          <figcaption class="testimonial__author">
+            <span class="t-body-strong testimonial__name">{c.featured.name}</span>
+            <span class="t-small testimonial__detail">{c.featured.detail}</span>
+          </figcaption>
+        </figure>
+        <ul role="list" class="testimonial__more">
+          {c.more.map((r) => (
+            <li>
+              <figure class="review">
+                <blockquote class="t-quote-sm review__quote"><p>{r.quote}</p></blockquote>
+                <figcaption class="review__author">
+                  <span class="t-body-sm t-medium review__name">{r.name}</span>
+                  <span class="t-small review__detail">{r.detail}</span>
+                </figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+        {c.link && <div><TextLink label={c.link.label} href={c.link.href} external={!!c.link.href} /></div>}
+      </div>
+    </Split>
+  </div>
+</section>
+
+<style>
+  .testimonial__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+  .testimonial__featured {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+    margin: 0;
+  }
+  .testimonial__quote { margin: 0; color: var(--text-primary); }
+  .testimonial__author { display: flex; flex-direction: column; gap: var(--space-1); }
+  .testimonial__name { color: var(--text-primary); }
+  .testimonial__detail { color: var(--text-secondary); }
+
+  .testimonial__more {
+    display: grid;
+    gap: var(--space-8) var(--grid-gutter);
+  }
+  @media (min-width: 768px) {
+    .testimonial__more { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  .review {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    padding-top: var(--space-7);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .review__quote { margin: 0; color: var(--text-primary); }
+  .review__author { display: flex; flex-direction: column; gap: var(--review-author-gap); }
+  .review__name { color: var(--text-primary); }
+  .review__detail { color: var(--text-secondary); }
+</style>

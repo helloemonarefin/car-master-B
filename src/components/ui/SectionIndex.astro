@@ -9,17 +9,22 @@ interface Props {
   /** 1-based position in the section array. */
   index: number;
   label: string;
+  /** Render as a heading when the index label is the section's title (e.g. Why). */
+  as?: 'p' | 'h2';
+  id?: string;
+  /** No 14px top offset (used when the index is not beside an h2). */
+  flush?: boolean;
   class?: string;
 }
 
-const { index, label, class: className } = Astro.props;
+const { index, label, as: Tag = 'p', id, flush = false, class: className } = Astro.props;
 const num = `(${String(index).padStart(2, '0')})`;
 ---
 
-<p class:list={['section-index', 't-label', className]}>
+<Tag class:list={['section-index', 't-label', { 'section-index--flush': flush }, className]} id={id}>
   <span class="section-index__num">{num}</span>
   <span class="section-index__label">{label}</span>
-</p>
+</Tag>
 
 <style>
   .section-index {
@@ -33,6 +38,6 @@ const num = `(${String(index).padStart(2, '0')})`;
   :global(.section--inverse) .section-index__num { color: var(--text-on-dark-tertiary); }
 
   @media (min-width: 1024px) {
-    .section-index { padding-top: var(--index-pad-top); }
+    .section-index:not(.section-index--flush) { padding-top: var(--index-pad-top); }
   }
 </style>

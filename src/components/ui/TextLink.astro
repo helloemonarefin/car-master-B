@@ -8,6 +8,7 @@ import Icon from './Icon.astro';
 
 interface Props {
   label: string;
+  /** Empty string = no destination yet: renders as plain text (no dead link). */
   href: string;
   external?: boolean;
   class?: string;
@@ -18,16 +19,23 @@ interface Props {
 const { label, href, external = false, class: className, ...rest } = Astro.props;
 ---
 
-<a
-  class:list={['text-link', 't-small-strong', className]}
-  href={href}
-  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-  {...rest}
->
-  <span>{label}</span>
-  <Icon name="arrow-up-right" size={16} />
-  {external && <span class="sr-only"> (opens in a new tab)</span>}
-</a>
+{href ? (
+  <a
+    class:list={['text-link', 't-small-strong', className]}
+    href={href}
+    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    {...rest}
+  >
+    <span>{label}</span>
+    <Icon name="arrow-up-right" size={16} />
+    {external && <span class="sr-only"> (opens in a new tab)</span>}
+  </a>
+) : (
+  <span class:list={['text-link', 'text-link--static', 't-small-strong', className]}>
+    <span>{label}</span>
+    <Icon name="arrow-up-right" size={16} />
+  </span>
+)}
 
 <style>
   .text-link {
