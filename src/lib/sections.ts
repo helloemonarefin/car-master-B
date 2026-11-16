@@ -5,7 +5,7 @@
  */
 import type { SectionContent } from '../content/types';
 
-const UNNUMBERED: ReadonlySet<SectionContent['type']> = new Set(['hero']);
+const UNNUMBERED: ReadonlySet<SectionContent['type']> = new Set(['hero', 'final-cta']);
 
 export type Numbered<T extends SectionContent = SectionContent> = { content: T; index: number };
 

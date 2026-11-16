@@ -1,0 +1,65 @@
+---
+/**
+ * Choice chips — Figma "Interest" (298:149). A radio group styled as pills:
+ * question (.t-label tertiary), gap 14, chips gap 10. Chip: padding 9/18,
+ * 1px --border-default, .t-small-strong ink; selected = ink fill, white text.
+ * Native radios (visually hidden) keep keyboard + form behaviour.
+ * Hover (proposed): outline chip background --button-outline-bg-hover.
+ */
+import type { FormChoiceItem } from '../../content/types';
+interface Props { item: FormChoiceItem; class?: string }
+const { item, class: className } = Astro.props;
+---
+
+<fieldset class:list={['chips', className]}>
+  <legend class="t-label chips__legend">{item.label}</legend>
+  <div class="chips__row">
+    {item.options.map((opt) => (
+      <label class="chip">
+        <input class="sr-only chip__input" type="radio" name={item.name} value={opt} checked={opt === item.defaultValue} />
+        <span class="t-small-strong chip__label">{opt}</span>
+      </label>
+    ))}
+  </div>
+</fieldset>
+
+<style>
+  .chips {
+    display: flex;
+    flex-direction: column;
+    gap: var(--chip-group-gap);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    min-width: 0;
+  }
+  .chips__legend { float: left; width: 100%; padding: 0; color: var(--text-tertiary); }
+  .chips__row { display: flex; flex-wrap: wrap; gap: var(--chip-gap); clear: both; }
+
+  .chip { position: relative; display: inline-flex; cursor: pointer; }
+  .chip__label {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--chip-pad-y) var(--chip-pad-x);
+    border: var(--border-width) solid var(--border-default);
+    border-radius: var(--radius-pill);
+    color: var(--text-primary);
+    white-space: nowrap;
+    transition:
+      background-color var(--dur-fast) var(--ease-color),
+      border-color var(--dur-fast) var(--ease-color),
+      color var(--dur-fast) var(--ease-color);
+  }
+  .chip__input:checked + .chip__label {
+    background: var(--brand-ink);
+    border-color: var(--brand-ink);
+    color: var(--text-inverse);
+  }
+  .chip__input:focus-visible + .chip__label {
+    outline: var(--focus-ring-width) solid var(--focus-ring-color);
+    outline-offset: var(--focus-ring-offset);
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .chip:hover .chip__input:not(:checked) + .chip__label { background: var(--button-outline-bg-hover); }
+  }
+</style>

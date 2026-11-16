@@ -1,0 +1,68 @@
+---
+/**
+ * FAQ — Figma "FAQ" (24:875). --bg-primary, padding 160.
+ * Intro in cols 1–4 (index, h2, .t-body-lg, phone link; gap 24) and the
+ * question list in cols 6–12.
+ */
+import Split from '../layout/Split.astro';
+import SectionIndex from '../ui/SectionIndex.astro';
+import FaqItem from '../ui/FaqItem.astro';
+import Icon from '../ui/Icon.astro';
+import { site } from '../../content/site';
+import type { FaqContent } from '../../content/types';
+
+interface Props { content: FaqContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section faq" id={c.id} aria-labelledby={titleId}>
+  <div class="container">
+    <Split>
+      <div slot="aside" class="faq__intro">
+        <SectionIndex index={index} label={c.label} />
+        <h2 id={titleId} class="t-h2">{c.title}</h2>
+        {c.intro && <p class="t-body-lg faq__text">{c.intro}</p>}
+        {c.showPhone && site.phone && (
+          <a class="faq__phone t-body-strong" href={site.phoneHref}>
+            <Icon name="phone" />
+            <span class="faq__phone-text">{site.phone}</span>
+          </a>
+        )}
+      </div>
+      <ul role="list" class="faq__list">
+        {c.items.map((item, i) => <FaqItem item={item} id={`${c.id}-${i + 1}`} open={i === c.openIndex} />)}
+      </ul>
+    </Split>
+  </div>
+</section>
+
+<style>
+  .faq__intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .faq__text { color: var(--text-secondary); }
+  .faq__phone {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--icon-text-gap);
+    align-self: flex-start;
+    color: var(--text-primary);
+  }
+  .faq__phone-text {
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--border-width);
+    text-decoration-color: transparent;
+    text-underline-offset: var(--link-underline-gap);
+    transition: text-decoration-color var(--dur-fast) var(--ease-color);
+  }
+  .faq__phone:focus-visible .faq__phone-text { text-decoration-color: currentColor; }
+  @media (hover: hover) and (pointer: fine) {
+    .faq__phone:hover .faq__phone-text { text-decoration-color: currentColor; }
+  }
+  @media (max-width: 1023px) {
+    .faq :global(.split) { row-gap: var(--section-gap); }
+  }
+</style>

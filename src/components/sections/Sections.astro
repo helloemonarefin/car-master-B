@@ -13,6 +13,8 @@ import Process from './Process.astro';
 import Portfolio from './Portfolio.astro';
 import Why from './Why.astro';
 import Testimonial from './Testimonial.astro';
+import Faq from './Faq.astro';
+import FinalCta from './FinalCta.astro';
 import { numberSections } from '../../lib/sections';
 import type { SectionContent } from '../../content/types';
 
@@ -31,5 +33,7 @@ const items = numberSections(Astro.props.sections);
     case 'portfolio': return <Portfolio content={content} index={index} />;
     case 'why': return <Why content={content} index={index} />;
     case 'testimonial': return <Testimonial content={content} index={index} />;
+    case 'faq': return <Faq content={content} index={index} />;
+    case 'final-cta': return <FinalCta content={content} />;
   }
 })}

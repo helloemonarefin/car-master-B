@@ -1,0 +1,34 @@
+---
+/** Detail row — DESIGN_SYSTEM §6, Figma "Detail" (24:922): padding 20/0, top border subtle, .t-label tertiary over .t-body-strong value, gap 8. */
+interface Props { label: string }
+const { label } = Astro.props;
+---
+
+<div class="detail-row">
+  <dt class="t-label detail-row__label">{label}</dt>
+  <dd class="t-body-strong detail-row__value"><slot /></dd>
+</div>
+
+<style>
+  .detail-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .detail-row:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
+  .detail-row__label { color: var(--text-tertiary); }
+  .detail-row__value {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: var(--text-primary);
+    overflow-wrap: anywhere;
+  }
+  .detail-row__value :global(a) { transition: color var(--dur-fast) var(--ease-color); }
+  .detail-row__value :global(a:focus-visible) { color: var(--text-secondary); }
+  @media (hover: hover) and (pointer: fine) {
+    .detail-row__value :global(a:hover) { color: var(--text-secondary); }
+  }
+</style>

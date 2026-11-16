@@ -18,6 +18,7 @@ import work296Gtb from '../assets/home/work-296-gtb.jpg';
 import work750s from '../assets/home/work-750s.jpg';
 import work911CarreraRs from '../assets/home/work-911-carrera-rs.png';
 import workHuracanSto from '../assets/home/work-huracan-sto.jpg';
+import visitImage from '../assets/home/visit.jpg';
 
 export const seo = {
   /** Leave empty to use site.seo.defaultTitle. */
@@ -190,5 +191,44 @@ export const sections: SectionContent[] = [
       { quote: '“The intake report alone was worth it. When I sold the car, the buyer asked for paint readings and I had them.”', name: 'Marcus T.', detail: 'McLaren 720S' },
     ],
     link: { label: `★ ${site.rating} average from ${site.reviewCount} ${site.reviewSource} reviews`, href: site.reviewsUrl },
+  },
+  {
+    type: 'faq',
+    id: 'faq',
+    label: 'FAQ',
+    title: 'Straight answers.',
+    intro: 'Something we didn’t cover? Call the studio and ask for the installer.',
+    showPhone: true,
+    openIndex: 0,
+    items: [
+      { question: 'How long does full-body PPF take?', answer: 'About 7–10 days, including prep and curing. The Concours Shield is 10 days, door to door.' },
+      // TODO(owner): Figma only shows the first answer; the rest are placeholders.
+      { question: 'Will I see the film?', answer: '[Answer needed — not in Figma]' },
+      { question: 'Do you cut film on the car?', answer: '[Answer needed — not in Figma]' },
+      { question: 'Can you coat over the film?', answer: '[Answer needed — not in Figma]' },
+      { question: 'What if I sell the car?', answer: '[Answer needed — not in Figma]' },
+      { question: 'Do you offer payment plans?', answer: '[Answer needed — not in Figma]' },
+    ],
+  },
+  {
+    type: 'final-cta',
+    id: 'contact',
+    image: { src: visitImage, alt: 'Matte black wagon parked in a clean white detailing studio' },
+    title: 'Six cars a month. Is yours next?',
+    intro: "Tell us what you drive. We'll reply within one business day with a time to talk.",
+    form: {
+      name: 'consultation',
+      items: [
+        { kind: 'field', label: 'Name', name: 'name', type: 'text', placeholder: 'Your full name', autocomplete: 'name', required: true, width: 'half' },
+        { kind: 'field', label: 'Phone', name: 'phone', type: 'tel', placeholder: '(480) 555-0000', autocomplete: 'tel', width: 'half' },
+        { kind: 'field', label: 'Email', name: 'email', type: 'email', placeholder: 'you@email.com', autocomplete: 'email', required: true, width: 'half' },
+        { kind: 'field', label: 'Year / Make / Model', name: 'car', type: 'text', placeholder: 'e.g. 2025 Porsche 911 GT3', width: 'half' },
+        { kind: 'choice', label: 'What are you interested in?', name: 'interest', options: ['Full-body PPF', 'Concours Shield', 'Ceramic', 'Not sure yet'], defaultValue: 'Concours Shield' },
+        { kind: 'field', label: 'Preferred contact time', name: 'contact-time', type: 'text', placeholder: 'Weekday mornings', width: 'full' },
+      ],
+      submitLabel: 'Request a Consultation',
+    },
+    note: 'No pressure, no sales calls. One conversation and one exact price.',
+    detailLabels: { visit: 'Visit', contact: 'Contact', hours: 'Hours', serviceArea: 'Service area' },
   },
 ];

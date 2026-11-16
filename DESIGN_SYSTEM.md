@@ -99,7 +99,7 @@ One family, **Inter**, in three weights: Light 300 for large text, Regular 400, 
 
 | Role (`.t-…`) | Used for | Desktop | Mobile | Weight | Line height (desktop) | Letter spacing |
 |---|---|---|---|---|---|---|
-| `display-xl` | "Why" statement words | 128 | 64 | Light | 0.90 | −5% |
+| `display-xl` | "Why" statement words | 128 | 56 (was 64; owner 2026-11-17) | Light | 0.90 | −5% |
 | `hero` | Home hero headline | 112 | 48 | Light | 0.94 | −4.5% |
 | `wordmark` | Footer business name | 104 | 48 (proposed) | Light | 0.96 | −4% |
 | `page-hero` | Inner-page hero headline | 96 | 44 (proposed) | Light | 0.94 | −4.5% |

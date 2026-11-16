@@ -79,7 +79,7 @@
   --fw-light: 300; --fw-regular: 400; --fw-medium: 500;
 
   /* Sizes: fluid 390 → 1440 (min = mobile, max = desktop) */
-  --fs-display-xl: clamp(4rem, 2.5143rem + 6.0952vw, 8rem);        /* 64 → 128  "Why" statement words */
+  --fs-display-xl: clamp(3.5rem, 1.8286rem + 6.8571vw, 8rem);      /* 56 → 128  "Why" statement words (mobile was 64: "Documented." overflowed 390 — owner OK 2026-11-17) */
   --fs-hero:       clamp(3rem, 1.5143rem + 6.0952vw, 7rem);        /* 48 → 112  home hero headline */
   --fs-wordmark:   clamp(3rem, 1.7rem + 5.3333vw, 6.5rem);         /* 48 → 104  footer business name */
   --fs-page-hero:  clamp(2.75rem, 1.5429rem + 4.9524vw, 6rem);     /* 44 → 96   inner-page hero */
@@ -291,4 +291,22 @@
 }
 @media (min-width: 1024px) {
   :root { --why-gap: var(--space-24); }
+}
+
+/* Phase 3 (part 4) component tokens */
+:root {
+  --icon-text-gap: 10px;         /* phone icon → number */
+  /* Final CTA */
+  --cta-gap: var(--section-gap); /* image → layout; desktop 72 */
+  --cta-stack-gap: 36px;         /* title → intro → form → button → note */
+  --cta-intro-max: 560px;
+  --form-row-gap: 28px;
+  /* Choice chips (form) */
+  --chip-pad-y: 9px;             /* 9 + 19.6 + 9 + 2 border ≈ Figma 39 (text at 1.4, DS §10.7) */
+  --chip-pad-x: 18px;
+  --chip-gap: 10px;
+  --chip-group-gap: 14px;        /* question → chips */
+}
+@media (min-width: 1024px) {
+  :root { --cta-gap: var(--space-18); }
 }

@@ -1,0 +1,113 @@
+---
+/**
+ * Final CTA — Figma "Final CTA" (24:912). --bg-secondary, padding 160, gap 72.
+ * Wide image (1312 × 520), then: form column (cols 1–7: h2, intro, form,
+ * button, note; gap 36) and visit details (cols 9–12, detail rows).
+ * Form posts as a Netlify form (static hosting).
+ */
+import Media from '../ui/Media.astro';
+import FormField from '../ui/FormField.astro';
+import ChoiceChips from '../ui/ChoiceChips.astro';
+import Button from '../ui/Button.astro';
+import DetailRow from '../ui/DetailRow.astro';
+import { site } from '../../content/site';
+import { joinAnd } from '../../lib/format';
+import type { FinalCtaContent } from '../../content/types';
+
+interface Props { content: FinalCtaContent }
+const { content: c } = Astro.props;
+const titleId = `${c.id}-title`;
+const L = c.detailLabels;
+---
+
+<section class="section section--secondary final-cta" id={c.id} aria-labelledby={titleId}>
+  <div class="container final-cta__inner">
+    <Media
+      image={c.image}
+      ratio="var(--ratio-cta)"
+      widths={[640, 960, 1312, 1920, 2400]}
+      sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), calc(100vw - 40px)"
+    />
+
+    <div class="grid final-cta__layout">
+      <div class="span-7 final-cta__main">
+        <h2 id={titleId} class="t-h2">{c.title}</h2>
+        {c.intro && <p class="t-body-lg final-cta__intro">{c.intro}</p>}
+
+        <form class="final-cta__form" name={c.form.name} method="POST" data-netlify="true" netlify-honeypot="company">
+          <input type="hidden" name="form-name" value={c.form.name} />
+          <p class="sr-only"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label></p>
+          <div class="final-cta__fields">
+            {c.form.items.map((it) =>
+              it.kind === 'field' ? (
+                <FormField
+                  class:list={['final-cta__field', { 'final-cta__field--full': it.width === 'full' }]}
+                  label={it.label}
+                  name={it.name}
+                  type={it.type}
+                  placeholder={it.placeholder}
+                  autocomplete={it.autocomplete}
+                  required={it.required}
+                />
+              ) : (
+                <ChoiceChips class="final-cta__field final-cta__field--full" item={it} />
+              ),
+            )}
+          </div>
+          <Button label={c.form.submitLabel} type="submit" class="final-cta__submit" />
+        </form>
+
+        {c.note && <p class="t-small final-cta__note">{c.note}</p>}
+      </div>
+
+      <dl class="final-cta__details">
+        {site.address.length > 0 && <DetailRow label={L.visit}>{site.address.map((l) => <span>{l}</span>)}</DetailRow>}
+        {(site.phone || site.email) && (
+          <DetailRow label={L.contact}>
+            {site.phone && <a href={site.phoneHref}>{site.phone}</a>}
+            {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+          </DetailRow>
+        )}
+        {site.hours.length > 0 && <DetailRow label={L.hours}>{site.hours.map((l) => <span>{l}</span>)}</DetailRow>}
+        {site.serviceArea.length > 0 && <DetailRow label={L.serviceArea}><span>{joinAnd(site.serviceArea)}</span></DetailRow>}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .final-cta__inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cta-gap);
+  }
+  .final-cta__layout { row-gap: var(--space-14); }
+  .final-cta__main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--cta-stack-gap);
+  }
+  .final-cta__intro { max-width: var(--cta-intro-max); color: var(--text-secondary); }
+
+  /* Form: the button is part of the same 36px rhythm as the column. */
+  .final-cta__form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--cta-stack-gap);
+  }
+  .final-cta__fields {
+    display: grid;
+    width: 100%;
+    gap: var(--form-row-gap) var(--grid-gutter);
+  }
+  @media (min-width: 768px) {
+    .final-cta__fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .final-cta__fields > :global(.final-cta__field--full) { grid-column: 1 / -1; }
+  }
+  .final-cta__note { color: var(--text-tertiary); }
+
+  @media (min-width: 1024px) {
+    .final-cta__layout > .final-cta__details { grid-column: 9 / span 4; }
+  }
+</style>

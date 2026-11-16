@@ -219,6 +219,75 @@ export interface TestimonialContent {
   link?: Cta;
 }
 
+/* ---------- FAQ ---------- */
+export interface FaqItem {
+  /** .t-h5, one line in 704px, ≤ 60 chars */
+  question: string;
+  /** .t-body-lg, ≤ 3 lines in 600px (~200 chars) */
+  answer: string;
+}
+
+export interface FaqContent {
+  type: 'faq';
+  id: string;
+  label: string;
+  /** h2 in the 4-column intro, ≤ 2 lines (~20 chars) */
+  title: string;
+  /** .t-body-lg, ≤ 3 lines in 416px (~110 chars) */
+  intro?: string;
+  /** Show the studio phone (from site.ts) under the intro. */
+  showPhone: boolean;
+  /** 4–8 questions */
+  items: FaqItem[];
+  /** Index of the question open on load (Figma: the first). -1 = all closed. */
+  openIndex: number;
+}
+
+/* ---------- Final CTA (form + visit details) ---------- */
+export interface FormFieldItem {
+  kind: 'field';
+  label: string;
+  name: string;
+  type: 'text' | 'email' | 'tel';
+  placeholder?: string;
+  autocomplete?: string;
+  required?: boolean;
+  /** half = two per row on desktop */
+  width: 'half' | 'full';
+}
+
+export interface FormChoiceItem {
+  kind: 'choice';
+  /** Question above the chips, ≤ 40 chars */
+  label: string;
+  name: string;
+  /** 2–5 options, each ≤ 18 chars */
+  options: string[];
+  /** Option selected on load ('' = none). Figma shows "Concours Shield". */
+  defaultValue: string;
+}
+
+export interface FinalCtaContent {
+  type: 'final-cta';
+  id: string;
+  /** 1312 × 520 */
+  image: Picture;
+  /** h2, ≤ 2 lines in 752px (~40 chars) */
+  title: string;
+  /** .t-body-lg, ≤ 2 lines in 560px */
+  intro?: string;
+  form: {
+    /** Netlify form name. */
+    name: string;
+    items: (FormFieldItem | FormChoiceItem)[];
+    submitLabel: string;
+  };
+  /** .t-small tertiary, one line */
+  note?: string;
+  /** Labels for the visit details (values come from site.ts). */
+  detailLabels: { visit: string; contact: string; hours: string; serviceArea: string };
+}
+
 /** Every section type a page can list. Extend as sections are built. */
 export type SectionContent =
   | HeroContent
@@ -229,4 +298,6 @@ export type SectionContent =
   | ProcessContent
   | PortfolioContent
   | WhyContent
-  | TestimonialContent;
+  | TestimonialContent
+  | FaqContent
+  | FinalCtaContent;
