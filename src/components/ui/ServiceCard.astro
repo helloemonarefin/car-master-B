@@ -99,13 +99,28 @@ const num = String(index).padStart(2, '0');
     padding-top: var(--card-price-pad-top);
     border-top: var(--border-width) solid var(--border-subtle);
   }
+  /* Hover (owner request 2026-11-16): text goes to full ink and a 1px
+     underline fades in, the same language as TextLink. No layout shift. */
   .service-card__link {
     color: var(--text-nav);
     white-space: nowrap;
-    transition: color var(--dur-fast) var(--ease-color);
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--border-width);
+    text-decoration-color: transparent;
+    text-underline-offset: var(--link-underline-gap);
+    transition:
+      color var(--dur-fast) var(--ease-color),
+      text-decoration-color var(--dur-fast) var(--ease-color);
   }
-  .service-card__link:focus-visible { color: var(--text-primary); }
+  .service-card__link:focus-visible,
+  .service-card__link[data-force] {
+    color: var(--text-primary);
+    text-decoration-color: currentColor;
+  }
   @media (hover: hover) and (pointer: fine) {
-    .service-card__link:hover { color: var(--text-primary); }
+    .service-card__link:hover {
+      color: var(--text-primary);
+      text-decoration-color: currentColor;
+    }
   }
 </style>
