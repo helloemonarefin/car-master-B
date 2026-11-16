@@ -1,0 +1,36 @@
+---
+/**
+ * Services — Figma "Services" (24:648). --bg-primary, padding 160, gap 80.
+ * Section header (index, h2) + exactly 3 service cards (4 columns each, gap 32).
+ * Below 1024: 1 column, 2 from 768 (DESIGN_SYSTEM §4).
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import ServiceCard from '../ui/ServiceCard.astro';
+import type { ServicesContent } from '../../content/types';
+
+interface Props { content: ServicesContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section services" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+    <ul role="list" class="grid services__cards">
+      {c.items.map((item, i) => (
+        <li class="span-4"><ServiceCard item={item} index={i + 1} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .services__cards { row-gap: var(--space-14); column-gap: var(--card-gap); }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .services__cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .services__cards > :global(li) { grid-column: auto; }
+  }
+  @media (min-width: 1024px) {
+    .services__cards { column-gap: var(--grid-gutter); }
+  }
+</style>

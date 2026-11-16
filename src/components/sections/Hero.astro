@@ -1,0 +1,89 @@
+---
+/**
+ * Hero + trust strip — Figma "#export" (24:597): "Hero text" (24:614),
+ * "Hero image wrap" (24:635), "Trust strip" (24:637). DESIGN_SYSTEM §7.
+ * Desktop: padding 64 top / 56 bottom, gap 28; eyebrow (.t-label, secondary),
+ * h1 (.t-hero), support row (padding-top 12): sub-headline in cols 1–5,
+ * buttons bottom-right. Image 1312 × 600. Trust strip: 3 equal items.
+ */
+import ButtonPair from '../ui/ButtonPair.astro';
+import Media from '../ui/Media.astro';
+import TrustItem from '../ui/TrustItem.astro';
+import type { HeroContent } from '../../content/types';
+
+interface Props { content: HeroContent }
+const { content: c } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="hero" id={c.id} aria-labelledby={titleId}>
+  <div class="container hero__text">
+    <p class="t-label hero__eyebrow">{c.eyebrow}</p>
+    <h1 id={titleId} class="t-hero hero__title">{c.headline}</h1>
+    <div class="grid hero__support">
+      <p class="t-body-lg hero__sub span-5">{c.subheadline}</p>
+      <ButtonPair
+        class="hero__buttons"
+        primary={c.primaryCta}
+        secondary={c.secondaryCta && { ...c.secondaryCta, icon: 'arrow-right' }}
+      />
+    </div>
+  </div>
+
+  <div class="container">
+    <Media
+      image={c.image}
+      ratio="var(--ratio-hero-current)"
+      widths={[640, 960, 1312, 1920, 2400]}
+      sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), calc(100vw - 40px)"
+      eager
+    />
+  </div>
+
+  <div class="container hero__trust">
+    <dl class="hero__trust-row">
+      {c.trust.map((item) => <TrustItem item={item} />)}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .hero { background: var(--bg-primary); }
+
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--hero-gap);
+    padding-top: var(--hero-pad-top);
+    padding-bottom: var(--hero-pad-bottom);
+  }
+  .hero__eyebrow { color: var(--text-secondary); }
+  .hero__title { color: var(--text-primary); }
+
+  .hero__support {
+    row-gap: var(--space-7);
+    padding-top: var(--hero-support-pad-top);
+  }
+  .hero__sub { color: var(--text-secondary); }
+
+  @media (min-width: 1024px) {
+    .hero__support { align-items: end; }
+    .hero__support > :global(.hero__buttons) {
+      grid-column: 8 / -1;
+      justify-self: end;
+      flex-wrap: nowrap;
+    }
+  }
+
+  /* Trust strip */
+  .hero__trust {
+    padding-block: var(--trust-strip-pad-y);
+  }
+  .hero__trust-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  @media (min-width: 768px) {
+    .hero__trust-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+</style>

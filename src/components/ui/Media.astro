@@ -1,0 +1,52 @@
+---
+/**
+ * Media — an image in a frame that reserves its space (aspect-ratio from a
+ * token, so CLS stays ~0) with the 4px media radius. Uses astro:assets.
+ * Above the fold: pass `eager` (adds fetchpriority="high").
+ */
+import { Image } from 'astro:assets';
+import type { Picture } from '../../content/types';
+
+interface Props {
+  image: Picture;
+  /** CSS aspect-ratio value, normally a token: "var(--ratio-service)". */
+  ratio: string;
+  widths: number[];
+  sizes: string;
+  eager?: boolean;
+  class?: string;
+}
+
+const { image, ratio, widths, sizes, eager = false, class: className } = Astro.props;
+---
+
+<div class:list={['media', className]} style={`--ratio: ${ratio}`}>
+  <Image
+    src={image.src}
+    alt={image.alt}
+    widths={widths}
+    sizes={sizes}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : 'auto'}
+    decoding={eager ? 'sync' : 'async'}
+    class="media__img"
+  />
+</div>
+
+<style>
+  .media {
+    position: relative;
+    aspect-ratio: var(--ratio);
+    overflow: hidden;
+    border-radius: var(--radius-media);
+    background: var(--bg-secondary); /* while loading */
+  }
+  .media__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center; /* Figma crops are centred */
+  }
+</style>

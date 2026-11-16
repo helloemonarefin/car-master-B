@@ -32,6 +32,8 @@ export interface SiteFacts {
   hours: string[];
   /** Places served; joined with " · " where shown. */
   serviceArea: string[];
+  /** Year the business started (#years, "Since 2014"). */
+  foundedYear: number;
   /** #rating, e.g. 4.9 */
   rating: number;
   /** Number of reviews behind the rating. */
@@ -57,6 +59,7 @@ export const site: SiteFacts = {
   address: ['15820 N Calder Way, Suite 4', 'Scottsdale, AZ 85260'],
   hours: ['Mon–Fri, by appointment'],
   serviceArea: ['Scottsdale', 'Paradise Valley', 'Phoenix', 'Fountain Hills', 'Cave Creek', 'Carefree'],
+  foundedYear: 2014,
   rating: 4.9,
   reviewCount: 212,
   reviewSource: 'Google',

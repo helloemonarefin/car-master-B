@@ -1,0 +1,111 @@
+---
+/**
+ * Service card — DESIGN_SYSTEM §6, Figma "Service card" (292:2066).
+ * Image 416 × 440 (r4), gap 24, then: number + h4 title (gap 10, baseline),
+ * description (.t-body secondary), bullets (.t-body-sm, "—" marker, gap 10,
+ * padding 8/12), spacer, price row (top border subtle, padding-top 20,
+ * .t-h5 price + "Details →" link). Text block gap 12.
+ * Cards in a row share a height; the spacer pushes the price to the bottom.
+ */
+import Media from './Media.astro';
+import type { ServiceItem } from '../../content/types';
+
+interface Props {
+  item: ServiceItem;
+  /** 1-based position; shown as "01". */
+  index: number;
+  class?: string;
+}
+
+const { item, index, class: className } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<article class:list={['service-card', className]}>
+  <Media
+    image={item.image}
+    ratio="var(--ratio-service)"
+    widths={[400, 640, 832, 1248]}
+    sizes="(min-width: 1440px) 416px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 768px) calc((100vw - 56px) / 2), calc(100vw - 40px)"
+  />
+  <div class="service-card__text">
+    <h3 class="service-card__title">
+      <span class="t-small-strong service-card__num">{num}</span>
+      <span class="t-h4">{item.title}</span>
+    </h3>
+    <p class="t-body service-card__desc">{item.description}</p>
+    <ul role="list" class="service-card__bullets">
+      {item.bullets.map((b) => (
+        <li class="t-body-sm service-card__bullet">
+          <span class="service-card__dash" aria-hidden="true">—</span>
+          <span>{b}</span>
+        </li>
+      ))}
+    </ul>
+    <div class="service-card__spacer" aria-hidden="true"></div>
+    <div class="service-card__price">
+      <p class="t-h5">{item.price}</p>
+      <a class="t-small-strong service-card__link" href={item.link.href}>
+        {item.link.label}<span class="sr-only">: {item.title}</span>
+      </a>
+    </div>
+  </div>
+</article>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--card-media-gap);
+    height: 100%;
+  }
+  .service-card__text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--card-text-gap);
+  }
+  .service-card__title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--card-num-gap);
+    font: inherit;
+    color: var(--text-primary);
+  }
+  .service-card__num { color: var(--text-tertiary); flex: none; }
+  .service-card__desc { color: var(--text-secondary); }
+
+  .service-card__bullets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--bullet-gap);
+    padding-top: var(--bullets-pad-top);
+    padding-bottom: var(--bullets-pad-bottom);
+  }
+  .service-card__bullet {
+    display: flex;
+    gap: var(--bullet-dash-gap);
+    color: var(--text-nav);
+  }
+  .service-card__dash { flex: none; color: var(--text-placeholder); }
+
+  .service-card__spacer { flex: 1; }
+
+  .service-card__price {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding-top: var(--card-price-pad-top);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .service-card__link {
+    color: var(--text-nav);
+    white-space: nowrap;
+    transition: color var(--dur-fast) var(--ease-color);
+  }
+  .service-card__link:focus-visible { color: var(--text-primary); }
+  @media (hover: hover) and (pointer: fine) {
+    .service-card__link:hover { color: var(--text-primary); }
+  }
+</style>

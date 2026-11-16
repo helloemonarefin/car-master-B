@@ -1,0 +1,23 @@
+---
+/**
+ * Renders a page's section array in order. Maps each `type` to its
+ * component and passes the generated index number. Add new section
+ * types here as they are built.
+ */
+import Hero from './Hero.astro';
+import Problem from './Problem.astro';
+import Services from './Services.astro';
+import { numberSections } from '../../lib/sections';
+import type { SectionContent } from '../../content/types';
+
+interface Props { sections: SectionContent[] }
+const items = numberSections(Astro.props.sections);
+---
+
+{items.map(({ content, index }) => {
+  switch (content.type) {
+    case 'hero': return <Hero content={content} />;
+    case 'problem': return <Problem content={content} index={index} />;
+    case 'services': return <Services content={content} index={index} />;
+  }
+})}

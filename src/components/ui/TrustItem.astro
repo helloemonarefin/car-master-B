@@ -1,0 +1,22 @@
+---
+/** Trust item — DESIGN_SYSTEM §6: .t-label (tertiary) over .t-h5 value, gap 12, padding 28/32/36/0. */
+import type { TrustItem } from '../../content/types';
+interface Props { item: TrustItem }
+const { item } = Astro.props;
+---
+
+<div class="trust-item">
+  <dt class="t-label trust-item__label">{item.label}</dt>
+  <dd class="t-h5 trust-item__value">{item.value}</dd>
+</div>
+
+<style>
+  .trust-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--trust-pad);
+  }
+  .trust-item__label { color: var(--text-tertiary); }
+  .trust-item__value { margin: 0; color: var(--text-primary); }
+</style>

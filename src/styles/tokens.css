@@ -235,3 +235,32 @@
 @media (min-width: 1280px) {
   :root { --nav-link-gap: 32px; }
 }
+
+/* Phase 3 component tokens (Figma measurements; mobile values proposed) */
+:root {
+  /* Hero */
+  --hero-pad-top: 32px;        --hero-pad-bottom: 40px;   /* desktop 64 / 56 */
+  --hero-gap: 20px;            /* eyebrow → headline → support; desktop 28 */
+  --hero-support-pad-top: 0px; /* desktop 12 */
+  --ratio-hero-current: 4 / 3; /* below 768 (proposed): 1312/600 is too thin on a phone */
+  --trust-strip-pad-y: 8px;
+  /* Stat */
+  --stat-pad-top: 28px; --stat-gap: 16px;
+  --stat-row-gap: 40px;        /* stacked stats, below 768 (proposed) */
+  /* Service card */
+  --card-media-gap: 24px;      /* image → text */
+  --card-text-gap: 12px;
+  --card-num-gap: 10px;        /* "01" → title */
+  --bullets-pad-top: 8px; --bullets-pad-bottom: 12px;
+  --bullet-dash-gap: 12px;
+  --card-price-pad-top: 20px;
+}
+@media (min-width: 768px) {
+  :root { --ratio-hero-current: var(--ratio-hero); }
+}
+@media (min-width: 1024px) {
+  :root {
+    --hero-pad-top: 64px; --hero-pad-bottom: 56px;
+    --hero-gap: 28px; --hero-support-pad-top: 12px;
+  }
+}

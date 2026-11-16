@@ -123,3 +123,17 @@ Phase 2 (2026-11-16):
 - 2026-11-16 — **Styleguide states**: components accept `data-force="hover|focus"` to show states statically.
 - 2026-11-16 — **Known render difference**: Inter text renders ~1% narrower than in Figma (e.g. nav link row 531 vs 536px, wordmark ~8px shorter at 104px). Same font family/weights/tracking; a font-build difference, not a token issue.
 - 2026-11-16 — **To check in Phase 3**: Final CTA layer names mention a different city ("Southlake", "Tue–Sat 8am–5pm") — verify the real text before wiring it to `site.ts`.
+
+Phase 3 — Hero, Problem, Services (2026-11-16):
+
+- 2026-11-16 — **Owner defaults pending answers** (Phase 2 questions not yet answered; easy to change): (1) headings use `text-wrap: balance` below 1024 only, so desktop keeps Figma's line breaks; (2) icons keep the 1.5px spec stroke; (3) nav stays sticky; (4) "Privacy" stays plain text; (5) `site.ts` wins over other copies of client facts.
+- 2026-11-16 — **Section architecture**: `src/content/types.ts` (one interface per section type, copy limits as comments), `home.ts` exports the ordered `sections` array, `src/components/sections/Sections.astro` maps `type` → component, `src/lib/sections.ts` generates (01), (02)… (hero not counted). Section ids: `<id>-title` for `aria-labelledby`.
+- 2026-11-16 — **Client facts in copy**: hero eyebrow uses `site.city`, trust "Rating" value is built from `site.rating/reviewCount/reviewSource`, "Since {site.foundedYear}" (new `foundedYear` field). Hero primary CTA reuses `nav.cta`.
+- 2026-11-16 — **Hero headline is 54 chars**, over the DS §8 limit (≤ 45). Kept as in Figma; limit comment left on the type.
+- 2026-11-16 — **Images** saved from Figma's original fills (2400px) to `src/assets/home/`; `Media.astro` renders them with `object-fit: cover; object-position: center` (verified: Figma crops are centred). Hero eager + `fetchpriority="high"`, rest lazy.
+- 2026-11-16 — **Hero image tone**: Figma's rendered hero is ~13% darker than its source photo (an image adjustment inside Figma, not exposed in code). The site uses the original photo unadjusted — pending owner decision.
+- 2026-11-16 — **Service "Details →" links**: PPF → `/protection`, Ceramic → `/coatings`, Track & Partial → `/protection`. Link text gets an sr-only ": {title}" so the three links have distinct names. The "→" is text, as in Figma.
+- 2026-11-16 — **Service cards**: number "01"… generated from order; title is an `<h3>` holding number + `.t-h4`; a flex spacer pushes the price row down (Figma uses a fixed 351px text block, 4px taller than its content — not copied).
+- 2026-11-16 — **Font build**: tested Fontsource's variable Inter (with the `opsz` axis). It made 64px headings narrower than Figma ("The desert is hard on paint." fit on one line; Figma wraps). Reverted to the static 300/400/500 files, which match Figma's line breaks. Residual: Figma appears to use an older Inter build — large text renders ~1.8% narrower here (hero line 1: 1240 vs ~1263px), small text ~0.3% wider; so the 2nd PPF bullet wraps (390.3px needed, 389 available) and the "→" glyph is longer. Only fix would be self-hosting Inter 3.x (owner decision).
+- 2026-11-16 — **Mobile (proposed, refine in Phase 4)**: hero padding 32/40, gap 20; hero image 4:3 below 768; trust items stacked below 768, 3 across from 768; stats stacked (gap 40) below 768, 3 across from 768; service cards 1 col, 2 from 768 (DS §4), row gap 56.
+- 2026-11-16 — **OG image** now generated from `src/assets/home/hero.jpg` + business name.

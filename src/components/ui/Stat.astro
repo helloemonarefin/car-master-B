@@ -1,0 +1,23 @@
+---
+/** Stat — DESIGN_SYSTEM §6: top border default, padding-top 28, .t-stat number, .t-body caption (secondary), gap 16. */
+import type { StatItem } from '../../content/types';
+interface Props { item: StatItem; class?: string }
+const { item, class: className } = Astro.props;
+---
+
+<div class:list={['stat', className]}>
+  <dt class="t-stat stat__value">{item.value}</dt>
+  <dd class="t-body stat__caption">{item.caption}</dd>
+</div>
+
+<style>
+  .stat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--stat-gap);
+    padding-top: var(--stat-pad-top);
+    border-top: var(--border-width) solid var(--border-default);
+  }
+  .stat__value { color: var(--text-primary); }
+  .stat__caption { margin: 0; color: var(--text-secondary); }
+</style>

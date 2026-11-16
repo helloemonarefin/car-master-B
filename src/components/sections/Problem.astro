@@ -1,0 +1,31 @@
+---
+/**
+ * Problem — Figma "Problem" (292:121). --bg-raised, section padding 160,
+ * header → stats gap 80. Section header (index, h2, intro) + 3 stats
+ * across (4 columns each, gap 32).
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import Stat from '../ui/Stat.astro';
+import type { ProblemContent } from '../../content/types';
+
+interface Props { content: ProblemContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section section--raised problem" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+    <dl class="grid problem__stats">
+      {c.stats.map((s) => <Stat item={s} class="span-4" />)}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .problem__stats { row-gap: var(--stat-row-gap); }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .problem__stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .problem__stats > :global(*) { grid-column: auto; }
+  }
+</style>
