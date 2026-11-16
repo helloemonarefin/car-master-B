@@ -172,7 +172,7 @@ export interface PortfolioContent {
   label: string;
   title: string;
   intro?: string;
-  /** 3 or 6 (rows of 3) */
+  /** Multiples of 3 (rows of 3): 6 on Home, 9 on the Portfolio page */
   items: WorkItem[];
   link?: Cta;
 }
