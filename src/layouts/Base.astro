@@ -10,6 +10,7 @@ import '../styles/typography.css';
 import '../styles/global.css';
 import '../styles/motion.css';
 import { site } from '../content/site';
+import { cleanPath } from '../lib/url';
 
 interface Props {
   /** Page title; the business name is appended unless it is already the full title. ≤ 60 chars total. */
@@ -29,7 +30,7 @@ const {
 } = Astro.props;
 
 const fullTitle = title ? `${title} — ${site.businessName}` : site.seo.defaultTitle;
-const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const canonical = new URL(cleanPath(Astro.url.pathname), Astro.site).href;
 const ogImageUrl = new URL(ogImage, Astro.site).href;
 ---
 

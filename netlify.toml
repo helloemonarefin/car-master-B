@@ -1,0 +1,13 @@
+# Netlify — static output (BOILERPLATE §4.11). Do not deploy until the owner says so.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"   # Astro 7 needs Node 22.23+
+
+# Hashed build assets (CSS, JS, fonts, optimised images) never change: cache for a year.
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

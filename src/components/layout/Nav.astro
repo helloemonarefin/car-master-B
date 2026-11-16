@@ -13,6 +13,7 @@ import Logo from '../ui/Logo.astro';
 import Button from '../ui/Button.astro';
 import { nav } from '../../content/layout';
 import { site } from '../../content/site';
+import { cleanPath } from '../../lib/url';
 
 interface Props {
   /** Home only: the nav drops in on page load (BOILERPLATE §7.5). */
@@ -22,9 +23,8 @@ interface Props {
 }
 const { intro = false, cta = nav.cta } = Astro.props;
 
-const strip = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
-const current = strip(Astro.url.pathname);
-const isCurrent = (href: string) => href !== '' && strip(href) === current;
+const current = cleanPath(Astro.url.pathname);
+const isCurrent = (href: string) => href !== '' && cleanPath(href) === current;
 ---
 
 <header class:list={['nav', { 'nav--intro': intro }]} data-nav style={`--link-count: ${nav.links.length}`}>

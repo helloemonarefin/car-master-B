@@ -19,7 +19,7 @@
   --text-primary:     var(--brand-ink);
   --text-nav:         rgb(var(--brand-ink-rgb) / 0.82); /* nav + footer links */
   --text-secondary:   rgb(var(--brand-ink-rgb) / 0.66); /* paragraphs */
-  --text-tertiary:    rgb(var(--brand-ink-rgb) / 0.46); /* labels, indexes, meta */
+  --text-tertiary:    rgb(var(--brand-ink-rgb) / 0.60); /* labels, indexes, meta. Figma 0.46 = 3.0:1 → 0.60 = 4.5:1 on all light bgs (WCAG AA, 2026-11-17) */
   --text-placeholder: rgb(var(--brand-ink-rgb) / 0.35); /* inputs, decorative dashes */
   --text-inverse:     #FFFFFF;                           /* on primary button */
   --text-accent:      var(--brand-accent);
@@ -27,7 +27,7 @@
   /* Text on the dark section */
   --text-on-dark:           var(--brand-paper);
   --text-on-dark-secondary: rgb(var(--brand-on-dark-rgb) / 0.66);
-  --text-on-dark-tertiary:  rgb(var(--brand-on-dark-rgb) / 0.46);
+  --text-on-dark-tertiary:  rgb(var(--brand-on-dark-rgb) / 0.50); /* Figma 0.46 = 4.3:1 → 0.50 = 4.5:1+ on ink (WCAG AA, 2026-11-17) */
 
   /* ---------- Backgrounds ---------- */
   --bg-primary:   var(--brand-paper); /* #FCFCFC: hero, services, process, FAQ */

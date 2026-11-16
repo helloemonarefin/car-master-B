@@ -18,7 +18,7 @@ interface Props {
 
 const { href, label = `${site.businessName} — home`, class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'span';
-const a11y = href ? { href, 'aria-label': label } : { role: 'img', 'aria-label': site.businessName };
+const a11y = href ? { href, 'aria-label': label } : { role: 'img' as const, 'aria-label': site.businessName };
 // The inline SVG is decorative; the wrapper carries the name.
 const svg = logoSvg.replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 ---

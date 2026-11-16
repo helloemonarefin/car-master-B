@@ -1,0 +1,35 @@
+---
+/** 404 — Base + Nav + Footer (BUILD_PROMPT Phase 7). Uses the inner-page hero text styles. */
+import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import ButtonPair from '../components/ui/ButtonPair.astro';
+import { notFound as c } from '../content/pages/notFound';
+---
+
+<Base title="Page not found" noindex>
+  <Nav />
+  <main>
+    <section class="not-found" aria-labelledby="nf-title">
+      <div class="container not-found__inner">
+        <p class="t-label not-found__eyebrow" data-intro style="--i:0">{c.eyebrow}</p>
+        <h1 id="nf-title" class="t-page-hero" data-intro style="--i:1">{c.title}</h1>
+        <p class="t-body-lg not-found__text" data-intro style="--i:2">{c.text}</p>
+        <ButtonPair primary={c.primary} secondary={{ ...c.secondary, icon: 'arrow-right' }} data-intro style="--i:3" />
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>
+
+<style>
+  .not-found { padding-block: var(--hero-pad-top) var(--section-pad); }
+  .not-found__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--hero-gap);
+  }
+  .not-found__eyebrow, .not-found__text { color: var(--text-secondary); }
+  .not-found__text { max-width: var(--offer-note-max); }
+</style>
