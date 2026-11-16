@@ -1,11 +1,22 @@
 ---
 /**
- * FAQ item — DESIGN_SYSTEM §6, Figma "FAQ item" (24:888).
+ * FAQ item — DESIGN_SYSTEM §6, Figma "FAQ item" (24:888); accordion approved
+ * by the owner 2026-11-17.
  * Padding 28/0, top border subtle (list adds the last bottom border).
  * Question row: .t-h5 text + 24px plus/minus icon, gap 24. Answer (.t-body-lg
  * secondary, max 600) opens below with gap 14.
- * Behaviour: a real <button aria-expanded> controls a region. Phase 3 = instant
- * open/close; the animated-height version is proposed in Phase 5.
+ *
+ * Behaviour:
+ * - A real <button aria-expanded> controls a role="region"; aria-expanded is
+ *   the style hook. Several answers can be open at once.
+ * - Height animates with the grid-rows technique (0fr ↔ 1fr): no measuring JS.
+ *   Open: --dur-accordion + --ease-smooth, the text fades in and rises
+ *   --faq-answer-rise. Close: --dur-base + --ease-in (things leaving, §7.2).
+ * - Closed answers get visibility: hidden after the close, so they are out of
+ *   the tab order and the accessibility tree.
+ * - No JS (no `html.js`): every answer is shown. Reduced motion: instant.
+ * - Icon: one plus; its vertical line rotates and fades to make the minus.
+ * - Hover (approved): the question dims to --text-nav.
  */
 import Icon from './Icon.astro';
 import type { FaqItem } from '../../content/types';
@@ -16,7 +27,7 @@ const qId = `${id}-q`;
 const aId = `${id}-a`;
 ---
 
-<li class="faq-item" data-faq-item data-reveal>
+<li class="faq-item" data-reveal>
   <h3 class="faq-item__heading">
     <button
       class="faq-item__q t-h5"
@@ -27,14 +38,13 @@ const aId = `${id}-a`;
       data-faq-toggle
     >
       <span class="faq-item__q-text">{item.question}</span>
-      <span class="faq-item__icon" aria-hidden="true">
-        <Icon name="plus" class="faq-item__plus" />
-        <Icon name="minus" class="faq-item__minus" />
-      </span>
+      <span class="faq-item__icon" aria-hidden="true"><Icon name="plus" /></span>
     </button>
   </h3>
-  <div class="faq-item__a" id={aId} role="region" aria-labelledby={qId} hidden={!open}>
-    <p class="t-body-lg faq-item__a-text">{item.answer}</p>
+  <div class="faq-item__a" id={aId} role="region" aria-labelledby={qId}>
+    <div class="faq-item__a-inner">
+      <p class="t-body-lg faq-item__a-text">{item.answer}</p>
+    </div>
   </div>
 </li>
 
@@ -46,6 +56,7 @@ const aId = `${id}-a`;
   .faq-item:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
   .faq-item__heading { font: inherit; }
 
+  /* ---------- Question ---------- */
   .faq-item__q {
     display: flex;
     align-items: center;
@@ -54,25 +65,74 @@ const aId = `${id}-a`;
     text-align: left;
     color: var(--text-primary);
     -webkit-tap-highlight-color: transparent;
+    transition: color var(--dur-fast) var(--ease-color);
   }
   .faq-item__q-text { flex: 1; min-width: 0; }
-  .faq-item__icon { display: grid; flex: none; }
-  .faq-item__icon > :global(svg) { grid-area: 1 / 1; }
-  .faq-item__q[aria-expanded='true'] :global(.faq-item__plus),
-  .faq-item__q[aria-expanded='false'] :global(.faq-item__minus) { visibility: hidden; }
+  .faq-item__q:focus-visible { color: var(--text-nav); }
+  @media (hover: hover) and (pointer: fine) {
+    .faq-item__q:hover { color: var(--text-nav); }
+  }
 
-  .faq-item__a { padding-top: var(--faq-answer-gap); }
-  .faq-item__a-text { max-width: var(--faq-answer-max); color: var(--text-secondary); }
+  /* Plus → minus: the vertical stroke turns flat and fades out. */
+  .faq-item__icon { display: grid; flex: none; }
+  .faq-item__icon :global(path:first-child) {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition:
+      rotate var(--dur-icon) var(--ease-smooth),
+      opacity var(--dur-icon) var(--ease-smooth);
+  }
+  .faq-item__q[aria-expanded='true'] .faq-item__icon :global(path:first-child) {
+    rotate: 90deg;
+    opacity: 0;
+  }
+
+  /* ---------- Answer ---------- */
+  .faq-item__a {
+    display: grid;
+    grid-template-rows: 1fr;
+  }
+  .faq-item__a-inner { min-height: 0; overflow: hidden; }
+  .faq-item__a-text {
+    max-width: var(--faq-answer-max);
+    padding-top: var(--faq-answer-gap); /* inside the clip, so it collapses too */
+    color: var(--text-secondary);
+  }
+
+  /* With JS: open state follows aria-expanded on the button. */
+  :global(html.js) .faq-item__a {
+    visibility: visible;
+    transition:
+      grid-template-rows var(--dur-accordion) var(--ease-smooth),
+      visibility 0s;
+  }
+  :global(html.js) .faq-item__a-text {
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity var(--dur-accordion) var(--ease-smooth),
+      translate var(--dur-accordion) var(--ease-smooth);
+  }
+  :global(html.js) .faq-item__heading:has([aria-expanded='false']) + .faq-item__a {
+    grid-template-rows: 0fr;
+    visibility: hidden;
+    transition:
+      grid-template-rows var(--dur-base) var(--ease-in),
+      visibility 0s linear var(--dur-base);
+  }
+  :global(html.js) .faq-item__heading:has([aria-expanded='false']) + .faq-item__a .faq-item__a-text {
+    opacity: 0.001;
+    translate: 0 var(--faq-answer-rise);
+    transition:
+      opacity var(--dur-base) var(--ease-in),
+      translate var(--dur-base) var(--ease-in);
+  }
 </style>
 
 <script>
   document.querySelectorAll<HTMLButtonElement>('[data-faq-toggle]').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const panel = document.getElementById(btn.getAttribute('aria-controls') ?? '');
-      if (!panel) return;
-      const open = btn.getAttribute('aria-expanded') !== 'true';
-      btn.setAttribute('aria-expanded', String(open));
-      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(btn.getAttribute('aria-expanded') !== 'true'));
     });
   });
 </script>

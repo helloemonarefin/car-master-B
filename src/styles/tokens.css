@@ -176,6 +176,7 @@
   --method-indent: 0px;         /* desktop 176 */
   /* FAQ */
   --faq-answer-gap: 14px; --faq-answer-max: 600px;
+  --faq-answer-rise: 8px;      /* answer text rises this far as it opens (approved 2026-11-17) */
   /* Form field */
   --field-pad-b: 14px;
   /* Testimonial stars */
