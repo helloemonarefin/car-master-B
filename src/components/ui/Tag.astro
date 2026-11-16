@@ -1,0 +1,35 @@
+---
+/**
+ * Tag — DESIGN_SYSTEM §6, Figma "Included" (outline) / "Bonus · $600 value" (filled).
+ * Padding 6/12, pill, 13 Medium. Outline: 1px --border-default (30 high);
+ * filled: ink background, white text (28 high). Not interactive.
+ */
+interface Props {
+  label: string;
+  variant?: 'outline' | 'filled';
+  class?: string;
+}
+
+const { label, variant = 'outline', class: className } = Astro.props;
+---
+
+<span class:list={['tag', `tag--${variant}`, 't-tag', className]}>{label}</span>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    flex: none;
+    white-space: nowrap;
+    padding: var(--tag-pad-y) var(--tag-pad-x);
+    border-radius: var(--radius-pill);
+  }
+  .tag--outline {
+    color: var(--text-primary);
+    border: var(--border-width) solid var(--border-default);
+  }
+  .tag--filled {
+    color: var(--text-inverse);
+    background: var(--brand-ink);
+  }
+</style>

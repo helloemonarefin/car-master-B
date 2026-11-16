@@ -19,6 +19,8 @@ export interface SiteFacts {
   tagline: string;
   /** #city */
   city: string;
+  /** State / region abbreviation, shown after the city ("Scottsdale, AZ"). */
+  region: string;
   /** #phone, as displayed. */
   phone: string;
   /** tel: href form of the phone, digits only with country code. */
@@ -28,7 +30,8 @@ export interface SiteFacts {
   address: string[];
   /** Opening hours lines. */
   hours: string[];
-  serviceArea: string;
+  /** Places served; joined with " · " where shown. */
+  serviceArea: string[];
   /** #rating, e.g. 4.9 */
   rating: number;
   /** Number of reviews behind the rating. */
@@ -45,18 +48,19 @@ export interface SiteFacts {
 
 export const site: SiteFacts = {
   businessName: 'Northvale Atelier',
-  tagline: '', // TODO Phase 2/3: from Figma if shown
+  tagline: 'Paint protection for cars that matter.', // footer brand line, ≤ 60 chars
   city: 'Scottsdale',
-  phone: '', // TODO Phase 2/3: from Figma footer / FAQ
-  phoneHref: '',
-  email: '', // TODO Phase 2/3
-  address: [], // TODO Phase 2/3
-  hours: [], // TODO Phase 2/3
-  serviceArea: '', // TODO Phase 2/3
+  region: 'AZ',
+  phone: '(480) 555-0142',
+  phoneHref: 'tel:+14805550142',
+  email: 'studio@northvaleatelier.com',
+  address: ['15820 N Calder Way, Suite 4', 'Scottsdale, AZ 85260'],
+  hours: ['Mon–Fri, by appointment'],
+  serviceArea: ['Scottsdale', 'Paradise Valley', 'Phoenix', 'Fountain Hills', 'Cave Creek', 'Carefree'],
   rating: 4.9,
   reviewCount: 212,
   reviewSource: 'Google',
-  social: [], // TODO Phase 2/3
+  social: [], // none shown in Figma
   seo: {
     defaultTitle: 'Northvale Atelier', // TODO: confirm SEO title with owner
     defaultDescription:

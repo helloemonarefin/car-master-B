@@ -1,0 +1,89 @@
+---
+/**
+ * Button — DESIGN_SYSTEM §6, Figma "Button / Primary" + "Button / Outline".
+ * md: 52 high, 0/24 padding, 15 Medium. sm: 40 high, 0/20, 14 Medium. Pill.
+ * Hover (proposed, not designed): colour change only, 200ms. No chip sweep.
+ * `<a>` with href, otherwise `<button>`.
+ */
+import Icon, { type IconName } from './Icon.astro';
+
+interface Props {
+  label: string;
+  variant?: 'primary' | 'outline';
+  size?: 'md' | 'sm';
+  href?: string;
+  external?: boolean;
+  /** Trailing icon (Figma outline button uses arrow-right). */
+  icon?: IconName;
+  type?: 'button' | 'submit';
+  class?: string;
+  /** Styleguide only: show a state without interaction. */
+  'data-force'?: 'hover' | 'focus';
+  [key: string]: unknown;
+}
+
+const {
+  label,
+  variant = 'primary',
+  size = 'md',
+  href,
+  external = false,
+  icon,
+  type = 'button',
+  class: className,
+  ...rest
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+const tagProps = href
+  ? { href, ...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {}) }
+  : { type };
+---
+
+<Tag class:list={['btn', `btn--${variant}`, `btn--${size}`, size === 'sm' ? 't-button-sm' : 't-button', className]} {...tagProps} {...rest}>
+  <span class="btn__label">{label}</span>
+  {icon && <Icon name={icon} />}
+  {external && <span class="sr-only"> (opens in a new tab)</span>}
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--btn-icon-gap);
+    flex: none;
+    white-space: nowrap;
+    border-radius: var(--radius-pill);
+    border: var(--border-width) solid transparent;
+    -webkit-tap-highlight-color: transparent;
+    transition:
+      background-color var(--dur-fast) var(--ease-color),
+      border-color var(--dur-fast) var(--ease-color),
+      color var(--dur-fast) var(--ease-color);
+  }
+  .btn--md { height: var(--btn-h-md); padding-inline: var(--btn-pad-x-md); }
+  .btn--sm { height: var(--btn-h-sm); padding-inline: var(--btn-pad-x-sm); }
+
+  .btn--primary {
+    background: var(--button-primary-bg);
+    color: var(--button-primary-text);
+    border-width: 0;
+  }
+  .btn--outline {
+    background: transparent;
+    color: var(--button-outline-text);
+    border-color: var(--button-outline-border);
+  }
+
+  /* Hover twin: focus-visible (outside the hover query) + styleguide force. */
+  .btn--primary:focus-visible,
+  .btn--primary[data-force] { background: var(--button-primary-bg-hover); }
+  .btn--outline:focus-visible,
+  .btn--outline[data-force] { background: var(--button-outline-bg-hover); }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn--primary:hover { background: var(--button-primary-bg-hover); }
+    .btn--outline:hover { background: var(--button-outline-bg-hover); }
+  }
+</style>

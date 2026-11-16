@@ -5,6 +5,17 @@
  * Components are added here in Phase 2.
  */
 import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Logo from '../components/ui/Logo.astro';
+import Icon from '../components/ui/Icon.astro';
+import Button from '../components/ui/Button.astro';
+import ButtonPair from '../components/ui/ButtonPair.astro';
+import TextLink from '../components/ui/TextLink.astro';
+import Tag from '../components/ui/Tag.astro';
+import SectionIndex from '../components/ui/SectionIndex.astro';
+import SectionHeader from '../components/ui/SectionHeader.astro';
+import FormField from '../components/ui/FormField.astro';
 
 const colorGroups: { name: string; tokens: string[]; dark?: boolean }[] = [
   { name: 'Brand', tokens: ['--brand-ink', '--brand-paper', '--brand-accent'] },
@@ -61,6 +72,7 @@ const gridCols = Array.from({ length: 12 }, (_, i) => i + 1);
     </div>
   </div>
 
+  <Nav />
   <main>
     <section class="section" aria-labelledby="sg-title">
       <div class="container section__inner">
@@ -72,6 +84,117 @@ const gridCols = Array.from({ length: 12 }, (_, i) => i + 1);
             Show grid overlay on the whole page
           </label>
         </header>
+      </div>
+    </section>
+
+    <!-- Components (Phase 2) -->
+    <section class="section" aria-labelledby="sg-components">
+      <div class="container section__inner">
+        <div>
+          <h2 id="sg-components" class="t-h3">Components</h2>
+          <p class="t-body sg-muted">Each state is shown statically (rest · hover · focus). Hover and Tab work live too.</p>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Logo</h3>
+          <div class="sg-row"><Logo /><Logo href="/" /></div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Icon (currentColor, --icon-stroke)</h3>
+          <div class="sg-row">
+            <span class="sg-cell"><Icon name="arrow-right" /><code class="t-small">arrow-right 18</code></span>
+            <span class="sg-cell"><Icon name="arrow-up-right" /><code class="t-small">arrow-up-right 16</code></span>
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Button / Primary — md, sm</h3>
+          <div class="sg-row">
+            <Button label="Request a Consultation" />
+            <Button label="Request a Consultation" data-force="hover" />
+            <Button label="Request a Consultation" data-force="focus" />
+          </div>
+          <div class="sg-row">
+            <Button label="Request a Consultation" size="sm" />
+            <Button label="Request a Consultation" size="sm" data-force="hover" />
+            <Button label="Request a Consultation" size="sm" data-force="focus" />
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Button / Outline — md (with icon), sm</h3>
+          <div class="sg-row">
+            <Button label="View the Portfolio" variant="outline" icon="arrow-right" />
+            <Button label="View the Portfolio" variant="outline" icon="arrow-right" data-force="hover" />
+            <Button label="View the Portfolio" variant="outline" icon="arrow-right" data-force="focus" />
+          </div>
+          <div class="sg-row">
+            <Button label="View the Portfolio" variant="outline" size="sm" />
+            <Button label="View the Portfolio" variant="outline" size="sm" data-force="hover" />
+            <Button label="View the Portfolio" variant="outline" size="sm" data-force="focus" />
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Button pair (gap 12, primary first)</h3>
+          <ButtonPair
+            primary={{ label: 'Request a Consultation', href: '#' }}
+            secondary={{ label: 'View the Portfolio', href: '#', icon: 'arrow-right' }}
+          />
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Text link</h3>
+          <div class="sg-row">
+            <TextLink label="See the full portfolio" href="#" />
+            <TextLink label="See the full portfolio" href="#" data-force="hover" />
+            <TextLink label="See the full portfolio" href="#" data-force="focus" />
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Tag — outline, filled</h3>
+          <div class="sg-row">
+            <Tag label="Included" />
+            <Tag label="Bonus · $600 value" variant="filled" />
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Section index (number generated from position)</h3>
+          <div class="sg-row">
+            <SectionIndex index={3} label="The Signature Program" />
+            <SectionIndex index={10} label="FAQ" />
+          </div>
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Section header (4 + 7 columns)</h3>
+          <SectionHeader
+            index={3}
+            label="The Signature Program"
+            title="The 10-Day Concours Shield"
+            intro="Full-body film, ceramic over the film, and a fully documented car, returned to your garage in 10 days."
+            id="sg-section-header"
+          />
+          <SectionHeader index={6} label="Portfolio" title="Recent work" id="sg-section-header-2" />
+        </div>
+
+        <div class="sg-group">
+          <h3 class="t-label sg-muted">Form field (rest · focus · error), two per row, gap 32</h3>
+          <div class="sg-fields">
+            <FormField label="Name" name="sg-name" placeholder="Your full name" autocomplete="name" />
+            <FormField label="Phone" name="sg-phone" type="tel" placeholder="(480) 555-0000" data-force="focus" />
+            <FormField label="Email" name="sg-email" type="email" placeholder="you@email.com" error="Enter a valid email address." />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--inverse" aria-labelledby="sg-dark">
+      <div class="container section__inner">
+        <SectionHeader index={8} label="Method" title="On the dark section" id="sg-dark" intro="Index, title and intro switch to the on-dark tokens." />
       </div>
     </section>
 
@@ -181,6 +304,7 @@ const gridCols = Array.from({ length: 12 }, (_, i) => i + 1);
       </div>
     </section>
   </main>
+  <Footer />
 </Base>
 
 <script>
@@ -205,6 +329,15 @@ const gridCols = Array.from({ length: 12 }, (_, i) => i + 1);
   .sg-head { display: flex; flex-direction: column; gap: var(--space-4); }
   .sg-toggle { display: inline-flex; align-items: center; gap: var(--space-2); min-height: var(--space-6); cursor: pointer; }
   .sg-group { display: flex; flex-direction: column; gap: var(--space-4); }
+  .sg-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-6); }
+  .sg-cell { display: inline-flex; align-items: center; gap: var(--space-2); }
+  .sg-fields {
+    display: grid;
+    gap: var(--space-8) var(--grid-gutter);
+  }
+  @media (min-width: 768px) {
+    .sg-fields { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
 
   /* Swatches */
   .sg-swatches {

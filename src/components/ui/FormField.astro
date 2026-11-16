@@ -1,0 +1,85 @@
+---
+/**
+ * Form field — DESIGN_SYSTEM §6, Figma "Field / Name".
+ * Label (.t-label, tertiary) over input (.t-input, placeholder --text-placeholder),
+ * gap 10, 1px --border-default underline, padding-bottom 14.
+ * Focus (proposed, not designed): underline turns full ink; no outline box.
+ * Input text is 17 on desktop, 16 on mobile (no iOS zoom).
+ */
+interface Props {
+  label: string;
+  name: string;
+  type?: 'text' | 'email' | 'tel';
+  placeholder?: string;
+  autocomplete?: string;
+  required?: boolean;
+  /** Visible error message (sets aria-invalid). */
+  error?: string;
+  class?: string;
+  'data-force'?: 'focus';
+}
+
+const {
+  label,
+  name,
+  type = 'text',
+  placeholder,
+  autocomplete,
+  required = false,
+  error,
+  class: className,
+  'data-force': force,
+} = Astro.props;
+
+const id = `field-${name}`;
+const errorId = `${id}-error`;
+---
+
+<div class:list={['field', className, { 'is-invalid': !!error }]} data-force={force}>
+  <label class="field__label t-label" for={id}>
+    {label}{required && <span class="sr-only"> (required)</span>}
+  </label>
+  <input
+    class="field__input t-input"
+    id={id}
+    name={name}
+    type={type}
+    placeholder={placeholder}
+    autocomplete={autocomplete}
+    required={required}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={error ? errorId : undefined}
+  />
+  {error && <p class="field__error t-small" id={errorId}>{error}</p>}
+</div>
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--field-gap);
+    padding-bottom: var(--field-pad-b);
+    border-bottom: var(--border-width) solid var(--border-default);
+    transition: border-color var(--dur-fast) var(--ease-color);
+  }
+  .field__label { color: var(--text-tertiary); }
+  .field__input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    border-radius: 0;
+    appearance: none;
+  }
+  .field__input::placeholder { color: var(--text-placeholder); opacity: 1; }
+
+  /* The underline is the focus indicator (WCAG: 3:1 change of a 1px → ink line). */
+  .field__input:focus-visible { outline: none; }
+  .field:focus-within,
+  .field[data-force] { border-bottom-color: var(--text-primary); }
+
+  .field.is-invalid { border-bottom-color: var(--text-primary); }
+  .field__error { color: var(--text-primary); }
+</style>

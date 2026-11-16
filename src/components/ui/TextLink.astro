@@ -1,0 +1,47 @@
+---
+/**
+ * Text link — DESIGN_SYSTEM §6, Figma "Reviews link".
+ * 14 Medium ink, 1px --border-link underline 6px below, arrow-up-right 16 (gap 8).
+ * Hover / focus: underline fades to full ink (200ms).
+ */
+import Icon from './Icon.astro';
+
+interface Props {
+  label: string;
+  href: string;
+  external?: boolean;
+  class?: string;
+  'data-force'?: 'hover' | 'focus';
+  [key: string]: unknown;
+}
+
+const { label, href, external = false, class: className, ...rest } = Astro.props;
+---
+
+<a
+  class:list={['text-link', 't-small-strong', className]}
+  href={href}
+  {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+  {...rest}
+>
+  <span>{label}</span>
+  <Icon name="arrow-up-right" size={16} />
+  {external && <span class="sr-only"> (opens in a new tab)</span>}
+</a>
+
+<style>
+  .text-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--link-icon-gap);
+    padding-bottom: var(--link-underline-gap);
+    color: var(--text-primary);
+    border-bottom: var(--border-width) solid var(--border-link);
+    transition: border-color var(--dur-fast) var(--ease-color);
+  }
+  .text-link:focus-visible,
+  .text-link[data-force] { border-color: var(--text-primary); }
+  @media (hover: hover) and (pointer: fine) {
+    .text-link:hover { border-color: var(--text-primary); }
+  }
+</style>

@@ -1,0 +1,37 @@
+---
+/**
+ * Logo — BOILERPLATE §2.14. One SVG (src/assets/brand/logo.svg, exported
+ * from Figma "Logo / Northvale", 128 × 28). Replace that file per client.
+ * Main word in currentColor; sub-line in --text-tertiary (DS §2: 55% → 46%).
+ */
+import logoSvg from '../../assets/brand/logo.svg?raw';
+import { site } from '../../content/site';
+
+interface Props {
+  /** Renders a link (e.g. "/") when set. */
+  href?: string;
+  /** Accessible name when linked. */
+  label?: string;
+  class?: string;
+}
+
+const { href, label = `${site.businessName} — home`, class: className } = Astro.props;
+const Tag = href ? 'a' : 'span';
+const a11y = href ? { href, 'aria-label': label } : { role: 'img', 'aria-label': site.businessName };
+// The inline SVG is decorative; the wrapper carries the name.
+const svg = logoSvg.replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
+---
+
+<Tag class:list={['logo', className]} {...a11y} set:html={svg} />
+
+<style>
+  .logo {
+    display: inline-flex;
+    flex: none;
+    width: var(--logo-w);
+    color: var(--text-primary);
+  }
+  .logo :global(svg) { width: 100%; height: auto; }
+  .logo :global(.logo__main) { fill: currentColor; }
+  .logo :global(.logo__sub) { fill: var(--text-tertiary); }
+</style>

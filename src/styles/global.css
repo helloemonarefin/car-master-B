@@ -98,6 +98,11 @@ html.is-locked { overflow: hidden; }
   outline-offset: var(--focus-ring-offset);
 }
 :focus:not(:focus-visible) { outline: none; }
+/* Styleguide only: show the focus state statically. */
+:is(a, button)[data-force="focus"] {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
 
 /* ---------- Screen-reader only ---------- */
 .sr-only {

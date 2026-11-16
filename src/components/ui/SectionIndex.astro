@@ -1,0 +1,38 @@
+---
+/**
+ * Section index — DESIGN_SYSTEM §6, Figma "Index".
+ * "(03)" in --text-tertiary + LABEL in --text-primary, both .t-label, gap 12,
+ * padding-top 14 on desktop (lines up with the h2 cap height).
+ * The number is generated from the section order — never typed.
+ */
+interface Props {
+  /** 1-based position in the section array. */
+  index: number;
+  label: string;
+  class?: string;
+}
+
+const { index, label, class: className } = Astro.props;
+const num = `(${String(index).padStart(2, '0')})`;
+---
+
+<p class:list={['section-index', 't-label', className]}>
+  <span class="section-index__num">{num}</span>
+  <span class="section-index__label">{label}</span>
+</p>
+
+<style>
+  .section-index {
+    display: flex;
+    gap: var(--index-gap);
+    color: var(--text-primary);
+  }
+  .section-index__num { color: var(--text-tertiary); flex: none; }
+  /* On the dark section the parent sets these via --text-on-dark tokens. */
+  :global(.section--inverse) .section-index { color: var(--text-on-dark); }
+  :global(.section--inverse) .section-index__num { color: var(--text-on-dark-tertiary); }
+
+  @media (min-width: 1024px) {
+    .section-index { padding-top: var(--index-pad-top); }
+  }
+</style>

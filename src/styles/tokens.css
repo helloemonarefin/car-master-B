@@ -154,7 +154,7 @@
   /* Text link */
   --link-underline-gap: 6px; --link-icon-size: 16px; --link-icon-gap: 8px;
   /* Tag */
-  --tag-h: 28px; --tag-pad-x: 12px;
+  --tag-pad-x: 12px;            /* height comes from --tag-pad-y + line height (see Phase 2 block) */
   /* Section index (01) LABEL */
   --index-gap: 12px; --index-pad-top: 14px;
   /* Split layout (label cols 1–4 / content cols 6–12) */
@@ -181,7 +181,7 @@
   /* Footer */
   --footer-pad-top: var(--section-pad);  /* mobile, proposed (desktop 96) */
   --footer-pad-bottom: 40px;
-  --footer-gap: 72px;
+  --footer-gap: 48px;          /* mobile, proposed (desktop 72) */
   /* Media aspect ratios (Figma image frames) */
   --ratio-hero: 1312 / 600;
   --ratio-service: 416 / 440;
@@ -213,5 +213,25 @@
     --guarantee-pad: 140px;
     --method-indent: 176px;
     --footer-pad-top: 96px;
+    --footer-gap: 72px;
   }
+}
+
+/* Phase 2 component tokens (Figma measurements, 2026-11-16) */
+:root {
+  --tag-pad-y: 6px;            /* filled tag = 28 high, outline = 30 (1px border), as in Figma */
+  --field-gap: 10px;           /* form label → input */
+  --nav-link-gap: 24px;        /* 1024–1279: keeps links centred without hitting logo/CTA (proposed) */
+  --menu-icon-w: 18px;         /* hamburger lines (proposed) */
+  --menu-icon-gap: 5px;
+  --menu-item-distance: 12px;
+  --menu-item-delay: 0.15s;
+  --menu-item-stagger: 0.05s;
+  --dur-menu-item: 500ms;
+  --footer-brand-gap: 20px;    /* logo → tagline */
+  --footer-info-gap: 10px;     /* label → value */
+  --logo-w: 128px;
+}
+@media (min-width: 1280px) {
+  :root { --nav-link-gap: 32px; }
 }

@@ -1,10 +1,13 @@
 ---
 // Temporary Home placeholder (Phase 1). Replaced by the section array in Phase 3.
 import Base from '../layouts/Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
 import { site } from '../content/site';
 ---
 
 <Base>
+  <Nav />
   <main>
     <section class="section" aria-labelledby="home-title">
       <div class="container">
@@ -12,4 +15,5 @@ import { site } from '../content/site';
       </div>
     </section>
   </main>
+  <Footer />
 </Base>

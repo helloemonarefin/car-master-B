@@ -1,0 +1,23 @@
+---
+/**
+ * Split — the Master B signature layout (DESIGN_SYSTEM §4), built once.
+ * Label in cols 1–4, column 5 empty, content in cols 6–12.
+ * Stacks below 1024 (label on top, gap 20). Uses .grid/.split from global.css.
+ *
+ * <Split>
+ *   <Fragment slot="aside">…</Fragment>
+ *   …main content…
+ * </Split>
+ */
+interface Props {
+  class?: string;
+  /** Element for the wrapper. */
+  as?: 'div' | 'header';
+}
+const { class: className, as: Tag = 'div' } = Astro.props;
+---
+
+<Tag class:list={['grid', 'split', className]}>
+  <div class="split__aside"><slot name="aside" /></div>
+  <div class="split__main"><slot /></div>
+</Tag>

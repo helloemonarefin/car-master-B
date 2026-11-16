@@ -1,0 +1,275 @@
+---
+/**
+ * Nav — DESIGN_SYSTEM §6 + Figma "Nav" (24:599); skeleton BOILERPLATE §2.3,
+ * mobile menu BOILERPLATE §1.8.
+ *
+ * Desktop (≥1024): height 88 (--nav-h), logo left, links centred (gap 32,
+ * .t-small-strong, --text-nav), small primary button right. A 1fr/auto/1fr
+ * grid keeps the links centred (Figma's 340/536/340 split).
+ * Below 1024: logo + menu button; the panel unrolls under the bar.
+ * Sticky with a solid --bg-primary background (proposed: see decisions log).
+ */
+import Logo from '../ui/Logo.astro';
+import Button from '../ui/Button.astro';
+import { nav } from '../../content/layout';
+import { site } from '../../content/site';
+
+const strip = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
+const current = strip(Astro.url.pathname);
+const isCurrent = (href: string) => href !== '' && strip(href) === current;
+---
+
+<header class="nav" data-nav>
+  <div class="container nav__row">
+    <Logo href="/" label={nav.homeLabel || undefined} class="nav__logo" />
+
+    <nav class="nav__links" aria-label="Main">
+      <ul role="list" class="nav__list">
+        {nav.links.map((l) => (
+          <li>
+            {l.href ? (
+              <a class="nav__link t-small-strong" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
+            ) : (
+              <span class="nav__link t-small-strong">{l.label}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <div class="nav__end">
+      <Button label={nav.cta.label} href={nav.cta.href} size="sm" class="nav__cta" />
+      <button
+        class="nav__menu"
+        type="button"
+        aria-label="Open menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="nav__menu-icon" aria-hidden="true"><span></span><span></span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="nav__panel" id="mobile-menu" data-menu-panel data-lenis-prevent inert>
+    <nav aria-label="Mobile">
+      <ul role="list" class="nav__panel-list">
+        {nav.links.map((l, i) => (
+          <li class="nav__anim" style={`--i:${i}`}>
+            {l.href ? (
+              <a class="nav__panel-link t-h3" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
+            ) : (
+              <span class="nav__panel-link t-h3">{l.label}</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="nav__panel-foot">
+      <div class="nav__anim nav__anim--up" style={`--i:${nav.links.length}`}>
+        <Button label={nav.cta.label} href={nav.cta.href} class="nav__panel-cta" />
+      </div>
+      {site.phone && (
+        <p class="nav__anim nav__anim--up t-small nav__panel-meta" style={`--i:${nav.links.length + 1}`}>
+          {site.city}{site.region && `, ${site.region}`} · <a href={site.phoneHref}>{site.phone}</a>
+        </p>
+      )}
+    </div>
+  </div>
+</header>
+
+<script>
+  import { lockScroll } from '../../scripts/scroll';
+
+  document.querySelectorAll<HTMLElement>('[data-nav]').forEach((nav) => {
+    const toggle = nav.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+    const panel = nav.querySelector<HTMLElement>('[data-menu-panel]');
+    if (!toggle || !panel) return;
+    const desktop = window.matchMedia('(min-width: 1024px)');
+
+    const focusables = () =>
+      [...nav.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')].filter(
+        (el) => !el.closest('[inert]') && el.offsetParent !== null,
+      );
+
+    const setOpen = (open: boolean, returnFocus = true) => {
+      nav.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      panel.inert = !open;
+      lockScroll(open);
+      if (open) panel.querySelector<HTMLElement>('a[href]')?.focus();
+      else if (returnFocus) toggle.focus();
+    };
+
+    toggle.addEventListener('click', () => setOpen(!nav.classList.contains('is-open')));
+    panel.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false, false)));
+
+    nav.addEventListener('keydown', (e) => {
+      if (!nav.classList.contains('is-open')) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setOpen(false);
+      } else if (e.key === 'Tab') {
+        const items = focusables();
+        const first = items[0];
+        const last = items[items.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
+    });
+
+    desktop.addEventListener('change', (e) => {
+      if (e.matches && nav.classList.contains('is-open')) setOpen(false, false);
+    });
+  });
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-nav);
+    background: var(--bg-primary);
+  }
+
+  .nav__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--nav-h);
+    padding-block: var(--nav-pad-y);
+  }
+
+  /* ---------- Desktop links ---------- */
+  .nav__links { display: none; }
+  .nav__list { display: flex; align-items: center; gap: var(--nav-link-gap); }
+  .nav__list > li { display: flex; } /* no line-height strut: list is exactly 20 high */
+  .nav__link {
+    display: inline-block;
+    color: var(--text-nav);
+    transition: color var(--dur-fast) var(--ease-color);
+  }
+  .nav__link[aria-current='page'],
+  a.nav__link:focus-visible { color: var(--text-primary); }
+
+  .nav__end { display: flex; align-items: center; justify-content: flex-end; }
+  .nav__end :global(.nav__cta) { display: none; }
+
+  @media (hover: hover) and (pointer: fine) {
+    a.nav__link:hover { color: var(--text-primary); }
+  }
+
+  @media (min-width: 1024px) {
+    .nav__row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      column-gap: var(--grid-gutter);
+    }
+    .nav__links { display: block; }
+    .nav__end :global(.nav__cta) { display: inline-flex; }
+    .nav__end .nav__menu { display: none; }
+  }
+
+  /* ---------- Menu button (below 1024) ---------- */
+  .nav__menu {
+    display: grid;
+    place-items: center;
+    width: var(--btn-h-sm);
+    height: var(--btn-h-sm);
+    margin-right: calc((var(--btn-h-sm) - var(--menu-icon-w)) / -2); /* icon lines up with the content edge */
+    color: var(--text-primary);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .nav__menu-icon {
+    position: relative;
+    width: var(--menu-icon-w);
+    height: calc(var(--menu-icon-gap) + var(--icon-stroke));
+  }
+  .nav__menu-icon span {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: var(--icon-stroke);
+    background: currentColor;
+    transition:
+      rotate var(--dur-icon) var(--ease-smooth),
+      top var(--dur-icon) var(--ease-smooth);
+  }
+  .nav__menu-icon span:first-child { top: 0; }
+  .nav__menu-icon span:last-child { top: var(--menu-icon-gap); }
+  .is-open .nav__menu-icon span { top: calc(var(--menu-icon-gap) / 2); }
+  .is-open .nav__menu-icon span:first-child { rotate: 45deg; }
+  .is-open .nav__menu-icon span:last-child { rotate: -45deg; }
+
+  /* ---------- Mobile panel (BOILERPLATE §1.8) ---------- */
+  .nav__panel {
+    --menu-close: calc(var(--dur-menu) * 0.5);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--space-10);
+    padding: var(--space-5) var(--side-pad) calc(var(--space-5) + env(safe-area-inset-bottom));
+    background: var(--bg-primary);
+    clip-path: inset(0 0 100% 0);
+    visibility: hidden;
+    transition:
+      clip-path var(--menu-close) var(--ease-smooth),
+      visibility 0s linear var(--menu-close);
+  }
+  .is-open .nav__panel {
+    clip-path: inset(0 0 0 0);
+    visibility: visible;
+    transition: clip-path var(--dur-menu) var(--ease-smooth), visibility 0s;
+  }
+  @media (min-width: 1024px) {
+    .nav__panel { display: none; }
+  }
+
+  /* Open list style (DS §5): top border per row, last row gets a bottom border. */
+  .nav__panel-list > li { border-top: var(--border-width) solid var(--border-subtle); }
+  .nav__panel-list > li:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
+  .nav__panel-link {
+    display: block;
+    padding-block: var(--space-4);
+    color: var(--text-nav);
+    transition: color var(--dur-fast) var(--ease-color);
+  }
+  .nav__panel-link[aria-current='page'],
+  a.nav__panel-link:focus-visible { color: var(--text-primary); }
+
+  .nav__panel-foot { display: flex; flex-direction: column; gap: var(--space-5); }
+  .nav__panel-foot :global(.nav__panel-cta) { width: 100%; }
+  .nav__panel-meta { color: var(--text-tertiary); }
+
+  /* Items: links slide in from the left, the rest rises. */
+  .nav__anim {
+    opacity: 0;
+    translate: calc(var(--menu-item-distance) * -1) 0;
+    transition:
+      opacity var(--menu-close) var(--ease-color),
+      translate var(--menu-close) var(--ease-color);
+  }
+  .nav__anim--up { translate: 0 var(--menu-item-distance); }
+  .is-open .nav__anim {
+    --d: calc(var(--menu-item-delay) + var(--i, 0) * var(--menu-item-stagger));
+    opacity: 1;
+    translate: 0 0;
+    transition:
+      opacity var(--dur-menu-item) var(--ease-smooth) var(--d),
+      translate var(--dur-menu-item) var(--ease-smooth) var(--d);
+  }
+</style>

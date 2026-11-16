@@ -1,0 +1,55 @@
+---
+/**
+ * Icon — BOILERPLATE §2.13. Inline SVG from a typed map, drawn in
+ * currentColor with the --icon-stroke token. Paths copied from Figma
+ * (Master B › Icon / arrowR, Icon / arrowUR). Decorative by default.
+ */
+const icons = {
+  'arrow-right': {
+    size: 18,
+    body: '<path d="M3 9H15"/><path d="M10.5 4.5L15 9L10.5 13.5"/>',
+  },
+  'arrow-up-right': {
+    size: 16,
+    body: '<path d="M4.66667 11.3333L11.3333 4.66667"/><path d="M5.33333 4.66667H11.3333V10.6667"/>',
+  },
+} as const;
+
+export type IconName = keyof typeof icons;
+
+interface Props {
+  name: IconName;
+  /** Rendered size in px; defaults to the Figma size of the icon. */
+  size?: number;
+  class?: string;
+  /** Give a label only when the icon stands alone. */
+  label?: string;
+}
+
+const { name, size, class: className, label } = Astro.props;
+const icon = icons[name];
+const px = size ?? icon.size;
+---
+
+<svg
+  class:list={['icon', className]}
+  width={px}
+  height={px}
+  viewBox={`0 0 ${icon.size} ${icon.size}`}
+  fill="none"
+  stroke="currentColor"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  aria-hidden={label ? undefined : 'true'}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  focusable="false"
+  set:html={icon.body}
+/>
+
+<style>
+  .icon {
+    flex: none;
+    stroke-width: var(--icon-stroke);
+  }
+</style>

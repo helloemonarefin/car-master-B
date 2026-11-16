@@ -1,0 +1,37 @@
+---
+/**
+ * Button pair — DESIGN_SYSTEM §6: gap 12, primary first.
+ * Wraps on narrow screens (proposed).
+ */
+import Button from './Button.astro';
+import type { IconName } from './Icon.astro';
+
+export interface ButtonItem {
+  label: string;
+  href: string;
+  icon?: IconName;
+}
+
+interface Props {
+  primary: ButtonItem;
+  secondary?: ButtonItem;
+  size?: 'md' | 'sm';
+  class?: string;
+}
+
+const { primary, secondary, size = 'md', class: className } = Astro.props;
+---
+
+<div class:list={['btn-pair', className]}>
+  <Button label={primary.label} href={primary.href} icon={primary.icon} size={size} />
+  {secondary && <Button label={secondary.label} href={secondary.href} icon={secondary.icon} size={size} variant="outline" />}
+</div>
+
+<style>
+  .btn-pair {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--btn-pair-gap);
+  }
+</style>
