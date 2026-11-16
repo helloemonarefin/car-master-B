@@ -126,7 +126,7 @@ Phase 2 (2026-11-16):
 
 Phase 3 — Hero, Problem, Services (2026-11-16):
 
-- 2026-11-16 — **Owner defaults pending answers** (Phase 2 questions not yet answered; easy to change): (1) headings use `text-wrap: balance` below 1024 only, so desktop keeps Figma's line breaks; (2) icons keep the 1.5px spec stroke; (3) nav stays sticky; (4) "Privacy" stays plain text; (5) `site.ts` wins over other copies of client facts.
+- 2026-11-16 — **Owner answers (Phase 2 questions)**: (1) heading wrapping left to agent judgment → `text-wrap: balance` below 1024 only, desktop keeps Figma's line breaks; (2) icons stay at the 1.5px spec stroke; (3) nav stays sticky; (4) "Privacy" stays plain text, no link; (5) not important → `site.ts` wins over other copies of client facts. (Owner)
 - 2026-11-16 — **Section architecture**: `src/content/types.ts` (one interface per section type, copy limits as comments), `home.ts` exports the ordered `sections` array, `src/components/sections/Sections.astro` maps `type` → component, `src/lib/sections.ts` generates (01), (02)… (hero not counted). Section ids: `<id>-title` for `aria-labelledby`.
 - 2026-11-16 — **Client facts in copy**: hero eyebrow uses `site.city`, trust "Rating" value is built from `site.rating/reviewCount/reviewSource`, "Since {site.foundedYear}" (new `foundedYear` field). Hero primary CTA reuses `nav.cta`.
 - 2026-11-16 — **Hero headline is 54 chars**, over the DS §8 limit (≤ 45). Kept as in Figma; limit comment left on the type.
