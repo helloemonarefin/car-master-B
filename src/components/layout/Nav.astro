@@ -165,6 +165,12 @@ const isCurrent = (href: string) => href !== '' && strip(href) === current;
     color: var(--text-nav);
     transition: color var(--dur-fast) var(--ease-color);
   }
+  /* Current page: full ink + the font's own underline, as in Figma. */
+  .nav__link[aria-current='page'] {
+    text-decoration-line: underline;
+    text-decoration-thickness: from-font;
+    text-underline-position: from-font;
+  }
   .nav__link[aria-current='page'],
   a.nav__link:focus-visible { color: var(--text-primary); }
 

@@ -1,15 +1,6 @@
 ---
-import Base from '../layouts/Base.astro';
-import Nav from '../components/layout/Nav.astro';
-import Footer from '../components/layout/Footer.astro';
-import Sections from '../components/sections/Sections.astro';
+import SectionsPage from '../layouts/SectionsPage.astro';
 import { sections, seo } from '../content/home';
 ---
 
-<Base title={seo.title || undefined} description={seo.description}>
-  <Nav intro />
-  <main>
-    <Sections sections={sections} />
-  </main>
-  <Footer />
-</Base>
+<SectionsPage sections={sections} seo={seo} navIntro />

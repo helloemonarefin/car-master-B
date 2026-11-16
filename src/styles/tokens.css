@@ -190,6 +190,7 @@
   --ratio-service: 416 / 440;
   --ratio-work: 416 / 312;
   --ratio-cta: 1312 / 520;
+  --ratio-page-hero: 1312 / 520;   /* inner-page hero image */
   /* Focus ring (proposed: not designed) */
   --tap-min: 24px;              /* minimum tap target (WCAG 2.5.8) */
   --focus-ring-width: 2px; --focus-ring-offset: 3px; --focus-ring-color: var(--text-primary);
@@ -283,6 +284,7 @@
   --hero-gap: 20px;            /* eyebrow → headline → support; desktop 28 */
   --hero-support-pad-top: 0px; /* desktop 12 */
   --ratio-hero-current: 4 / 3; /* below 768 (proposed): 1312/600 is too thin on a phone */
+  --ratio-page-hero-current: 4 / 3; /* inner-page hero, same rule */
   --trust-strip-pad-y: 8px;
   /* Stat */
   --stat-pad-top: 28px; --stat-gap: 16px;
@@ -294,10 +296,12 @@
   --bullets-pad-top: 8px; --bullets-pad-bottom: 12px;
   --bullet-dash-gap: 12px;
   --card-price-pad-top: 20px;
+  --service-text-min: 0px;      /* below 1024; desktop 351 = Figma's service text block */
 }
 @media (min-width: 768px) {
   :root {
     --ratio-hero-current: var(--ratio-hero);
+    --ratio-page-hero-current: var(--ratio-page-hero);
     --trust-pad: 28px 32px 36px 0;
     --step-num-w: 64px;
     --step-gap: 24px;
@@ -307,6 +311,7 @@
   :root {
     --hero-pad-top: 64px; --hero-pad-bottom: 56px;
     --hero-gap: 28px; --hero-support-pad-top: 12px;
+    --service-text-min: 351px;
   }
 }
 

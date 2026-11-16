@@ -29,6 +29,8 @@ export interface HeroContent {
   type: 'hero';
   /** Anchor id. */
   id: string;
+  /** home = .t-hero (112) + 1312 × 600 image; page = .t-page-hero (96) + 1312 × 520. Default home. */
+  variant?: 'home' | 'page';
   /** .t-label eyebrow, ≤ 40 chars */
   eyebrow: string;
   /** #headline. ≤ 45 chars (2 lines at 112 on desktop). */
@@ -74,7 +76,7 @@ export interface ServiceItem {
   bullets: string[];
   /** .t-h5, e.g. "From $6,800" */
   price: string;
-  /** "Details →" link. */
+  /** "Details →" link. Empty href = shown as plain text (no destination yet). */
   link: Cta;
   /** 416 × 440 */
   image: Picture;

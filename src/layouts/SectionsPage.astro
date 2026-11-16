@@ -1,0 +1,26 @@
+---
+/**
+ * A page made of a section array: Base + Nav + <main> sections + Footer.
+ * Home passes navIntro (the nav drops in on load); inner pages don't.
+ */
+import Base from './Base.astro';
+import Nav from '../components/layout/Nav.astro';
+import Footer from '../components/layout/Footer.astro';
+import Sections from '../components/sections/Sections.astro';
+import type { SectionContent } from '../content/types';
+
+interface Props {
+  sections: SectionContent[];
+  seo: { title: string; description: string };
+  navIntro?: boolean;
+}
+const { sections, seo, navIntro = false } = Astro.props;
+---
+
+<Base title={seo.title || undefined} description={seo.description}>
+  <Nav intro={navIntro} />
+  <main>
+    <Sections sections={sections} />
+  </main>
+  <Footer />
+</Base>
