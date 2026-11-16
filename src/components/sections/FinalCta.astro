@@ -20,15 +20,15 @@ const titleId = `${c.id}-title`;
 const L = c.detailLabels;
 ---
 
-<section class="section section--secondary final-cta" id={c.id} aria-labelledby={titleId}>
+<section class:list={['section', 'section--secondary', 'final-cta', { 'final-cta--no-image': !c.image }]} id={c.id} aria-labelledby={titleId}>
   <div class="container final-cta__inner">
-    <Media
+    {c.image && <Media
       image={c.image}
       ratio="var(--ratio-cta)"
       widths={[640, 960, 1312, 1920, 2400]}
       sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), calc(100vw - 40px)"
       data-reveal="media"
-    />
+    />}
 
     <div class="grid final-cta__layout">
       <div class="span-7 final-cta__main">
@@ -77,6 +77,8 @@ const L = c.detailLabels;
 </section>
 
 <style>
+  /* Without the image (Contact) the section starts with the form: 120 top on desktop (Figma). */
+  .final-cta--no-image { padding-top: var(--cta-pad-top-no-image); }
   .final-cta__inner {
     display: flex;
     flex-direction: column;

@@ -164,6 +164,7 @@
   /* Card grids */
   --card-gap: 16px;             /* mobile, proposed (desktop 32) */
   --gallery-row-gap: 40px;      /* mobile, proposed (desktop 56) */
+  --article-row-gap: 40px;      /* journal grid, mobile (proposed); desktop 64 */
   /* Service card */
   --bullet-gap: 10px;
   /* Process step */
@@ -191,6 +192,7 @@
   --ratio-work: 416 / 312;
   --ratio-cta: 1312 / 520;
   --ratio-page-hero: 1312 / 520;   /* inner-page hero image */
+  --ratio-article: 416 / 280;      /* journal article cards */
   /* Focus ring (proposed: not designed) */
   --tap-min: 24px;              /* minimum tap target (WCAG 2.5.8) */
   --focus-ring-width: 2px; --focus-ring-offset: 3px; --focus-ring-color: var(--text-primary);
@@ -251,6 +253,7 @@
     --nav-pad-y: 24px;
     --card-gap: 32px;
     --gallery-row-gap: 56px;
+    --article-row-gap: 64px;
     --guarantee-pad: 140px;
     --method-indent: 176px;
     --footer-pad-top: 96px;
@@ -353,6 +356,7 @@
   --cta-gap: var(--section-gap); /* image → layout; desktop 72 */
   --cta-stack-gap: 36px;         /* title → intro → form → button → note */
   --cta-intro-max: 560px;
+  --cta-pad-top-no-image: var(--section-pad); /* Contact; desktop 120 */
   --form-row-gap: 28px;
   /* Choice chips (form) */
   --chip-pad-y: 9px;             /* 9 + 19.6 + 9 + 2 border ≈ Figma 39 (text at 1.4, DS §10.7) */
@@ -361,5 +365,8 @@
   --chip-group-gap: 14px;        /* question → chips */
 }
 @media (min-width: 1024px) {
-  :root { --cta-gap: var(--space-18); }
+  :root {
+    --cta-gap: var(--space-18);
+    --cta-pad-top-no-image: 120px;
+  }
 }

@@ -1,0 +1,34 @@
+---
+/**
+ * Articles — Figma Journal "Articles" (304:3560). New block (Phase 6).
+ * --bg-raised, padding 160, gap 80. Section header + article cards
+ * (3 across, column gap 32, row gap 64). Below 1024: 1 column, 2 from 768.
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import ArticleCard from '../ui/ArticleCard.astro';
+import type { ArticlesContent } from '../../content/types';
+
+interface Props { content: ArticlesContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section section--raised articles" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+    <ul role="list" class="grid articles__grid">
+      {c.items.map((item) => <li class="span-4"><ArticleCard item={item} /></li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .articles__grid { row-gap: var(--article-row-gap); column-gap: var(--card-gap); align-items: start; }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .articles__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .articles__grid > :global(li) { grid-column: auto; }
+  }
+  @media (min-width: 1024px) {
+    .articles__grid { column-gap: var(--grid-gutter); }
+  }
+</style>

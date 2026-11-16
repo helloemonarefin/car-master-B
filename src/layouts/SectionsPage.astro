@@ -13,12 +13,14 @@ interface Props {
   sections: SectionContent[];
   seo: { title: string; description: string };
   navIntro?: boolean;
+  /** Per-page nav CTA override. */
+  navCta?: { label: string; href: string };
 }
-const { sections, seo, navIntro = false } = Astro.props;
+const { sections, seo, navIntro = false, navCta } = Astro.props;
 ---
 
 <Base title={seo.title || undefined} description={seo.description}>
-  <Nav intro={navIntro} />
+  <Nav intro={navIntro} cta={navCta} />
   <main>
     <Sections sections={sections} />
   </main>

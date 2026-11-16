@@ -8,6 +8,7 @@
  * Cards in a row share a height; the spacer pushes the price to the bottom.
  */
 import Media from './Media.astro';
+import ArrowLink from './ArrowLink.astro';
 import type { ServiceItem } from '../../content/types';
 
 interface Props {
@@ -45,13 +46,7 @@ const num = String(index).padStart(2, '0');
     <div class="service-card__spacer" aria-hidden="true"></div>
     <div class="service-card__price">
       <p class="t-h5">{item.price}</p>
-      {item.link.href ? (
-        <a class="t-small-strong service-card__link tap" href={item.link.href}>
-          {item.link.label}<span class="sr-only">: {item.title}</span>
-        </a>
-      ) : (
-        <span class="t-small-strong service-card__link service-card__link--static">{item.link.label}</span>
-      )}
+      <ArrowLink label={item.link.label} href={item.link.href} context={item.title} />
     </div>
   </div>
 </article>
@@ -104,28 +99,5 @@ const num = String(index).padStart(2, '0');
     padding-top: var(--card-price-pad-top);
     border-top: var(--border-width) solid var(--border-subtle);
   }
-  /* Hover (owner request 2026-11-16): text goes to full ink and a 1px
-     underline fades in, the same language as TextLink. No layout shift. */
-  .service-card__link {
-    color: var(--text-nav);
-    white-space: nowrap;
-    text-decoration-line: underline;
-    text-decoration-thickness: var(--border-width);
-    text-decoration-color: transparent;
-    text-underline-offset: var(--link-underline-gap);
-    transition:
-      color var(--dur-fast) var(--ease-color),
-      text-decoration-color var(--dur-fast) var(--ease-color);
-  }
-  .service-card__link:focus-visible,
-  .service-card__link[data-force] {
-    color: var(--text-primary);
-    text-decoration-color: currentColor;
-  }
-  @media (hover: hover) and (pointer: fine) {
-    .service-card__link:hover {
-      color: var(--text-primary);
-      text-decoration-color: currentColor;
-    }
-  }
+  /* "Details →" link styles live in ArrowLink.astro. */
 </style>

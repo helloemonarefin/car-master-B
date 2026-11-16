@@ -15,6 +15,7 @@ import Why from './Why.astro';
 import Testimonial from './Testimonial.astro';
 import Faq from './Faq.astro';
 import FinalCta from './FinalCta.astro';
+import Articles from './Articles.astro';
 import { numberSections } from '../../lib/sections';
 import type { SectionContent } from '../../content/types';
 
@@ -35,5 +36,6 @@ const items = numberSections(Astro.props.sections);
     case 'testimonial': return <Testimonial content={content} index={index} />;
     case 'faq': return <Faq content={content} index={index} />;
     case 'final-cta': return <FinalCta content={content} />;
+    case 'articles': return <Articles content={content} index={index} />;
   }
 })}

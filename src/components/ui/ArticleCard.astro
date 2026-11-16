@@ -1,0 +1,38 @@
+---
+/**
+ * Article card — Figma Journal "Article" (304:3569). New block (Phase 6).
+ * Image 416 × 280 (r4), then meta (.t-label tertiary), title (.t-h4),
+ * excerpt (.t-body secondary), "Read article →" (ArrowLink); gap 20.
+ */
+import Media from './Media.astro';
+import ArrowLink from './ArrowLink.astro';
+import type { ArticleItem } from '../../content/types';
+interface Props { item: ArticleItem; class?: string }
+const { item, class: className } = Astro.props;
+---
+
+<article class:list={['article-card', className]} data-reveal>
+  <Media
+    image={item.image}
+    ratio="var(--ratio-article)"
+    widths={[400, 640, 832, 1248]}
+    sizes="(min-width: 1440px) 416px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 768px) calc((100vw - 56px) / 2), calc(100vw - 40px)"
+  />
+  <p class="t-label article-card__meta">{item.meta}</p>
+  <h3 class="t-h4 article-card__title">{item.title}</h3>
+  <p class="t-body article-card__excerpt">{item.excerpt}</p>
+  <ArrowLink label={item.link.label} href={item.link.href} context={item.title} />
+</article>
+
+<style>
+  .article-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+  .article-card > :global(.media) { align-self: stretch; }
+  .article-card__meta { color: var(--text-tertiary); }
+  .article-card__title { color: var(--text-primary); }
+  .article-card__excerpt { color: var(--text-secondary); }
+</style>

@@ -272,8 +272,8 @@ export interface FormChoiceItem {
 export interface FinalCtaContent {
   type: 'final-cta';
   id: string;
-  /** 1312 × 520 */
-  image: Picture;
+  /** 1312 × 520. Optional: without it the section starts with the form (Contact page). */
+  image?: Picture;
   /** h2, ≤ 2 lines in 752px (~40 chars) */
   title: string;
   /** .t-body-lg, ≤ 2 lines in 560px */
@@ -290,6 +290,30 @@ export interface FinalCtaContent {
   detailLabels: { visit: string; contact: string; hours: string; serviceArea: string };
 }
 
+/* ---------- Articles (Journal) ---------- */
+export interface ArticleItem {
+  /** .t-label, e.g. "Care guide · 5 min read", ≤ 32 chars */
+  meta: string;
+  /** .t-h4, ≤ 2 lines in 416px (~48 chars) */
+  title: string;
+  /** .t-body, ≤ 3 lines (~120 chars) */
+  excerpt: string;
+  /** "Read article →". Empty href = plain text (no article pages yet). */
+  link: Cta;
+  /** 416 × 280 */
+  image: Picture;
+}
+
+export interface ArticlesContent {
+  type: 'articles';
+  id: string;
+  label: string;
+  title: string;
+  intro?: string;
+  /** Multiples of 3 (rows of 3) */
+  items: ArticleItem[];
+}
+
 /** Every section type a page can list. Extend as sections are built. */
 export type SectionContent =
   | HeroContent
@@ -302,4 +326,5 @@ export type SectionContent =
   | WhyContent
   | TestimonialContent
   | FaqContent
-  | FinalCtaContent;
+  | FinalCtaContent
+  | ArticlesContent;

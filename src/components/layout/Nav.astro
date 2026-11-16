@@ -17,8 +17,10 @@ import { site } from '../../content/site';
 interface Props {
   /** Home only: the nav drops in on page load (BOILERPLATE §7.5). */
   intro?: boolean;
+  /** Per-page CTA (e.g. "Call …" on Contact). Defaults to nav.cta. */
+  cta?: { label: string; href: string };
 }
-const { intro = false } = Astro.props;
+const { intro = false, cta = nav.cta } = Astro.props;
 
 const strip = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
 const current = strip(Astro.url.pathname);
@@ -44,7 +46,7 @@ const isCurrent = (href: string) => href !== '' && strip(href) === current;
     </nav>
 
     <div class="nav__end" data-nav-intro="cta">
-      <Button label={nav.cta.label} href={nav.cta.href} size="sm" class="nav__cta" />
+      <Button label={cta.label} href={cta.href} size="sm" class="nav__cta" />
       <button
         class="nav__menu"
         type="button"
@@ -74,7 +76,7 @@ const isCurrent = (href: string) => href !== '' && strip(href) === current;
     </nav>
     <div class="nav__panel-foot">
       <div class="nav__anim nav__anim--up" style={`--i:${nav.links.length}`}>
-        <Button label={nav.cta.label} href={nav.cta.href} class="nav__panel-cta" />
+        <Button label={cta.label} href={cta.href} class="nav__panel-cta" />
       </div>
       {site.phone && (
         <p class="nav__anim nav__anim--up t-small nav__panel-meta" style={`--i:${nav.links.length + 1}`}>

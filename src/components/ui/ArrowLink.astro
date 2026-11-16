@@ -1,0 +1,48 @@
+---
+/**
+ * Arrow link — the small "Details →" / "Read article →" link (Figma: 14
+ * Medium, --text-nav, the arrow is a text character). Hover/focus (owner
+ * request 2026-11-16): full ink + a 1px underline fades in, no layout shift.
+ * Without an href it renders plain text (no dead link).
+ */
+interface Props {
+  label: string;
+  href: string;
+  /** Extra screen-reader context so repeated labels stay distinct, e.g. the card title. */
+  context?: string;
+  class?: string;
+}
+const { label, href, context, class: className } = Astro.props;
+---
+
+{href ? (
+  <a class:list={['arrow-link', 't-small-strong', 'tap', className]} href={href}>
+    {label}{context && <span class="sr-only">: {context}</span>}
+  </a>
+) : (
+  <span class:list={['arrow-link', 'arrow-link--static', 't-small-strong', className]}>{label}</span>
+)}
+
+<style>
+  .arrow-link {
+    color: var(--text-nav);
+    white-space: nowrap;
+    text-decoration-line: underline;
+    text-decoration-thickness: var(--border-width);
+    text-decoration-color: transparent;
+    text-underline-offset: var(--link-underline-gap);
+    transition:
+      color var(--dur-fast) var(--ease-color),
+      text-decoration-color var(--dur-fast) var(--ease-color);
+  }
+  a.arrow-link:focus-visible {
+    color: var(--text-primary);
+    text-decoration-color: currentColor;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    a.arrow-link:hover {
+      color: var(--text-primary);
+      text-decoration-color: currentColor;
+    }
+  }
+</style>
