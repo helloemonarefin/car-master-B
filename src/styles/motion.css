@@ -9,10 +9,10 @@
 .reveal-on [data-reveal] { opacity: 0.001; }
 .reveal-on [data-reveal].is-revealed {
   opacity: 1;
-  animation: reveal-in var(--dur-reveal) var(--ease-smooth) var(--reveal-delay, 0s) both;
+  animation: reveal-in var(--m-reveal-time) var(--m-reveal-ease) var(--reveal-delay, 0s) both;
 }
 @keyframes reveal-in {
-  from { opacity: 0.001; translate: 0 var(--reveal-distance); }
+  from { opacity: 0.001; translate: 0 var(--m-reveal-distance); }
   to   { opacity: 1;     translate: 0 0; }
 }
 

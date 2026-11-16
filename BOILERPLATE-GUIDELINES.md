@@ -31,6 +31,8 @@ How to read it:
 
 ## 1. Animation system
 
+> **New projects:** build entrance animations (page-load intro, nav intro, scroll reveal) and their controls from **§7 Entrance animation system**. This §1 documents how the source project did it, and is the reference for hover, menu and other component motion.
+
 ### 1.1 Methods and where they're set up
 
 | Method | Used for | Set up in |
@@ -1159,6 +1161,22 @@ Rule: lists that are semantically lists but visually unstyled get `role="list"`.
 
 ## 4. Project setup
 
+### 4.0 Defaults for every new project (decided, don't ask)
+
+These were added by hand after the first project built from this file. They apply unless a project's own brief says otherwise.
+
+| Topic | Default |
+|---|---|
+| Page language | `<html lang="en-US">` |
+| Deploy target | **Netlify**. Static output, so no adapter is needed unless the site has server routes (a CMS admin, forms handled by a function). Add `netlify.toml` (§4.11) during QA. Never deploy or push until the owner says so. |
+| Visual checks | **Playwright** is allowed as a dev dependency (it's never shipped to the site). Use it to screenshot pages at 390 / 768 / 1024 / 1280 / 1440 and compare them with the Figma screenshots. |
+| Favicon and OG image | Until the client supplies them, generate placeholders from `site.ts`: a favicon with the brand's first letter on the ink colour (SVG + 32px ICO + 180px Apple touch icon), and a 1200 × 630 OG image built from the hero image plus the business name. List both as "replace per client". |
+| Where values live | **All design values are tokens in `tokens.css`, so a reskin touches one file.** This includes component sizes (e.g. `--btn-h-md: 52px`, `--tag-h: 28px`) and the motion control panel from §7.2 (easings, times, delays, staggers, distances). The `--space-*` scale is only for general gaps and padding; don't add odd one-off values to it. A value used by one component only becomes a component token named after that component. |
+| CSS files | `tokens.css` (values) → `typography.css` (role classes) → `global.css` (reset, layout helpers, focus, utilities) → `motion.css` (keyframes, reveal, reduced motion). Imported in that order. |
+| Type roles | A size/style that appears **2+ times** becomes a role in `typography.css` (with its tokens in `tokens.css`). A one-off uses the nearest role and is logged in the decisions log. |
+| Weight modifiers | `.t-light`, `.t-regular`, `.t-medium` may override a role's weight when the design uses the same size in two weights. Don't create a new role just for a weight change. |
+| Nav link colours | Non-current links use the same colour on every page. The current page uses the primary text colour plus `aria-current="page"`. Inactive links must still meet 4.5:1 contrast. |
+
 ### 4.1 Stack and packages
 
 | Package | Why |
@@ -1262,7 +1280,7 @@ Also from the source notes: after adding a **new** content collection, restart t
 
 ### 4.4 Global styles and tokens
 
-Three global files, imported in this order in `Base.astro`. Everything else lives in component `<style>` blocks.
+Three global files in the source project, imported in this order in `Base.astro`. **New projects add a fourth, `motion.css`, and keep motion tokens in `tokens.css` (see §4.0).** Everything else lives in component `<style>` blocks.
 
 1. **`src/styles/tokens.css`**: colour tokens on `:root` (+ border widths). Rule: never hard-code a colour anywhere else; add a token first. Token names should map 1:1 to the design file's variable names.
    - Groups: `--text-*` (primary/secondary/tertiary/inverse/accent), `--bg-*` (primary/secondary/tertiary), `--border-*` (primary/secondary/subtle), `--button-primary-*`, `--button-secondary-*`, `--surface-*` (overlay/scrim), `--status-*`, `--border-width`, `--border-width-thin`.
@@ -1349,7 +1367,7 @@ const motionVars = await motionCss();
 const designVars = await designCss();
 ---
 <!doctype html>
-<html lang="<LANG>">
+<html lang="en-US">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -1454,7 +1472,7 @@ Workflow: push to `main` → Netlify builds → live in ~1–2 minutes. A failed
 **Classes**
 - **BEM-like:** `.block`, `.block__element`, `.block--modifier` (`.btn--primary`, `.nav__panel-link`, `.modal--no-bar`).
 - State classes: `is-*` (`is-open`, `is-scrolled`, `is-ready`, `is-dragging`, `is-closing`, `is-loaded`, `is-revealed`, `is-fading`).
-- Typography utilities: `.t-<role>` + `.t-medium`.
+- Typography utilities: `.t-<role>` + weight modifiers `.t-light` / `.t-regular` / `.t-medium`.
 - Behaviour hooks shared across components: `.roll-trigger`, `.arrow-trigger`.
 - Global helpers: `.container`, `.container--full`, `.section`, `.section__inner`, `.sr-only`.
 
@@ -1614,6 +1632,187 @@ Rules for the code:
 
 ---
 
+## 7. Entrance animation system (generic, all projects)
+
+This section was **added by hand**. It turns the source project's entrance animations (§1.3 hero intro, §1.4 nav intro, §1.5 scroll reveal, §1.10 motion controls) into one reusable system that doesn't depend on the CMS or on any one hero design. **New projects build their entrance animations from this section.** §1.3–1.5 stay as reference for how the source did it.
+
+The default values are the ones the live source site uses (its CMS values), not its CSS fallbacks.
+
+### 7.1 The feel: subtle
+
+- **Only two things move: opacity and a short rise.** Opacity goes 0.001 → 1 while the element moves up from 16–24px below its resting place.
+- **No scale, blur, rotate, clip-path or letter-by-letter effects** in the default system. Signature effects (like the source's arc and portrait) are per-project extras, added on top.
+- **One easing for everything that moves:** `smooth` (`cubic-bezier(.22, 1, .36, 1)`), a soft ease-out that starts quickly and settles gently.
+- **Short and quick:** 0.6–0.7s per element, 0.05–0.07s apart.
+- **Plays once.** Nothing animates again when you scroll back up.
+- **Content is never lost:**
+  - without JS, or with reduced motion on, everything is simply visible;
+  - elements start at `opacity: 0.001`, not 0, so the browser still counts them for LCP.
+
+### 7.2 The control panel (motion tokens in `tokens.css`)
+
+All entrance motion reads from these tokens. **To change the feel of the whole site, edit only this block.** The `--m-` names are the same ones the source CMS writes (§1.10). A project that adds a CMS later can override them without touching any component.
+
+```css
+:root {
+  /* Easing presets: pick one per animation */
+  --ease-linear:   linear;
+  --ease-standard: cubic-bezier(.25, .1, .25, 1);   /* CSS "ease" */
+  --ease-in:       cubic-bezier(.42, 0, 1, 1);      /* CSS "ease-in": slow start (exits only) */
+  --ease-out:      cubic-bezier(0, 0, .58, 1);      /* CSS "ease-out" */
+  --ease-in-out:   cubic-bezier(.42, 0, .58, 1);    /* CSS "ease-in-out": things that move and stop on screen */
+  --ease-expo-out: cubic-bezier(.16, 1, .3, 1);     /* stronger, snappier ease-out */
+  --ease-smooth:   cubic-bezier(.22, 1, .36, 1);    /* DEFAULT for entrances */
+  --ease-drop:     cubic-bezier(0, .77, .56, 1);    /* nav drop-in */
+
+  /* Page-load intro (hero content) */
+  --m-intro-ease:     var(--ease-smooth);
+  --m-intro-time:     0.7s;
+  --m-intro-delay:    0.1s;   /* wait before the first item */
+  --m-intro-stagger:  0.07s;  /* gap between items */
+  --m-intro-distance: 20px;   /* how far each item rises */
+
+  /* Nav intro (home page only) */
+  --m-nav-ease:       var(--ease-drop);
+  --m-nav-time:       0.6s;
+  --m-nav-delay:      0.1s;
+  --m-nav-stagger:    0.05s;
+  --m-nav-button-gap: 0.1s;   /* extra wait before the CTA after the last link */
+  --m-nav-distance:   24px;   /* drops in from above */
+
+  /* Scroll reveal (everything below the fold) */
+  --m-reveal-ease:     var(--ease-smooth);
+  --m-reveal-time:     0.6s;
+  --m-reveal-stagger:  0.05s;
+  --m-reveal-distance: 24px;
+  --m-reveal-stagger-max: 0.4s; /* the last item in a batch never waits longer than this */
+}
+```
+
+**What each control does, and safe ranges:**
+
+| Control | Effect | Subtle range | Feels wrong when… |
+|---|---|---|---|
+| `-ease` | Speed curve: how the motion starts and stops | `smooth` or `expo-out` for entrances | `ease-in` or `linear` on an entrance: the item starts slowly and stops abruptly |
+| `-time` | How long one item takes | 0.5–0.8s | under 0.4s feels jumpy; over 1s feels slow |
+| `-delay` | Wait before the first item starts | 0–0.2s (intro), 0 (reveal) | over 0.3s on page load feels like lag |
+| `-stagger` | Gap between items in the same group | 0.04–0.08s | over 0.1s and the page feels like it's loading one piece at a time |
+| `-distance` | How far an item rises | 12–24px | over 40px stops feeling subtle |
+
+**Which easing to use when:**
+
+| Easing | Use for |
+|---|---|
+| `smooth` / `expo-out` | Anything **appearing** or travelling (entrances, panels opening) |
+| `in-out` | Something that moves **from one place to another** on screen and stops (a slider track, an indicator moving between tabs) |
+| `ease-in` | Things **leaving** (closing a panel, an exit fade). Never entrances. |
+| `standard` / `ease-out` | Short colour and opacity changes (hover), with 150–250ms |
+| `linear` | Only for constant motion (marquees, progress bars, spinners) |
+
+### 7.3 One shared keyframe
+
+Every entrance uses the same keyframe. Each system only sets its distance and timing.
+
+```css
+/* motion.css */
+@keyframes rise-in {
+  from { opacity: 0.001; translate: 0 var(--rise-from, 20px); }
+  to   { opacity: 1;     translate: 0 0; }
+}
+```
+
+- Use the individual `translate` property, not `transform`, so an entrance never fights a component's own hover `transform`.
+- Use `animation` with `both` fill, not `transition`, so the start state applies from the first frame.
+
+### 7.4 Page-load intro (hero)
+
+Plays once on first paint, CSS only, no JS. Add `data-intro` to each item, in reading order, and pass its position with an inline `--i` (0, 1, 2…).
+
+```astro
+<p class="t-label" data-intro style="--i:0">Scottsdale · By appointment only</p>
+<h1 class="t-hero"  data-intro style="--i:1">Your paint, exactly as it left the factory.</h1>
+<p class="t-body-lg" data-intro style="--i:2">…</p>
+<div class="buttons" data-intro style="--i:3">…</div>
+<img … data-intro style="--i:4" />
+```
+
+```css
+[data-intro] {
+  --rise-from: var(--m-intro-distance);
+  animation: rise-in var(--m-intro-time) var(--m-intro-ease)
+             calc(var(--m-intro-delay) + var(--i, 0) * var(--m-intro-stagger)) both;
+}
+```
+
+Rules:
+- **Order = reading order:** eyebrow → headline → text → buttons → image. Two buttons side by side can share one index (animate the pair together) or take two indices.
+- **Large images** in the intro: use opacity only, or a smaller rise (`style="--i:4; --rise-from: 12px"`), so the big block doesn't visibly slide.
+- **Items in the intro never also get `data-reveal`.** One element gets one entrance.
+- The whole intro (last item's delay + its time) should finish within about **1.2s**.
+
+### 7.5 Nav intro (home page only)
+
+The nav drops in from above. Enable it with a `nav--intro` class on Home only; inner pages show the nav instantly.
+
+```css
+.nav--intro [data-nav-intro] {
+  --rise-from: calc(var(--m-nav-distance) * -1); /* negative = from above */
+  animation: rise-in var(--m-nav-time) var(--m-nav-ease)
+             calc(var(--m-nav-delay) + var(--i, 0) * var(--m-nav-stagger)) both;
+}
+.nav--intro [data-nav-intro="cta"] {
+  animation-delay: calc(var(--m-nav-delay) + var(--link-count) * var(--m-nav-stagger) + var(--m-nav-button-gap));
+}
+```
+
+- Logo `--i:0`; links `--i:1…n`.
+- The nav component sets `--link-count` from its links array, so the CTA always follows the last link. **Never hard-code the count** (the source did, see §1.4).
+- If the nav and the hero intro play together, start the hero intro after the nav's first items (e.g. `--m-intro-delay: 0.2s`) so the two don't compete.
+
+### 7.6 Scroll reveal
+
+Use the code in §1.5 unchanged (the script, the `.reveal-on` arming in `<head>`, `data-reveal` / `data-reveal-group`). Only two changes for new projects:
+
+1. The CSS reads the §7.2 tokens and uses the shared keyframe:
+   ```css
+   .reveal-on [data-reveal] { opacity: 0.001; }
+   .reveal-on [data-reveal].is-revealed {
+     --rise-from: var(--m-reveal-distance);
+     opacity: 1;
+     animation: rise-in var(--m-reveal-time) var(--m-reveal-ease) var(--reveal-delay, 0s) both;
+   }
+   ```
+2. **Cap the stagger** so a big batch (e.g. 12 footer links) doesn't trickle in. In `reveal.ts`, use `Math.min(i * s, max)` with `max = --m-reveal-stagger-max`.
+
+Where to put `data-reveal`: one per visual item, not one per section.
+
+| Gets a reveal | No reveal |
+|---|---|
+| Section index/label, section title, intro paragraph | The nav |
+| Each card, each list row, each stat, each FAQ item | Anything with `data-intro` |
+| Images (opacity only or smaller rise for very large ones) | Text inside an element that already reveals (don't reveal parent and child) |
+| Each button group, each text link | Sticky or fixed elements |
+| Footer columns and links | Anything inside an open modal or menu (they have their own motion) |
+
+### 7.7 Reduced motion and no JS
+
+- **Reduced motion:** the global kill switch (§1.12) shows every element in its end state at once, and `.reveal-on` is never added, so nothing starts hidden.
+- **No JS:** the intro is CSS only, so it still plays. Reveals never arm (no `.reveal-on` class), so all content is visible.
+- Never hide content with CSS that only JS can undo, except behind `.reveal-on`.
+
+### 7.8 Checklist before signing off motion
+
+- [ ] Hard reload Home: the nav, then the hero, play once and finish within about 1.2s. No flash of content before the animation starts.
+- [ ] Scroll slowly: every section's items rise in order, top → bottom, left → right.
+- [ ] Scroll fast to the bottom, and jump with an anchor link: nothing stays invisible.
+- [ ] Scroll back up: nothing animates again.
+- [ ] Reduced motion on (macOS: System Settings › Accessibility › Display › Reduce motion): everything is visible instantly.
+- [ ] JS disabled: everything is visible.
+- [ ] Lighthouse: LCP not delayed by the hero animation (the 0.001 start).
+- [ ] Changing one token in §7.2 (e.g. `--m-reveal-time`) changes it everywhere.
+
+---
+
 ## Per-project inputs
 
 Everything a new project must fill in before or while using this skeleton:
@@ -1656,7 +1855,7 @@ Everything a new project must fill in before or while using this skeleton:
 - [ ] Logo mark SVG + wordmark.
 
 **Setup**
-- [ ] `site` URL, `<html lang>`.
+- [ ] `site` URL. (`<html lang>` defaults to `en-US`; change it only for a non-US or non-English site.)
 - [ ] Netlify site, `NODE_VERSION`, domain.
 - [ ] GitHub owner and repo for Keystatic storage; the 4 Keystatic env vars.
 - [ ] Content collections, singletons and their schemas.

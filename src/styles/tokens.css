@@ -192,17 +192,50 @@
   /* Stacking */
   --z-section: 1; --z-nav: 4;
 
-  /* ---------- Motion ---------- */
-  --ease-smooth: cubic-bezier(.22, 1, .36, 1); /* everything that travels */
-  --ease-color: ease;                          /* short colour / opacity changes */
+  /* ---------- Motion control panel (BOILERPLATE §7.2) ----------
+     All entrance motion reads from these tokens. To change the feel of
+     the whole site, edit only this block. The --m- names match the ones a
+     CMS would write later (BOILERPLATE §1.10). */
+
+  /* Easing presets: pick one per animation */
+  --ease-linear:   linear;
+  --ease-standard: cubic-bezier(.25, .1, .25, 1);   /* CSS "ease" */
+  --ease-in:       cubic-bezier(.42, 0, 1, 1);      /* CSS "ease-in": slow start (exits only) */
+  --ease-out:      cubic-bezier(0, 0, .58, 1);      /* CSS "ease-out" */
+  --ease-in-out:   cubic-bezier(.42, 0, .58, 1);    /* CSS "ease-in-out": things that move and stop on screen */
+  --ease-expo-out: cubic-bezier(.16, 1, .3, 1);     /* stronger, snappier ease-out */
+  --ease-smooth:   cubic-bezier(.22, 1, .36, 1);    /* DEFAULT for entrances */
+  --ease-drop:     cubic-bezier(0, .77, .56, 1);    /* nav drop-in */
+
+  /* Page-load intro (hero content) */
+  --m-intro-ease:     var(--ease-smooth);
+  --m-intro-time:     0.7s;
+  --m-intro-delay:    0.1s;   /* wait before the first item */
+  --m-intro-stagger:  0.07s;  /* gap between items */
+  --m-intro-distance: 20px;   /* how far each item rises */
+
+  /* Nav intro (home page only) */
+  --m-nav-ease:       var(--ease-drop);
+  --m-nav-time:       0.6s;
+  --m-nav-delay:      0.1s;
+  --m-nav-stagger:    0.05s;
+  --m-nav-button-gap: 0.1s;   /* extra wait before the CTA after the last link */
+  --m-nav-distance:   24px;   /* drops in from above */
+
+  /* Scroll reveal (everything below the fold) */
+  --m-reveal-ease:     var(--ease-smooth);
+  --m-reveal-time:     0.6s;
+  --m-reveal-stagger:  0.05s;
+  --m-reveal-distance: 24px;
+  --m-reveal-stagger-max: 0.4s; /* the last item in a batch never waits longer than this */
+
+  /* ---------- Interaction durations (hovers, menu, accordion) ---------- */
+  --ease-color: var(--ease-standard); /* short colour / opacity changes */
   --dur-fast: 200ms;        /* colour hovers (everywhere) */
   --dur-base: 300ms;        /* small UI moves, menu close */
   --dur-icon: 250ms;        /* hamburger ↔ ×, plus ↔ minus */
-  --dur-accordion: 450ms;   /* FAQ height */
+  --dur-accordion: 450ms;   /* FAQ height (to confirm with the Phase 5 proposal) */
   --dur-menu: 600ms;        /* mobile menu open */
-  --dur-reveal: 800ms;      /* scroll reveal */
-  --reveal-distance: 24px;
-  --reveal-stagger: 0.05s;
 }
 
 @media (min-width: 1024px) {

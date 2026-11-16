@@ -34,7 +34,8 @@ Credit-saving rules:
 **Stack**
 - Latest stable Astro (7.4.12 at Phase 0; Node ≥ 22.23.4). Static output, plain CSS (no Tailwind), TypeScript strict.
 - No React or any UI framework on the site. No CMS in this build: content lives in typed TS files, structured so a CMS can be added later.
-- Packages: `astro`, `@astrojs/sitemap`, `lenis`. Nothing else without asking. Dev-only screenshot tools (e.g. Playwright) are OK, but tell the owner before installing.
+- Packages: `astro`, `@astrojs/sitemap`, `lenis`. Nothing else without asking. Playwright is approved as a dev dependency for screenshot comparisons.
+- Page language `en-US`. Deploy target Netlify (static); see BOILERPLATE §4.0 for project defaults.
 - Font: Inter, self-hosted via Astro's fonts API with the Fontsource provider. Weights 300, 400, 500 only.
 
 **Images**
@@ -51,14 +52,14 @@ Credit-saving rules:
 - Semantic HTML: one `<h1>` per page, sections with `aria-labelledby`, real `<button>`/`<a>`, lists with `role="list"`.
 
 **Motion / interaction defaults**
-- Easing and duration tokens: `--ease-smooth: cubic-bezier(.22, 1, .36, 1)`, `--dur-fast`, `--dur-base`, … Never write a cubic-bezier inline.
+- Motion control panel from BOILERPLATE §7.2 (easing presets + `--m-*` time/delay/stagger/distance tokens) in `tokens.css`, plus `--dur-fast` / `--dur-base` for hovers. Never write a cubic-bezier or a duration inline.
 - Colour hover transitions: 200ms everywhere.
 - Entrance animations start at `opacity: 0.001`.
 - Use individual `translate` / `scale` properties, not `transform`.
 - Nav height is one token (`--nav-h`); JS reads it with `getComputedStyle`.
 - `:focus-visible` styles sit outside the hover media query.
 - Scrollable panels get `overflow-y: auto`. Tap targets ≥ 24px.
-- Motion is quiet: scroll reveal on headings, cards, rows, stats (BOILERPLATE §1.5); button hover = colour change (no chip sweep); text-link hover = underline fades to full ink; mobile menu per BOILERPLATE §1.8; FAQ accordion with animated height (propose first); reduced motion per BOILERPLATE §1.12.
+- Motion is quiet: subtle entrances exactly as in BOILERPLATE §7 — hero page-load intro (§7.4), nav intro on Home (§7.5), scroll reveal on headings, cards, rows, stats (§7.6), all driven by the §7.2 tokens; run the §7.8 checklist in Phase 5. Button hover = colour change (no chip sweep); text-link hover = underline fades to full ink; mobile menu per BOILERPLATE §1.8; FAQ accordion with animated height (propose first); reduced motion per BOILERPLATE §1.12.
 - Not used: hero parallax, hero arc, text roll, carousels, modals.
 
 **Mobile**
@@ -170,3 +171,9 @@ Phase 3 — FAQ, Final CTA, Footer (2026-11-17):
 - 2026-11-17 — **Choice chip**: 14 Medium in Figma at line height 1.2 → `.t-small-strong` (1.4, DS §10.7 merge) with `--chip-pad-y: 9px` so the chip stays ≈ 39px tall (Figma 39). Selected = ink fill; hover (proposed) = `--button-outline-bg-hover`.
 - 2026-11-17 — **Detail row** values are 16 Medium in Figma (DS said `body`) → `.t-body-strong`.
 - 2026-11-17 — **Home page total** at 1440: 13,685px vs Figma 13,669 (+16 = the wrapped Services bullet). FAQ, Final CTA and Footer heights match Figma.
+
+Spec update — entrance animation system (2026-11-17):
+
+- 2026-11-17 — **Owner updated BOILERPLATE (new §7 Entrance animation system) and BUILD_PROMPT §3/§5/§7.** "Fixed decisions" above synced: §7.2 control panel in `tokens.css`, entrances exactly as §7 (hero intro §7.4, Home nav intro §7.5, scroll reveal §7.6), §7.8 checklist in Phase 5; Playwright approved; `en-US`; Netlify; `robots.txt` + `netlify.toml` in Phase 7. (Owner)
+- 2026-11-17 — **§7.2 motion tokens added to `tokens.css`** (verbatim): easing presets `--ease-linear/-standard/-in/-out/-in-out/-expo-out/-smooth/-drop`; `--m-intro-*` (0.7s / 0.1s / 0.07s / 20px); `--m-nav-*` (0.6s / 0.1s / 0.05s / button gap 0.1s / 24px); `--m-reveal-*` (0.6s / 0.05s / 24px / stagger-max 0.4s). (Owner)
+- 2026-11-17 — **Replaced** the Phase 1 reveal tokens `--dur-reveal` (800ms), `--reveal-distance`, `--reveal-stagger` with the `--m-reveal-*` ones (reveal time is now 0.6s per §7.2). `motion.css` and `reveal.ts` re-pointed to the new names only; `--ease-color` now = `var(--ease-standard)`. Kept for interactions: `--dur-fast` 200ms (hovers), `--dur-base`, `--dur-icon`, `--dur-accordion`, `--dur-menu`. The shared `rise-in` keyframe, hero intro, nav intro, reveal placement and the stagger cap are built in Phase 5 from §7 (no `data-reveal`/`data-intro` markup exists yet, so nothing animates today).

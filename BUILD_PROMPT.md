@@ -74,7 +74,8 @@ Home sections, in order:
 - Static output, plain CSS (no Tailwind), TypeScript strict.
 - No React or any UI framework on the site.
 - **No CMS in this build.** Content lives in typed files (see §4), structured so a CMS can be added later.
-- Packages: `astro`, `@astrojs/sitemap`, `lenis` (smooth scroll + scroll lock). Nothing else without asking me. Dev-only tools for checking screenshots (e.g. Playwright) are OK, but tell me before installing them.
+- Packages: `astro`, `@astrojs/sitemap`, `lenis` (smooth scroll + scroll lock). Nothing else without asking me. **Playwright is approved** as a dev dependency for the screenshot comparisons.
+- Page language `en-US`. Deploy target **Netlify** (static). See BOILERPLATE §4.0 for these and the other project defaults.
 - Font: **Inter**, self-hosted through Astro's fonts API with the Fontsource provider. Weights 300, 400 and 500 only.
 
 **Images**
@@ -92,7 +93,7 @@ Home sections, in order:
 - Semantic HTML: one `<h1>` per page, sections with `aria-labelledby`, real `<button>`s and `<a>`s, lists with `role="list"`.
 
 **Defaults for the open questions in BOILERPLATE "Open questions"**
-- Make real easing and duration tokens: `--ease-smooth: cubic-bezier(.22, 1, .36, 1)`, plus `--dur-fast` / `--dur-base` etc. Never write a cubic-bezier inline.
+- Put the motion control panel from BOILERPLATE §7.2 (easing presets + `--m-*` time/delay/stagger/distance tokens) in `tokens.css`, plus `--dur-fast` / `--dur-base` for hovers. Never write a cubic-bezier or a duration inline.
 - Colour hover transitions are 200ms everywhere.
 - Every entrance animation starts at `opacity: 0.001`.
 - Use the individual `translate` / `scale` properties for motion, not `transform`.
@@ -102,7 +103,7 @@ Home sections, in order:
 - Tap targets are at least 24px.
 
 **Motion (keep it quiet; this is a calm, Apple-like design)**
-- Scroll reveal on headings, cards, rows and stats (BOILERPLATE §1.5).
+- Subtle entrances exactly as in BOILERPLATE **§7**: hero page-load intro (§7.4), nav intro on Home (§7.5), scroll reveal on headings, cards, rows and stats (§7.6), all driven by the §7.2 tokens.
 - Button hover: colour change, no chip sweep. Text-link hover: underline fades to full ink.
 - Mobile menu: BOILERPLATE §1.8.
 - FAQ: an accordion with animated height. This is a new pattern, so propose the build to me first.
@@ -225,7 +226,7 @@ Send me screenshots at 390 and 768, plus your list of mobile layout decisions.
 **Stop.**
 
 ### Phase 5 — Motion
-Add the motion listed in §3. Show me the FAQ accordion approach before you build it.
+Add the motion listed in §3. Run the BOILERPLATE §7.8 checklist. Show me the FAQ accordion approach before you build it.
 
 Test:
 - with reduced motion turned on;
@@ -246,7 +247,7 @@ Build Protection, Coatings, The Process, Portfolio, Journal and Contact.
 - Lighthouse on every page. Targets: Performance ≥ 95, Accessibility 100, Best Practices 100, SEO 100, CLS < 0.05.
 - Run `astro check` and a production build with no warnings.
 - Add a 404 page (Base + Nav + Footer).
-- Add `robots.txt`.
+- Add `robots.txt` and `netlify.toml` (BOILERPLATE §4.11).
 - Check every link and image. Add proper alt text, except decorative images, which get `alt=""`.
 - Write a short `TEMPLATE.md`: how to reskin for a new client (brand tokens, font, logo, `site.ts`, section array, images), in 10 steps or fewer.
 

@@ -4,7 +4,7 @@ export function initReveal() {
   const root = document.documentElement;
   if (!root.classList.contains('reveal-on')) return;
 
-  const stagger = () => parseFloat(getComputedStyle(root).getPropertyValue('--reveal-stagger')) || 0.05;
+  const stagger = () => parseFloat(getComputedStyle(root).getPropertyValue('--m-reveal-stagger')) || 0.05;
 
   const show = (els: HTMLElement[]) => {
     const s = stagger();
