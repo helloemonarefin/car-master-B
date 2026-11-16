@@ -7,6 +7,9 @@
 import Hero from './Hero.astro';
 import Problem from './Problem.astro';
 import Services from './Services.astro';
+import Signature from './Signature.astro';
+import Guarantee from './Guarantee.astro';
+import Process from './Process.astro';
 import { numberSections } from '../../lib/sections';
 import type { SectionContent } from '../../content/types';
 
@@ -19,5 +22,8 @@ const items = numberSections(Astro.props.sections);
     case 'hero': return <Hero content={content} />;
     case 'problem': return <Problem content={content} index={index} />;
     case 'services': return <Services content={content} index={index} />;
+    case 'signature': return <Signature content={content} index={index} />;
+    case 'guarantee': return <Guarantee content={content} index={index} />;
+    case 'process': return <Process content={content} index={index} />;
   }
 })}

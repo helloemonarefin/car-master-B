@@ -9,6 +9,12 @@ await page.goto(url, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
 // Section crops: keep the sticky nav from overlapping the capture.
 await page.addStyleTag({ content: '.nav{position:relative!important}' });
+// Load lazy images before capturing.
+await page.evaluate(async () => {
+  const imgs = [...document.querySelectorAll('img')];
+  imgs.forEach((i) => (i.loading = 'eager'));
+  await Promise.all(imgs.map((i) => (i.complete ? null : new Promise((r) => { i.onload = i.onerror = r; }))));
+});
 let buf;
 if (/^\d+:\d+$/.test(target)) {
   const [y0, y1] = target.split(':').map(Number);

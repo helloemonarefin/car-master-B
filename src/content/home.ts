@@ -12,6 +12,7 @@ import heroImage from '../assets/home/hero.jpg';
 import servicePpf from '../assets/home/service-ppf.jpg';
 import serviceCeramic from '../assets/home/service-ceramic.jpg';
 import serviceTrack from '../assets/home/service-track.jpg';
+import processImage from '../assets/home/process.jpg';
 
 export const seo = {
   /** Leave empty to use site.seo.defaultTitle. */
@@ -94,6 +95,50 @@ export const sections: SectionContent[] = [
         link: { label: 'Details →', href: '/protection' },
         image: { src: serviceTrack, alt: 'Silver convertible lit dramatically in a dark studio' },
       },
+    ],
+  },
+  {
+    type: 'signature',
+    id: 'signature',
+    label: 'The Signature Program',
+    title: 'The 10-Day Concours Shield',
+    intro: 'Full-body film, ceramic over the film, and a fully documented car, returned to your garage in 10 days.',
+    listLabel: 'What’s included',
+    items: [
+      { title: 'Full-body self-healing PPF', description: 'Every painted panel, edges hand-wrapped.', tag: 'Included', tagVariant: 'outline' },
+      { title: 'Ceramic coating over film, wheels and glass', description: 'So it stays clean with a rinse.', tag: 'Included', tagVariant: 'outline' },
+      { title: 'Single-stage paint correction', description: 'We remove light swirls first, so nothing gets sealed under film.', tag: 'Included', tagVariant: 'outline' },
+      { title: 'Enclosed transport both ways', description: 'We collect from your garage and return it covered. You never drive it dirty to a shop.', tag: 'Bonus · $600 value', tagVariant: 'filled' },
+      { title: 'The 120-Photo Intake Report', description: 'Every panel photographed and measured before we touch it. Yours to keep for insurance and resale.', tag: 'Bonus · $250 value', tagVariant: 'filled' },
+      { title: 'First-Year Care Visit', description: 'A full decontamination wash and inspection at month 12.', tag: 'Bonus · $450 value', tagVariant: 'filled' },
+      { title: 'The 5-Minute Care Card', description: 'Exactly how to wash it, what to never use. Fits in your glovebox.', tag: 'Included', tagVariant: 'outline' },
+    ],
+    priceLine: 'Program from $8,900 · Pay over 12 months available',
+    note: 'We accept six cars a month so every car gets one installer from start to finish. December has two openings left.',
+    cta: { label: 'Reserve a Consultation', href: '/contact' },
+  },
+  {
+    type: 'guarantee',
+    id: 'guarantee',
+    label: 'The guarantee',
+    title: 'The Flawless Edge Promise',
+    promise: 'If any edge lifts, bubbles or shows dust under the film in the first 12 months, we redo that panel at no cost.',
+    detail: 'We collect your car and return it, too. You never pay for our mistake, and you never have to argue about it.',
+    fineprint: 'Covers installation for 12 months. Film warranty covers the material for 10 years.',
+  },
+  {
+    type: 'process',
+    id: 'process',
+    label: 'The Process',
+    title: 'How a car moves through the atelier.',
+    image: { src: processImage, alt: 'Car wrapped in protection film during installation in a bright studio bay' },
+    steps: [
+      { title: 'Consultation', description: 'A 20-minute call or studio visit. We look at the car, talk about how you drive it, and give you one exact price.' },
+      { title: 'Intake', description: 'We collect your car in an enclosed trailer. Every panel is photographed, measured and logged.' },
+      { title: 'Preparation', description: 'Decontamination wash, clay, and paint correction. The film only goes on clean, flawless paint.' },
+      { title: 'Installation', description: 'One installer. Hand-wrapped edges. Filtered, climate-controlled bay at 72°F.' },
+      { title: 'Curing & inspection', description: '48 hours to cure, then a 3-light inspection of every panel.' },
+      { title: 'Delivery', description: 'Returned to your garage, covered. You get your photo report and care card.' },
     ],
   },
 ];

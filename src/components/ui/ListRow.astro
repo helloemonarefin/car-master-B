@@ -1,0 +1,51 @@
+---
+/**
+ * List row — DESIGN_SYSTEM §6, Figma "Row" (295:125).
+ * Padding 24/0, top border subtle (the list adds the last bottom border).
+ * Desktop: number (.t-small-strong tertiary) + title (.t-h5 Regular) in
+ * cols 1–5 (gap 16, baseline); description (.t-body secondary, max 500)
+ * from col 6; tag right-aligned in cols 11–12.
+ * Below 1024 (proposed): number + title, then description, then tag, stacked.
+ */
+import Tag from './Tag.astro';
+import type { IncludedItem } from '../../content/types';
+
+interface Props { item: IncludedItem; index: number }
+const { item, index } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<li class="grid list-row">
+  <p class="list-row__head">
+    <span class="t-small-strong list-row__num">{num}</span>
+    <span class="t-h5 t-regular list-row__title">{item.title}</span>
+  </p>
+  <p class="t-body list-row__desc">{item.description}</p>
+  <div class="list-row__tag"><Tag label={item.tag} variant={item.tagVariant} /></div>
+</li>
+
+<style>
+  .list-row {
+    align-items: center;
+    row-gap: var(--space-3);
+    padding-block: var(--space-6);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .list-row:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
+
+  .list-row__head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-4);
+  }
+  .list-row__num { flex: none; color: var(--text-tertiary); }
+  .list-row__title { color: var(--text-primary); }
+  .list-row__desc { color: var(--text-secondary); max-width: var(--row-desc-max); }
+  .list-row__tag { display: flex; }
+
+  @media (min-width: 1024px) {
+    .list-row > .list-row__head { grid-column: 1 / span 5; }
+    .list-row > .list-row__desc { grid-column: 6 / span 5; }
+    .list-row > .list-row__tag { grid-column: 11 / span 2; justify-content: flex-end; }
+  }
+</style>

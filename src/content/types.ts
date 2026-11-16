@@ -90,5 +90,75 @@ export interface ServicesContent {
   items: [ServiceItem, ServiceItem, ServiceItem];
 }
 
+/* ---------- Signature offer ---------- */
+export interface IncludedItem {
+  /** .t-h5 Regular, ≤ 44 chars */
+  title: string;
+  /** .t-body, ≤ 2 lines in 500px (~100 chars) */
+  description: string;
+  /** Tag text, ≤ 20 chars (e.g. "Included", "Bonus · $600 value") */
+  tag: string;
+  /** Filled tag for bonuses, outline otherwise. */
+  tagVariant: 'outline' | 'filled';
+}
+
+export interface SignatureContent {
+  type: 'signature';
+  id: string;
+  label: string;
+  title: string;
+  intro?: string;
+  /** Small label above the list, ≤ 24 chars */
+  listLabel: string;
+  /** 3–6 rows (DESIGN_SYSTEM §8; Figma shows 7) */
+  items: IncludedItem[];
+  /** .t-h3, one line, ≤ 52 chars */
+  priceLine: string;
+  /** .t-body-sm, ≤ 2 lines in 640px (~130 chars) */
+  note?: string;
+  cta: Cta;
+}
+
+/* ---------- Guarantee ---------- */
+export interface GuaranteeContent {
+  type: 'guarantee';
+  id: string;
+  label: string;
+  /** .t-h5, ≤ 36 chars — the section's heading */
+  title: string;
+  /** .t-quote, ≤ 3 lines in 752px (~130 chars) */
+  promise: string;
+  /** .t-body-lg secondary, ≤ 2 lines */
+  detail?: string;
+  /** .t-small tertiary fine print, 1 line */
+  fineprint?: string;
+}
+
+/* ---------- Process ---------- */
+export interface ProcessStep {
+  /** .t-h5, ≤ 28 chars */
+  title: string;
+  /** .t-body, ≤ 2 lines in 664px (~140 chars) */
+  description: string;
+}
+
+export interface ProcessContent {
+  type: 'process';
+  id: string;
+  label: string;
+  title: string;
+  intro?: string;
+  /** 5 columns wide, stretches to the steps' height on desktop. */
+  image: Picture;
+  /** 4–6 steps */
+  steps: ProcessStep[];
+}
+
 /** Every section type a page can list. Extend as sections are built. */
-export type SectionContent = HeroContent | ProblemContent | ServicesContent;
+export type SectionContent =
+  | HeroContent
+  | ProblemContent
+  | ServicesContent
+  | SignatureContent
+  | GuaranteeContent
+  | ProcessContent;

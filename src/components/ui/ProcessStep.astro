@@ -1,0 +1,42 @@
+---
+/**
+ * Process step — DESIGN_SYSTEM §6, Figma "Step" (24:809).
+ * Padding 28/0, top border subtle; .t-step number (tertiary, 64 wide),
+ * gap 24, text block (padding-top 4, gap 6): .t-h5 title + .t-body
+ * description (secondary). The list adds the last bottom border.
+ */
+import type { ProcessStep } from '../../content/types';
+interface Props { step: ProcessStep; index: number }
+const { step, index } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<li class="step">
+  <span class="t-step step__num" aria-hidden="true">{num}</span>
+  <div class="step__text">
+    <h3 class="t-h5 step__title"><span class="sr-only">Step {index}: </span>{step.title}</h3>
+    <p class="t-body step__desc">{step.description}</p>
+  </div>
+</li>
+
+<style>
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-6);
+    padding-block: var(--space-7);
+    border-top: var(--border-width) solid var(--border-subtle);
+  }
+  .step:last-child { border-bottom: var(--border-width) solid var(--border-subtle); }
+  .step__num { flex: none; width: var(--step-num-w); color: var(--text-tertiary); }
+  .step__text {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    flex-direction: column;
+    gap: var(--step-text-gap);
+    padding-top: var(--step-text-pad-top);
+  }
+  .step__title { color: var(--text-primary); }
+  .step__desc { color: var(--text-secondary); }
+</style>

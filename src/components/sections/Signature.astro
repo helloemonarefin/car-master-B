@@ -1,0 +1,66 @@
+---
+/**
+ * Signature offer — Figma "Signature offer" (24:2245). --bg-primary,
+ * padding 160, gaps 80. Section header + included list (label, padding-bottom
+ * 20, then rows) + offer note (.t-h3 price line + .t-body-sm note, gap 10,
+ * primary button on the right).
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import ListRow from '../ui/ListRow.astro';
+import Button from '../ui/Button.astro';
+import type { SignatureContent } from '../../content/types';
+
+interface Props { content: SignatureContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+const listId = `${c.id}-list`;
+---
+
+<section class="section signature" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+
+    <div class="signature__list">
+      <h3 id={listId} class="t-label signature__list-label">{c.listLabel}</h3>
+      <ol role="list" aria-labelledby={listId}>
+        {c.items.map((item, i) => <ListRow item={item} index={i + 1} />)}
+      </ol>
+    </div>
+
+    <div class="signature__note">
+      <div class="signature__note-text">
+        <p class="t-h3">{c.priceLine}</p>
+        {c.note && <p class="t-body-sm signature__note-sub">{c.note}</p>}
+      </div>
+      <Button label={c.cta.label} href={c.cta.href} />
+    </div>
+  </div>
+</section>
+
+<style>
+  .signature__list-label {
+    padding-bottom: var(--space-5);
+    color: var(--text-tertiary);
+  }
+
+  .signature__note {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+  }
+  .signature__note-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--offer-note-gap);
+  }
+  .signature__note-sub { color: var(--text-secondary); max-width: var(--offer-note-max); }
+
+  @media (min-width: 1024px) {
+    .signature__note {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+    }
+  }
+</style>

@@ -264,3 +264,19 @@
     --hero-gap: 28px; --hero-support-pad-top: 12px;
   }
 }
+
+/* Phase 3 (part 2) component tokens */
+:root {
+  /* Included list row: description column max width (Figma 500) */
+  --row-desc-max: 500px;
+  /* Offer note */
+  --offer-note-gap: 10px;      /* price line → note */
+  --offer-note-max: 640px;
+  /* Process step text sits 4px lower than the number (Figma) */
+  --step-text-pad-top: 4px;
+  /* Process image: portrait crop below 1024 (proposed); stretches to the steps on desktop */
+  --ratio-process: 4 / 5;
+}
+@media (min-width: 1024px) {
+  :root { --ratio-process: auto; }
+}

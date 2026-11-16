@@ -1,0 +1,41 @@
+---
+/**
+ * Process — Figma "Process" (24:799). --bg-primary, padding 160, gap 80.
+ * Section header + image (cols 1–5, stretches to the steps' height) and
+ * steps (cols 6–12). Below 1024 the image sits above the steps (DS §4).
+ */
+import SectionHeader from '../ui/SectionHeader.astro';
+import Media from '../ui/Media.astro';
+import ProcessStep from '../ui/ProcessStep.astro';
+import type { ProcessContent } from '../../content/types';
+
+interface Props { content: ProcessContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section process" id={c.id} aria-labelledby={titleId}>
+  <div class="container section__inner">
+    <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
+    <div class="grid process__layout">
+      <Media
+        class="span-5 process__media"
+        image={c.image}
+        ratio="var(--ratio-process)"
+        widths={[480, 720, 1056, 1600]}
+        sizes="(min-width: 1440px) 528px, (min-width: 1024px) 37vw, calc(100vw - 40px)"
+      />
+      <ol role="list" class="span-7 process__steps">
+        {c.steps.map((step, i) => <ProcessStep step={step} index={i + 1} />)}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process__layout { row-gap: var(--space-10); }
+  @media (min-width: 1024px) {
+    .process__layout { align-items: stretch; }
+    .process__layout > :global(.process__media) { height: 100%; }
+  }
+</style>

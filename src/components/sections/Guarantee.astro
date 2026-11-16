@@ -1,0 +1,50 @@
+---
+/**
+ * Guarantee — Figma "Guarantee" (295:184). --bg-secondary, padding 140.
+ * Index (cols 1–4) + column (cols 6–12): .t-h5 title (the section heading),
+ * .t-quote promise, then .t-body-lg detail + .t-small fine print (gap 16).
+ * Column gap 40.
+ */
+import Split from '../layout/Split.astro';
+import SectionIndex from '../ui/SectionIndex.astro';
+import type { GuaranteeContent } from '../../content/types';
+
+interface Props { content: GuaranteeContent; index: number }
+const { content: c, index } = Astro.props;
+const titleId = `${c.id}-title`;
+---
+
+<section class="section section--secondary guarantee" id={c.id} aria-labelledby={titleId}>
+  <div class="container">
+    <Split>
+      <SectionIndex slot="aside" index={index} label={c.label} />
+      <div class="guarantee__body">
+        <h2 id={titleId} class="t-h5 guarantee__title">{c.title}</h2>
+        <p class="t-quote guarantee__promise">{c.promise}</p>
+        {(c.detail || c.fineprint) && (
+          <div class="guarantee__details">
+            {c.detail && <p class="t-body-lg guarantee__detail">{c.detail}</p>}
+            {c.fineprint && <p class="t-small guarantee__fine">{c.fineprint}</p>}
+          </div>
+        )}
+      </div>
+    </Split>
+  </div>
+</section>
+
+<style>
+  .guarantee { padding-block: var(--guarantee-pad); }
+  .guarantee__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-10);
+  }
+  .guarantee__title, .guarantee__promise { color: var(--text-primary); }
+  .guarantee__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .guarantee__detail { color: var(--text-secondary); }
+  .guarantee__fine { color: var(--text-tertiary); }
+</style>

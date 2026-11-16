@@ -139,3 +139,12 @@ Phase 3 — Hero, Problem, Services (2026-11-16):
 - 2026-11-16 — **Font build**: tested Fontsource's variable Inter (with the `opsz` axis). It made 64px headings narrower than Figma ("The desert is hard on paint." fit on one line; Figma wraps). Reverted to the static 300/400/500 files, which match Figma's line breaks. Residual: Figma appears to use an older Inter build — large text renders ~1.8% narrower here (hero line 1: 1240 vs ~1263px), small text ~0.3% wider; so the 2nd PPF bullet wraps (390.3px needed, 389 available) and the "→" glyph is longer. Only fix would be self-hosting Inter 3.x (owner decision).
 - 2026-11-16 — **Mobile (proposed, refine in Phase 4)**: hero padding 32/40, gap 20; hero image 4:3 below 768; trust items stacked below 768, 3 across from 768; stats stacked (gap 40) below 768, 3 across from 768; service cards 1 col, 2 from 768 (DS §4), row gap 56.
 - 2026-11-16 — **OG image** now generated from `src/assets/home/hero.jpg` + business name.
+
+Phase 3 — Signature offer, Guarantee, Process (2026-11-16):
+
+- 2026-11-16 — **Signature offer** has 7 included rows in Figma, over the DS §8 limit (3–6). Kept as in Figma; the type comment keeps the limit. Row numbers generated from order. CTA label is "Reserve a Consultation" (differs from the nav CTA, as in Figma) → `/contact`.
+- 2026-11-16 — **List row** (DS §6): number + `.t-h5.t-regular` title in cols 1–5, description from col 6 (max 500, `--row-desc-max`), tag in cols 11–12 right-aligned. Below 1024 (proposed): stacked, gap 12, tag left.
+- 2026-11-16 — **Offer note**: `.t-h3` price line + `.t-body-sm` note (max 640) gap 10, button right on desktop; stacked below 1024 (gap 32, proposed).
+- 2026-11-16 — **Guarantee**: the promise title ("The Flawless Edge Promise") is the section's `<h2>`, styled `.t-h5`. Figma sets the detail paragraph at 18px with −0.3% tracking (DS body-lg is −0.5%) — one-off, uses `.t-body-lg`.
+- 2026-11-16 — **Process**: steps are an `<ol>`; the big number is `aria-hidden` and each title carries an sr-only "Step n:". Image stretches to the steps' height on desktop (`--ratio-process: auto`), 4:5 portrait below 1024 (proposed), above the steps (DS §4).
+- 2026-11-16 — **Verification**: Signature/Guarantee/Process heights within 1–4px of Figma at 1440 (sub-pixel line-height rounding); a few body lines break one word differently (accepted font difference).
