@@ -105,6 +105,14 @@ html.is-locked { overflow: hidden; }
   outline-offset: var(--focus-ring-offset);
 }
 
+/* ---------- Tap target ----------
+   Grows a small link/input's hit area to --tap-min tall without moving
+   anything: equal padding out, negative margin back (needs `1lh`). */
+.tap {
+  padding-block: max(0px, calc((var(--tap-min) - 1lh) / 2));
+  margin-block: min(0px, calc((1lh - var(--tap-min)) / 2));
+}
+
 /* ---------- Screen-reader only ---------- */
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;

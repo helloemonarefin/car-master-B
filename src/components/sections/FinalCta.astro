@@ -64,8 +64,8 @@ const L = c.detailLabels;
         {site.address.length > 0 && <DetailRow label={L.visit}>{site.address.map((l) => <span>{l}</span>)}</DetailRow>}
         {(site.phone || site.email) && (
           <DetailRow label={L.contact}>
-            {site.phone && <a href={site.phoneHref}>{site.phone}</a>}
-            {site.email && <a href={`mailto:${site.email}`}>{site.email}</a>}
+            {site.phone && <a class="tap" href={site.phoneHref}>{site.phone}</a>}
+            {site.email && <a class="tap" href={`mailto:${site.email}`}>{site.email}</a>}
           </DetailRow>
         )}
         {site.hours.length > 0 && <DetailRow label={L.hours}>{site.hours.map((l) => <span>{l}</span>)}</DetailRow>}

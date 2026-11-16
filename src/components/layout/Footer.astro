@@ -34,7 +34,7 @@ const info = [
           {footer.links.map((l) => (
             <li>
               {l.href ? (
-                <a class="footer__link t-small-strong" href={l.href}>{l.label}</a>
+                <a class="footer__link t-small-strong tap" href={l.href}>{l.label}</a>
               ) : (
                 <span class="footer__link t-small-strong">{l.label}</span>
               )}
@@ -51,8 +51,8 @@ const info = [
           <dd class="t-body-sm footer__value">
             {col.contact ? (
               <>
-                {site.phone && <a class="footer__link" href={site.phoneHref}>{site.phone}</a>}
-                {site.email && <a class="footer__link" href={`mailto:${site.email}`}>{site.email}</a>}
+                {site.phone && <a class="footer__link tap" href={site.phoneHref}>{site.phone}</a>}
+                {site.email && <a class="footer__link tap" href={`mailto:${site.email}`}>{site.email}</a>}
               </>
             ) : (
               col.lines.map((line) => <span>{line}</span>)
@@ -69,7 +69,7 @@ const info = [
       <p class="footer__location">
         {cityLine && <span>{cityLine}</span>}
         {cityLine && site.phone && <span aria-hidden="true">·</span>}
-        {site.phone && <a class="footer__bottom-link" href={site.phoneHref}>{site.phone}</a>}
+        {site.phone && <a class="footer__bottom-link tap" href={site.phoneHref}>{site.phone}</a>}
       </p>
     </div>
   </div>
@@ -108,6 +108,7 @@ const info = [
     flex-wrap: wrap;
     gap: var(--space-3) var(--space-6);
   }
+  .footer__links .footer__link { display: inline-block; }
   .footer__link {
     color: var(--text-nav);
     transition: color var(--dur-fast) var(--ease-color);

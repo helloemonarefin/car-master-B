@@ -24,7 +24,7 @@ const titleId = `${c.id}-title`;
         <h2 id={titleId} class="t-h2">{c.title}</h2>
         {c.intro && <p class="t-body-lg faq__text">{c.intro}</p>}
         {c.showPhone && site.phone && (
-          <a class="faq__phone t-body-strong" href={site.phoneHref}>
+          <a class="faq__phone t-body-strong tap" href={site.phoneHref}>
             <Icon name="phone" />
             <span class="faq__phone-text">{site.phone}</span>
           </a>

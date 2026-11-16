@@ -160,14 +160,16 @@
   /* Split layout (label cols 1–4 / content cols 6–12) */
   --split-stack-gap: 20px;      /* mobile, proposed: label above title */
   /* Trust item */
-  --trust-pad: 28px 32px 36px 0;
+  --trust-pad: 16px 0;          /* stacked, below 768 (proposed); desktop 28 32 36 0 */
   /* Card grids */
   --card-gap: 16px;             /* mobile, proposed (desktop 32) */
   --gallery-row-gap: 40px;      /* mobile, proposed (desktop 56) */
   /* Service card */
   --bullet-gap: 10px;
   /* Process step */
-  --step-num-w: 64px; --step-text-gap: 6px;
+  --step-num-w: 40px;           /* below 768 (proposed); 64 from 768 */
+  --step-gap: 16px;             /* number → text, below 768 (proposed); 24 from 768 */
+  --step-text-gap: 6px;
   /* Guarantee */
   --guarantee-pad: var(--section-pad); /* desktop 140 */
   /* Why (dark) method rows: row n is indented by n × this */
@@ -188,6 +190,7 @@
   --ratio-work: 416 / 312;
   --ratio-cta: 1312 / 520;
   /* Focus ring (proposed: not designed) */
+  --tap-min: 24px;              /* minimum tap target (WCAG 2.5.8) */
   --focus-ring-width: 2px; --focus-ring-offset: 3px; --focus-ring-color: var(--text-primary);
   /* Stacking */
   --z-section: 1; --z-nav: 4;
@@ -289,7 +292,12 @@
   --card-price-pad-top: 20px;
 }
 @media (min-width: 768px) {
-  :root { --ratio-hero-current: var(--ratio-hero); }
+  :root {
+    --ratio-hero-current: var(--ratio-hero);
+    --trust-pad: 28px 32px 36px 0;
+    --step-num-w: 64px;
+    --step-gap: 24px;
+  }
 }
 @media (min-width: 1024px) {
   :root {
@@ -309,6 +317,9 @@
   --step-text-pad-top: 4px;
   /* Process image: portrait crop below 1024 (proposed); stretches to the steps on desktop */
   --ratio-process: 4 / 5;
+}
+@media (min-width: 768px) {
+  :root { --ratio-process: 4 / 3; } /* 768–1023: full-width image, 4:5 would be ~900px tall */
 }
 @media (min-width: 1024px) {
   :root { --ratio-process: auto; }
