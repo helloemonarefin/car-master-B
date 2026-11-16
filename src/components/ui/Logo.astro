@@ -13,16 +13,17 @@ interface Props {
   /** Accessible name when linked. */
   label?: string;
   class?: string;
+  [key: string]: unknown;
 }
 
-const { href, label = `${site.businessName} — home`, class: className } = Astro.props;
+const { href, label = `${site.businessName} — home`, class: className, ...rest } = Astro.props;
 const Tag = href ? 'a' : 'span';
 const a11y = href ? { href, 'aria-label': label } : { role: 'img', 'aria-label': site.businessName };
 // The inline SVG is decorative; the wrapper carries the name.
 const svg = logoSvg.replace('<svg ', '<svg aria-hidden="true" focusable="false" ');
 ---
 
-<Tag class:list={['logo', className]} {...a11y} set:html={svg} />
+<Tag class:list={['logo', className]} {...a11y} {...rest} set:html={svg} />
 
 <style>
   .logo {

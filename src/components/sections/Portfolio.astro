@@ -20,7 +20,7 @@ const titleId = `${c.id}-title`;
     <ul role="list" class="grid portfolio__grid">
       {c.items.map((item) => <li class="span-4"><WorkCard item={item} /></li>)}
     </ul>
-    {c.link && <div><TextLink label={c.link.label} href={c.link.href} /></div>}
+    {c.link && <div data-reveal><TextLink label={c.link.label} href={c.link.href} /></div>}
   </div>
 </section>
 

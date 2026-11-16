@@ -18,19 +18,21 @@ const titleId = `${c.id}-title`;
 
 <section class="hero" id={c.id} aria-labelledby={titleId}>
   <div class="container hero__text">
-    <p class="t-label hero__eyebrow">{c.eyebrow}</p>
-    <h1 id={titleId} class="t-hero hero__title">{c.headline}</h1>
+    <p class="t-label hero__eyebrow" data-intro style="--i:0">{c.eyebrow}</p>
+    <h1 id={titleId} class="t-hero hero__title" data-intro style="--i:1">{c.headline}</h1>
     <div class="grid hero__support">
-      <p class="t-body-lg hero__sub span-5">{c.subheadline}</p>
+      <p class="t-body-lg hero__sub span-5" data-intro style="--i:2">{c.subheadline}</p>
       <ButtonPair
         class="hero__buttons"
+        data-intro
+        style="--i:3"
         primary={c.primaryCta}
         secondary={c.secondaryCta && { ...c.secondaryCta, icon: 'arrow-right' }}
       />
     </div>
   </div>
 
-  <div class="container">
+  <div class="container hero__media" data-intro="media" style="--i:4">
     <Media
       image={c.image}
       ratio="var(--ratio-hero-current)"

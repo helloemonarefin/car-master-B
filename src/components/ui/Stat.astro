@@ -5,7 +5,7 @@ interface Props { item: StatItem; class?: string }
 const { item, class: className } = Astro.props;
 ---
 
-<div class:list={['stat', className]}>
+<div class:list={['stat', className]} data-reveal>
   <dt class="t-stat stat__value">{item.value}</dt>
   <dd class="t-body stat__caption">{item.caption}</dd>
 </div>

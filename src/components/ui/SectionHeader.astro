@@ -24,10 +24,10 @@ const { index, label, title, id, intro, class: className } = Astro.props;
 ---
 
 <Split class:list={['section-header', className]}>
-  <SectionIndex slot="aside" index={index} label={label} />
+  <SectionIndex slot="aside" index={index} label={label} data-reveal />
   <div class="section-header__main">
-    <h2 id={id} class="t-h2">{title}</h2>
-    {intro && <p class="t-body-lg section-header__intro">{intro}</p>}
+    <h2 id={id} class="t-h2" data-reveal>{title}</h2>
+    {intro && <p class="t-body-lg section-header__intro" data-reveal>{intro}</p>}
   </div>
 </Split>
 

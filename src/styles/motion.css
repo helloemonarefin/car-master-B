@@ -1,22 +1,55 @@
 /* =====================================================================
-   Motion rules: scroll reveal (BOILERPLATE §1.5) and reduced motion
-   (§1.12). Easing/duration values are tokens in tokens.css.
+   Motion rules — BOILERPLATE §7 (entrance animation system).
+   Every entrance uses one keyframe; each system only sets its distance
+   and timing from the §7.2 tokens in tokens.css. Reduced motion: §7.7.
    ===================================================================== */
 
-/* ---------- Scroll reveal ----------
-   Armed only when <html> has .reveal-on (set in <head> when motion is
-   allowed). 0.001 instead of 0 looks the same but counts as painted (LCP). */
-.reveal-on [data-reveal] { opacity: 0.001; }
-.reveal-on [data-reveal].is-revealed {
-  opacity: 1;
-  animation: reveal-in var(--m-reveal-time) var(--m-reveal-ease) var(--reveal-delay, 0s) both;
-}
-@keyframes reveal-in {
-  from { opacity: 0.001; translate: 0 var(--m-reveal-distance); }
+/* ---------- One shared keyframe (§7.3) ----------
+   Individual `translate` (not `transform`) so an entrance never fights a
+   component's own transform; `both` fill so the start state applies from
+   the first frame. 0.001 (not 0) still counts as painted for LCP. */
+@keyframes rise-in {
+  from { opacity: 0.001; translate: 0 var(--rise-from, 20px); }
   to   { opacity: 1;     translate: 0 0; }
 }
 
-/* ---------- Reduced motion ---------- */
+/* ---------- Page-load intro, hero (§7.4) — CSS only ---------- */
+[data-intro] {
+  --rise-from: var(--m-intro-distance);
+  animation: rise-in var(--m-intro-time) var(--m-intro-ease)
+             calc(var(--m-intro-delay) + var(--i, 0) * var(--m-intro-stagger)) both;
+}
+/* Large images: a smaller rise so the big block doesn't visibly slide. */
+[data-intro="media"] { --rise-from: var(--m-media-distance); }
+
+/* When the nav intro plays too (Home), start the hero after the nav's
+   first items so the two don't compete (§7.5). Derived, not hard-coded. */
+body:has(.nav--intro) {
+  --m-intro-delay: calc(var(--m-nav-delay) + 2 * var(--m-nav-stagger));
+}
+
+/* ---------- Nav intro, Home only (§7.5) ---------- */
+.nav--intro [data-nav-intro] {
+  --rise-from: calc(var(--m-nav-distance) * -1); /* negative = from above */
+  animation: rise-in var(--m-nav-time) var(--m-nav-ease)
+             calc(var(--m-nav-delay) + var(--i, 0) * var(--m-nav-stagger)) both;
+}
+.nav--intro [data-nav-intro="cta"] {
+  animation-delay: calc(var(--m-nav-delay) + var(--link-count) * var(--m-nav-stagger) + var(--m-nav-button-gap));
+}
+
+/* ---------- Scroll reveal (§7.6 + §1.5) ----------
+   Armed only when <html> has .reveal-on (set in <head> when motion is
+   allowed). Without JS or with reduced motion nothing starts hidden. */
+.reveal-on [data-reveal] { opacity: 0.001; }
+.reveal-on [data-reveal].is-revealed {
+  --rise-from: var(--m-reveal-distance);
+  opacity: 1;
+  animation: rise-in var(--m-reveal-time) var(--m-reveal-ease) var(--reveal-delay, 0s) both;
+}
+.reveal-on [data-reveal="media"].is-revealed { --rise-from: var(--m-media-distance); }
+
+/* ---------- Reduced motion (§7.7 / §1.12) ---------- */
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after {

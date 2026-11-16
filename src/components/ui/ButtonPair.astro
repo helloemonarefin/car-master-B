@@ -17,12 +17,13 @@ interface Props {
   secondary?: ButtonItem;
   size?: 'md' | 'sm';
   class?: string;
+  [key: string]: unknown;
 }
 
-const { primary, secondary, size = 'md', class: className } = Astro.props;
+const { primary, secondary, size = 'md', class: className, ...rest } = Astro.props;
 ---
 
-<div class:list={['btn-pair', className]}>
+<div class:list={['btn-pair', className]} {...rest}>
   <Button label={primary.label} href={primary.href} icon={primary.icon} size={size} />
   {secondary && <Button label={secondary.label} href={secondary.href} icon={secondary.icon} size={size} variant="outline" />}
 </div>

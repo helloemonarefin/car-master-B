@@ -6,7 +6,7 @@ interface Props { item: WorkItem; class?: string }
 const { item, class: className } = Astro.props;
 ---
 
-<article class:list={['work-card', className]}>
+<article class:list={['work-card', className]} data-reveal>
   <Media
     image={item.image}
     ratio="var(--ratio-work)"

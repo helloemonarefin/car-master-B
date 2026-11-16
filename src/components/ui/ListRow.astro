@@ -15,7 +15,7 @@ const { item, index } = Astro.props;
 const num = String(index).padStart(2, '0');
 ---
 
-<li class="grid list-row">
+<li class="grid list-row" data-reveal>
   <p class="list-row__head">
     <span class="t-small-strong list-row__num">{num}</span>
     <span class="t-h5 t-regular list-row__title">{item.title}</span>

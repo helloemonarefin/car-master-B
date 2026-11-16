@@ -21,18 +21,18 @@ const listId = `${c.id}-list`;
     <SectionHeader index={index} label={c.label} title={c.title} intro={c.intro} id={titleId} />
 
     <div class="signature__list">
-      <h3 id={listId} class="t-label signature__list-label">{c.listLabel}</h3>
+      <h3 id={listId} class="t-label signature__list-label" data-reveal>{c.listLabel}</h3>
       <ol role="list" aria-labelledby={listId}>
         {c.items.map((item, i) => <ListRow item={item} index={i + 1} />)}
       </ol>
     </div>
 
     <div class="signature__note">
-      <div class="signature__note-text">
+      <div class="signature__note-text" data-reveal>
         <p class="t-h3">{c.priceLine}</p>
         {c.note && <p class="t-body-sm signature__note-sub">{c.note}</p>}
       </div>
-      <Button label={c.cta.label} href={c.cta.href} />
+      <Button label={c.cta.label} href={c.cta.href} data-reveal />
     </div>
   </div>
 </section>

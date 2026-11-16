@@ -17,12 +17,12 @@ const titleId = `${c.id}-title`;
 <section class="section section--secondary guarantee" id={c.id} aria-labelledby={titleId}>
   <div class="container">
     <Split>
-      <SectionIndex slot="aside" index={index} label={c.label} />
+      <SectionIndex slot="aside" index={index} label={c.label} data-reveal />
       <div class="guarantee__body">
-        <h2 id={titleId} class="t-h5 guarantee__title">{c.title}</h2>
-        <p class="t-quote guarantee__promise">{c.promise}</p>
+        <h2 id={titleId} class="t-h5 guarantee__title" data-reveal>{c.title}</h2>
+        <p class="t-quote guarantee__promise" data-reveal>{c.promise}</p>
         {(c.detail || c.fineprint) && (
-          <div class="guarantee__details">
+          <div class="guarantee__details" data-reveal>
             {c.detail && <p class="t-body-lg guarantee__detail">{c.detail}</p>}
             {c.fineprint && <p class="t-small guarantee__fine">{c.fineprint}</p>}
           </div>

@@ -14,19 +14,25 @@ import Button from '../ui/Button.astro';
 import { nav } from '../../content/layout';
 import { site } from '../../content/site';
 
+interface Props {
+  /** Home only: the nav drops in on page load (BOILERPLATE §7.5). */
+  intro?: boolean;
+}
+const { intro = false } = Astro.props;
+
 const strip = (p: string) => (p.length > 1 ? p.replace(/\/$/, '') : p);
 const current = strip(Astro.url.pathname);
 const isCurrent = (href: string) => href !== '' && strip(href) === current;
 ---
 
-<header class="nav" data-nav>
+<header class:list={['nav', { 'nav--intro': intro }]} data-nav style={`--link-count: ${nav.links.length}`}>
   <div class="container nav__row">
-    <Logo href="/" label={nav.homeLabel || undefined} class="nav__logo" />
+    <Logo href="/" label={nav.homeLabel || undefined} class="nav__logo" data-nav-intro style="--i:0" />
 
     <nav class="nav__links" aria-label="Main">
       <ul role="list" class="nav__list">
-        {nav.links.map((l) => (
-          <li>
+        {nav.links.map((l, i) => (
+          <li data-nav-intro style={`--i:${i + 1}`}>
             {l.href ? (
               <a class="nav__link t-small-strong tap" href={l.href} aria-current={isCurrent(l.href) ? 'page' : undefined}>{l.label}</a>
             ) : (
@@ -37,7 +43,7 @@ const isCurrent = (href: string) => href !== '' && strip(href) === current;
       </ul>
     </nav>
 
-    <div class="nav__end">
+    <div class="nav__end" data-nav-intro="cta">
       <Button label={nav.cta.label} href={nav.cta.href} size="sm" class="nav__cta" />
       <button
         class="nav__menu"
@@ -99,7 +105,10 @@ const isCurrent = (href: string) => href !== '' && strip(href) === current;
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       panel.inert = !open;
       lockScroll(open);
-      if (open) panel.querySelector<HTMLElement>('a[href]')?.focus();
+      // Focus on the next frame: the panel's `visibility` must have flipped to
+      // visible first (under reduced motion the global 0.01ms transition
+      // otherwise leaves it hidden at this instant and focus() is ignored).
+      if (open) requestAnimationFrame(() => requestAnimationFrame(() => panel.querySelector<HTMLElement>('a[href]')?.focus()));
       else if (returnFocus) toggle.focus();
     };
 

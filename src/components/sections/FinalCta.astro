@@ -27,14 +27,15 @@ const L = c.detailLabels;
       ratio="var(--ratio-cta)"
       widths={[640, 960, 1312, 1920, 2400]}
       sizes="(min-width: 1440px) 1312px, (min-width: 1024px) calc(100vw - 128px), calc(100vw - 40px)"
+      data-reveal="media"
     />
 
     <div class="grid final-cta__layout">
       <div class="span-7 final-cta__main">
-        <h2 id={titleId} class="t-h2">{c.title}</h2>
-        {c.intro && <p class="t-body-lg final-cta__intro">{c.intro}</p>}
+        <h2 id={titleId} class="t-h2" data-reveal>{c.title}</h2>
+        {c.intro && <p class="t-body-lg final-cta__intro" data-reveal>{c.intro}</p>}
 
-        <form class="final-cta__form" name={c.form.name} method="POST" data-netlify="true" netlify-honeypot="company">
+        <form data-reveal class="final-cta__form" name={c.form.name} method="POST" data-netlify="true" netlify-honeypot="company">
           <input type="hidden" name="form-name" value={c.form.name} />
           <p class="sr-only"><label>Leave this empty: <input name="company" tabindex="-1" autocomplete="off" /></label></p>
           <div class="final-cta__fields">
@@ -57,7 +58,7 @@ const L = c.detailLabels;
           <Button label={c.form.submitLabel} type="submit" class="final-cta__submit" />
         </form>
 
-        {c.note && <p class="t-small final-cta__note">{c.note}</p>}
+        {c.note && <p class="t-small final-cta__note" data-reveal>{c.note}</p>}
       </div>
 
       <dl class="final-cta__details">

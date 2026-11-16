@@ -20,11 +20,11 @@ const titleId = `${c.id}-title`;
   <div class="container">
     <Split>
       <div slot="aside" class="faq__intro">
-        <SectionIndex index={index} label={c.label} />
-        <h2 id={titleId} class="t-h2">{c.title}</h2>
-        {c.intro && <p class="t-body-lg faq__text">{c.intro}</p>}
+        <SectionIndex index={index} label={c.label} data-reveal />
+        <h2 id={titleId} class="t-h2" data-reveal>{c.title}</h2>
+        {c.intro && <p class="t-body-lg faq__text" data-reveal>{c.intro}</p>}
         {c.showPhone && site.phone && (
-          <a class="faq__phone t-body-strong tap" href={site.phoneHref}>
+          <a class="faq__phone t-body-strong tap" href={site.phoneHref} data-reveal>
             <Icon name="phone" />
             <span class="faq__phone-text">{site.phone}</span>
           </a>

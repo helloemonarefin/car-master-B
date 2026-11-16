@@ -25,14 +25,14 @@ const info = [
 <footer class="footer">
   <div class="container footer__inner">
     <div class="footer__top">
-      <div class="footer__brand">
+      <div class="footer__brand" data-reveal>
         <Logo href="/" />
         {site.tagline && <p class="t-small footer__tagline">{site.tagline}</p>}
       </div>
       <nav aria-label="Footer">
         <ul role="list" class="footer__links">
           {footer.links.map((l) => (
-            <li>
+            <li data-reveal>
               {l.href ? (
                 <a class="footer__link t-small-strong tap" href={l.href}>{l.label}</a>
               ) : (
@@ -46,7 +46,7 @@ const info = [
 
     <dl class="footer__info">
       {info.map((col) => (
-        <div class="footer__col">
+        <div class="footer__col" data-reveal>
           <dt class="t-label footer__label">{col.label}</dt>
           <dd class="t-body-sm footer__value">
             {col.contact ? (
@@ -62,9 +62,9 @@ const info = [
       ))}
     </dl>
 
-    <p class="t-wordmark footer__wordmark">{site.businessName}</p>
+    <p class="t-wordmark footer__wordmark" data-reveal>{site.businessName}</p>
 
-    <div class="footer__bottom t-small">
+    <div class="footer__bottom t-small" data-reveal>
       <p>© {year} {site.businessName}</p>
       <p class="footer__location">
         {cityLine && <span>{cityLine}</span>}

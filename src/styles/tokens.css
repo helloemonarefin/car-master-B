@@ -232,6 +232,9 @@
   --m-reveal-distance: 24px;
   --m-reveal-stagger-max: 0.4s; /* the last item in a batch never waits longer than this */
 
+  /* Large images (hero image, wide photos): smaller rise, §7.4 / §7.6 */
+  --m-media-distance: 12px;
+
   /* ---------- Interaction durations (hovers, menu, accordion) ---------- */
   --ease-color: var(--ease-standard); /* short colour / opacity changes */
   --dur-fast: 200ms;        /* colour hovers (everywhere) */

@@ -5,7 +5,7 @@ interface Props { item: TrustItem }
 const { item } = Astro.props;
 ---
 
-<div class="trust-item">
+<div class="trust-item" data-reveal>
   <dt class="t-label trust-item__label">{item.label}</dt>
   <dd class="t-h5 trust-item__value">{item.value}</dd>
 </div>

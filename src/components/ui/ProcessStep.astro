@@ -11,7 +11,7 @@ const { step, index } = Astro.props;
 const num = String(index).padStart(2, '0');
 ---
 
-<li class="step">
+<li class="step" data-reveal>
   <span class="t-step step__num" aria-hidden="true">{num}</span>
   <div class="step__text">
     <h3 class="t-h5 step__title"><span class="sr-only">Step {index}: </span>{step.title}</h3>

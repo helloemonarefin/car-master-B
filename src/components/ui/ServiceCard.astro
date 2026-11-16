@@ -21,7 +21,7 @@ const { item, index, class: className } = Astro.props;
 const num = String(index).padStart(2, '0');
 ---
 
-<article class:list={['service-card', className]}>
+<article class:list={['service-card', className]} data-reveal>
   <Media
     image={item.image}
     ratio="var(--ratio-service)"

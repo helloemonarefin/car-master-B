@@ -4,7 +4,7 @@ interface Props { label: string }
 const { label } = Astro.props;
 ---
 
-<div class="detail-row">
+<div class="detail-row" data-reveal>
   <dt class="t-label detail-row__label">{label}</dt>
   <dd class="t-body-strong detail-row__value"><slot /></dd>
 </div>

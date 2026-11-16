@@ -20,10 +20,10 @@ const titleId = `${c.id}-title`;
 <section class="section section--raised testimonial" id={c.id} aria-labelledby={titleId}>
   <div class="container">
     <Split>
-      <SectionIndex slot="aside" index={index} label={c.label} as="h2" id={titleId} />
+      <SectionIndex slot="aside" index={index} label={c.label} as="h2" id={titleId} data-reveal />
       <div class="testimonial__body">
-        <Stars />
-        <figure class="testimonial__featured">
+        <Stars data-reveal />
+        <figure class="testimonial__featured" data-reveal>
           <blockquote class="t-quote testimonial__quote"><p>{c.featured.quote}</p></blockquote>
           <figcaption class="testimonial__author">
             <span class="t-body-strong testimonial__name">{c.featured.name}</span>
@@ -33,7 +33,7 @@ const titleId = `${c.id}-title`;
         <ul role="list" class="testimonial__more">
           {c.more.map((r) => (
             <li>
-              <figure class="review">
+              <figure class="review" data-reveal>
                 <blockquote class="t-quote-sm review__quote"><p>{r.quote}</p></blockquote>
                 <figcaption class="review__author">
                   <span class="t-body-sm t-medium review__name">{r.name}</span>
@@ -43,7 +43,7 @@ const titleId = `${c.id}-title`;
             </li>
           ))}
         </ul>
-        {c.link && <div><TextLink label={c.link.label} href={c.link.href} external={!!c.link.href} /></div>}
+        {c.link && <div data-reveal><TextLink label={c.link.label} href={c.link.href} external={!!c.link.href} /></div>}
       </div>
     </Split>
   </div>

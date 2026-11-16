@@ -15,13 +15,14 @@ interface Props {
   /** No 14px top offset (used when the index is not beside an h2). */
   flush?: boolean;
   class?: string;
+  [key: string]: unknown;
 }
 
-const { index, label, as: Tag = 'p', id, flush = false, class: className } = Astro.props;
+const { index, label, as: Tag = 'p', id, flush = false, class: className, ...rest } = Astro.props;
 const num = `(${String(index).padStart(2, '0')})`;
 ---
 
-<Tag class:list={['section-index', 't-label', { 'section-index--flush': flush }, className]} id={id}>
+<Tag class:list={['section-index', 't-label', { 'section-index--flush': flush }, className]} id={id} {...rest}>
   <span class="section-index__num">{num}</span>
   <span class="section-index__label">{label}</span>
 </Tag>

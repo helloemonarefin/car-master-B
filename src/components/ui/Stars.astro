@@ -1,11 +1,11 @@
 ---
 /** Rating stars — DESIGN_SYSTEM §6: 5 × 16px in --brand-accent, gap 4 (Figma "Stars", 96 × 16). */
 import Icon from './Icon.astro';
-interface Props { count?: number; label?: string }
-const { count = 5, label = `Rated ${count} out of 5` } = Astro.props;
+interface Props { count?: number; label?: string; [key: string]: unknown }
+const { count = 5, label = `Rated ${count} out of 5`, ...rest } = Astro.props;
 ---
 
-<p class="stars" role="img" aria-label={label}>
+<p class="stars" role="img" aria-label={label} {...rest}>
   {Array.from({ length: count }, () => <Icon name="star" size={16} />)}
 </p>
 

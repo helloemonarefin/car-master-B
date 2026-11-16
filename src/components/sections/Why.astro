@@ -19,11 +19,11 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 <section class="section section--inverse why" id={c.id} aria-labelledby={titleId}>
   <div class="container why__inner">
-    <SectionIndex index={index} label={c.label} as="h2" id={titleId} flush />
+    <SectionIndex index={index} label={c.label} as="h2" id={titleId} flush data-reveal />
 
     <ol role="list" class="why__words" style={`--rows: ${c.words.length}`}>
       {c.words.map((word, i) => (
-        <li class="why__row" style={`--n: ${i}`}>
+        <li class="why__row" style={`--n: ${i}`} data-reveal>
           {i > 0 && <span class="why__indent" aria-hidden="true"></span>}
           <p class="t-display-xl why__word">{word}</p>
           <span class="t-small-strong why__num" aria-hidden="true">({pad(i + 1)})</span>
@@ -32,13 +32,13 @@ const pad = (n: number) => String(n).padStart(2, '0');
     </ol>
 
     <div class="grid why__note">
-      <div class="span-4 why__copy">
+      <div class="span-4 why__copy" data-reveal>
         <h3 class="t-h3 why__note-title">{c.noteTitle}</h3>
         <p class="t-body-lg why__note-text">{c.noteText}</p>
       </div>
       <ul role="list" class="start-6 span-7 why__points">
         {c.points.map((p, i) => (
-          <li class="why__point">
+          <li class="why__point" data-reveal>
             <p class="t-body-strong why__point-title">{`${pad(i + 1)}  ${p.title}`}</p>
             <p class="t-body-sm why__point-text">{p.text}</p>
           </li>
