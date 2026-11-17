@@ -1,7 +1,8 @@
 /** The Process page — Figma "Master B — The Process" (304:121). Section order = this array. */
 import type { SectionContent } from '../types';
 import { nav } from '../layout';
-import { fromHome, ANSWER_NEEDED } from './shared';
+import { fromHome } from './shared';
+import { faq } from '../faqAnswers';
 
 import heroImage from '../../assets/home/process-hero.jpg';
 
@@ -40,11 +41,11 @@ export const sections: SectionContent[] = [
         question: 'How long will you have my car?',
         answer: 'About 7–10 days for full-body PPF, including prep and curing. The Concours Shield is 10 days, door to door.',
       },
-      { question: 'Do you collect the car?', answer: ANSWER_NEEDED },
-      { question: 'Can I visit during the install?', answer: ANSWER_NEEDED },
-      { question: 'What’s in the intake report?', answer: ANSWER_NEEDED },
-      { question: 'How long does the film need to cure?', answer: ANSWER_NEEDED },
-      { question: 'Do you offer payment plans?', answer: ANSWER_NEEDED },
+      faq('Do you collect the car?'),
+      faq('Can I visit during the install?'),
+      faq('What’s in the intake report?'),
+      faq('How long does the film need to cure?'),
+      faq('Do you offer payment plans?'),
     ],
   },
   fromHome('final-cta'),

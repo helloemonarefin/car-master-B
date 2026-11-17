@@ -7,6 +7,7 @@
 import type { SectionContent } from './types';
 import { site } from './site';
 import { nav } from './layout';
+import { faq } from './faqAnswers';
 
 import heroImage from '../assets/home/hero.jpg';
 import servicePpf from '../assets/home/service-ppf.jpg';
@@ -202,12 +203,12 @@ export const sections: SectionContent[] = [
     openIndex: 0,
     items: [
       { question: 'How long does full-body PPF take?', answer: 'About 7–10 days, including prep and curing. The Concours Shield is 10 days, door to door.' },
-      // TODO(owner): Figma only shows the first answer; the rest are placeholders.
-      { question: 'Will I see the film?', answer: '[Answer needed — not in Figma]' },
-      { question: 'Do you cut film on the car?', answer: '[Answer needed — not in Figma]' },
-      { question: 'Can you coat over the film?', answer: '[Answer needed — not in Figma]' },
-      { question: 'What if I sell the car?', answer: '[Answer needed — not in Figma]' },
-      { question: 'Do you offer payment plans?', answer: '[Answer needed — not in Figma]' },
+      // Answers 2–6 written from site facts (owner OK); see faqAnswers.ts.
+      faq('Will I see the film?'),
+      faq('Do you cut film on the car?'),
+      faq('Can you coat over the film?'),
+      faq('What if I sell the car?'),
+      faq('Do you offer payment plans?'),
     ],
   },
   {

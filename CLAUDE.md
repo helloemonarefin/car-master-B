@@ -227,3 +227,11 @@ Phase 7 — QA and launch prep (2026-11-17):
 - 2026-11-17 — **netlify.toml**: BOILERPLATE §4.11 (`npm run build`, `dist`, Node 24) + `Cache-Control: immutable` for `/_astro/*` (hashed assets). Not deployed.
 - 2026-11-17 — **Links and images**: every internal link/anchor resolves (checked on all pages); every image has meaningful `alt` (all are content photos — none decorative), `width`/`height` and responsive `srcset`.
 - 2026-11-17 — **TEMPLATE.md**: 10-step reskin guide (brand tokens, font, logo, `site.ts`, layout links, section arrays, inner pages, images, generated favicon/OG "replace per client", checks/deploy).
+
+Owner review answers (2026-11-17):
+
+- 2026-11-17 — **Lighthouse allowed** (owner) → ran Lighthouse 13.6 (mobile profile) on all 7 pages: **Performance 96–100, Accessibility 100, Best Practices 100, SEO 100, CLS 0.000** everywhere. The only failure on the first run (Accessibility 97) was `target-size`: the stacked phone-over-email links (footer Contact column, Final CTA visit details) overlapped each other's 24px hit areas → new `.tap--stack` (no negative margin) on those links; adds ~1.6px per link in those two columns.
+- 2026-11-17 — **FAQ answers written** (owner: "fill the answers yourself"): `src/content/faqAnswers.ts` is one answer bank keyed by question, reused on every page that asks it (`faq('…')`); answers use only facts already on the site; the phone answer reads `site.phone`. No placeholders remain.
+- 2026-11-17 — **Plain-text links, domain**: leave as they are (owner). `site` stays `https://example.com` until a real domain exists.
+- 2026-11-17 — **Contrast**: keep the raised tertiary tokens (0.60 / 0.50) (owner).
+- 2026-11-17 — **Form**: leave as built — Name + Email required, Netlify's default success page (owner).

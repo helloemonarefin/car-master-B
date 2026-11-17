@@ -1,7 +1,8 @@
 /** Protection page — Figma "Master B — Protection" (303:1999). Section order = this array. */
 import type { SectionContent } from '../types';
 import { nav } from '../layout';
-import { fromHome, ANSWER_NEEDED } from './shared';
+import { fromHome } from './shared';
+import { faq } from '../faqAnswers';
 
 import heroImage from '../../assets/home/process.jpg';
 import imgFullBody from '../../assets/home/service-ppf.jpg';
@@ -78,7 +79,7 @@ export const sections: SectionContent[] = [
   fromHome('portfolio'),
   {
     ...homeFaq,
-    items: homeFaq.items.map((it, i) => (i === 3 ? { question: 'Can I choose satin instead of gloss?', answer: ANSWER_NEEDED } : it)),
+    items: homeFaq.items.map((it, i) => (i === 3 ? faq('Can I choose satin instead of gloss?') : it)),
   },
   fromHome('final-cta'),
 ];

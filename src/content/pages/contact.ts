@@ -2,7 +2,8 @@
 import type { SectionContent } from '../types';
 import { nav } from '../layout';
 import { site } from '../site';
-import { fromHome, ANSWER_NEEDED } from './shared';
+import { fromHome } from './shared';
+import { faq } from '../faqAnswers';
 
 import heroImage from '../../assets/home/visit.jpg';
 
@@ -44,11 +45,11 @@ export const sections: SectionContent[] = [
     ...fromHome('faq'),
     items: [
       { question: 'Do I need an appointment to visit?', answer: 'Yes. We work on six cars a month, so every visit is booked. Most consultations take 20 minutes.' },
-      { question: 'Can we talk by phone first?', answer: ANSWER_NEEDED },
-      { question: 'Do you collect the car?', answer: ANSWER_NEEDED },
-      { question: 'How far ahead should I book?', answer: ANSWER_NEEDED },
-      { question: 'What should I bring to the consultation?', answer: ANSWER_NEEDED },
-      { question: 'Do you offer payment plans?', answer: ANSWER_NEEDED },
+      faq('Can we talk by phone first?'),
+      faq('Do you collect the car?'),
+      faq('How far ahead should I book?'),
+      faq('What should I bring to the consultation?'),
+      faq('Do you offer payment plans?'),
     ],
   },
 ];

@@ -1,7 +1,8 @@
 /** Coatings page — Figma "Master B — Coatings" (303:2553). Section order = this array. */
 import type { SectionContent } from '../types';
 import { nav } from '../layout';
-import { fromHome, ANSWER_NEEDED } from './shared';
+import { fromHome } from './shared';
+import { faq } from '../faqAnswers';
 
 import heroImage from '../../assets/home/service-ceramic.jpg';
 import imgOverPaint from '../../assets/home/coat-over-paint.jpg';
@@ -70,11 +71,11 @@ export const sections: SectionContent[] = [
     ...fromHome('faq'),
     items: [
       { question: 'How long does a coating last?', answer: 'Up to 7 years, depending on how the car is driven and washed. Your care card shows exactly how to keep it working.' },
-      { question: 'Do you correct the paint first?', answer: ANSWER_NEEDED },
-      { question: 'Can you coat over the film?', answer: ANSWER_NEEDED },
-      { question: 'Will a coating stop rock chips?', answer: ANSWER_NEEDED },
-      { question: 'How do I wash a coated car?', answer: ANSWER_NEEDED },
-      { question: 'Do you offer payment plans?', answer: ANSWER_NEEDED },
+      faq('Do you correct the paint first?'),
+      faq('Can you coat over the film?'),
+      faq('Will a coating stop rock chips?'),
+      faq('How do I wash a coated car?'),
+      faq('Do you offer payment plans?'),
     ],
   },
   fromHome('final-cta'),

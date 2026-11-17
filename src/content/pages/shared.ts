@@ -14,5 +14,3 @@ export function fromHome<T extends SectionContent['type']>(type: T): Of<T> {
   return found as Of<T>;
 }
 
-/** Placeholder for FAQ answers Figma doesn't show (owner to supply). */
-export const ANSWER_NEEDED = '[Answer needed — not in Figma]';

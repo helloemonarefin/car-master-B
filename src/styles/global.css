@@ -112,6 +112,9 @@ html.is-locked { overflow: hidden; }
   padding-block: max(0px, calc((var(--tap-min) - 1lh) / 2));
   margin-block: min(0px, calc((1lh - var(--tap-min)) / 2));
 }
+/* Links stacked directly on top of each other (phone over email) keep the
+   full 24px each instead of overlapping, so neither target is obscured. */
+.tap--stack { margin-block: 0; }
 
 /* ---------- Screen-reader only ---------- */
 .sr-only {

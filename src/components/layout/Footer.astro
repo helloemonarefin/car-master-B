@@ -51,8 +51,8 @@ const info = [
           <dd class="t-body-sm footer__value">
             {col.contact ? (
               <>
-                {site.phone && <a class="footer__link tap" href={site.phoneHref}>{site.phone}</a>}
-                {site.email && <a class="footer__link tap" href={`mailto:${site.email}`}>{site.email}</a>}
+                {site.phone && <a class="footer__link tap tap--stack" href={site.phoneHref}>{site.phone}</a>}
+                {site.email && <a class="footer__link tap tap--stack" href={`mailto:${site.email}`}>{site.email}</a>}
               </>
             ) : (
               col.lines.map((line) => <span>{line}</span>)
